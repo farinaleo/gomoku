@@ -13,6 +13,11 @@ class SettingsStruct:
     __fullscreen: bool = False
     __windows_size: [int, int] = field(default=(1280, 720))
 
+    def print(self):
+        """print representation of the SettingsStruct. Debug only"""
+        print('SettingsStruct contain :')
+        print(f'fps: {self.__fps}, music: {self.__music}, sound: {self.__sound}, fullscreen: {self.__fullscreen}, size: {self.__windows_size}')
+
     def get_fps(self) -> int:
         return self.__fps
 
