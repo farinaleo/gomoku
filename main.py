@@ -1,3 +1,7 @@
-from gomoku import SettingsStruct, save_settings, load_settings
+from gomoku import SettingsStruct
 
-settings = load_settings()
+settings = SettingsStruct()
+settings.load()
+settings.print()
+settings.set_fps(20)
+settings.save()

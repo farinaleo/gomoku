@@ -50,7 +50,7 @@ class SettingsStruct:
     def set_window_size(self, width: int, height: int):
         self.__window_size = [width, height]
 
-    def save(self):
+    def save(self) -> bool:
         """save settings to file. If file does not exist, create it."""
         save_path = os.path.expanduser("~/.config/gomoku/settings.json")
         save_dir = os.path.dirname(save_path)
@@ -66,10 +66,21 @@ class SettingsStruct:
                 os.makedirs(save_dir)
 
             with open(save_path, 'w') as file:
-                json.dump(settings_file, file)
+                json.dump(settings_file, file, indent=4)
                 print('settings saved')
+                return True
         except Exception as e:
             print(f'cannot save settings file: {e}')
+            return False
+
+    def load_default_settings(self):
+        """load default settings."""
+        self.set_fps(30)
+        self.set_music(True)
+        self.set_sound(True)
+        self.set_fullscreen(False)
+        self.set_window_size(1280, 720)
+        print('default settings loaded')
 
     def load(self):
         """load settings from file. If file does not exist, use default settings."""
@@ -87,6 +98,5 @@ class SettingsStruct:
                 self.set_window_size(settings_file['window_size'][0], settings_file['window_size'][1])
                 print('settings loaded')
         except Exception as e:
-            print(f'error loading settings file: {e}')
-            return
-
+            print(f'cannot load settings file: {e}')
+            self.load_default_settings()
