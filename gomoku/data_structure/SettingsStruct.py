@@ -51,6 +51,7 @@ class SettingsStruct:
         self.__window_size = [width, height]
 
     def save(self):
+        """save settings to file. If file does not exist, create it."""
         save_path = os.path.expanduser("~/.config/gomoku/settings.json")
         save_dir = os.path.dirname(save_path)
         settings_file = {
@@ -71,6 +72,7 @@ class SettingsStruct:
             print(f'cannot save settings file: {e}')
 
     def load(self):
+        """load settings from file. If file does not exist, use default settings."""
         settings_path = os.path.expanduser("~/.config/gomoku/settings.json")
         try:
             if not os.path.exists(settings_path):
