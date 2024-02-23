@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+import os
+import json
 
 
 @dataclass
@@ -16,7 +18,7 @@ class SettingsStruct:
     def print(self):
         """print representation of the SettingsStruct. Debug only"""
         print('SettingsStruct contain :')
-        print(f'fps: {self.__fps}, music: {self.__music}, sound: {self.__sound}, fullscreen: {self.__fullscreen}, size: {self.__windows_size}')
+        print(f'fps: {self.__fps}, music: {self.__music}, sound: {self.__sound}, fullscreen: {self.__fullscreen}, size: {self.__window_size}')
 
     def get_fps(self) -> int:
         return self.__fps
@@ -47,4 +49,42 @@ class SettingsStruct:
 
     def set_window_size(self, width: int, height: int):
         self.__window_size = [width, height]
+
+    def save(self):
+        save_path = os.path.expanduser("~/.config/gomoku/settings.json")
+        save_dir = os.path.dirname(save_path)
+        settings_file = {
+            'max_framerate': self.get_fps(),
+            'music': self.get_music(),
+            'sound': self.get_sound(),
+            'fullscreen': self.get_fullscreen(),
+            'window_size': self.get_window_size()
+        }
+        try:
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
+
+            with open(save_path, 'w') as file:
+                json.dump(settings_file, file)
+                print('settings saved')
+        except Exception as e:
+            print(f'cannot save settings file: {e}')
+
+    def load(self):
+        settings_path = os.path.expanduser("~/.config/gomoku/settings.json")
+        try:
+            if not os.path.exists(settings_path):
+                print('settings file not found, using default settings...')
+                return
+            with open(settings_path, 'r') as file:
+                settings_file = json.load(file)
+                self.set_fps(settings_file['max_framerate'])
+                self.set_music(settings_file['music'])
+                self.set_sound(settings_file['sound'])
+                self.set_fullscreen(settings_file['fullscreen'])
+                self.set_window_size(settings_file['window_size'][0], settings_file['window_size'][1])
+                print('settings loaded')
+        except Exception as e:
+            print(f'error loading settings file: {e}')
+            return
 
