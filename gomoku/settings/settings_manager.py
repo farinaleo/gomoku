@@ -4,6 +4,9 @@ import os
 
 
 def save_settings(settings_config: SettingsStruct):
+	"""Save the settings to a file.
+	:param settings_config: SettingsStruct
+	"""
 	save_path = os.path.expanduser("~/.config/gomoku/settings.json")
 	save_dir = os.path.dirname(save_path)
 
@@ -14,6 +17,7 @@ def save_settings(settings_config: SettingsStruct):
 		'fullscreen': settings_config.get_fullscreen(),
 		'windows_size': settings_config.get_windows_size()
 	}
+
 	try:
 		if not os.path.exists(save_dir):
 			os.makedirs(save_dir)
