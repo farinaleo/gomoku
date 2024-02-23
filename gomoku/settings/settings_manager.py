@@ -15,7 +15,7 @@ def save_settings(settings_config: SettingsStruct):
 		'music': settings_config.get_music(),
 		'sound': settings_config.get_sound(),
 		'fullscreen': settings_config.get_fullscreen(),
-		'windows_size': settings_config.get_windows_size()
+		'windows_size': settings_config.get_window_size()
 	}
 
 	try:
@@ -46,7 +46,7 @@ def load_settings() -> SettingsStruct:
 			settings_config.set_music(settings_file['music'])
 			settings_config.set_sound(settings_file['sound'])
 			settings_config.set_fullscreen(settings_file['fullscreen'])
-			settings_config.set_windows_size(settings_file['windows_size'][0], settings_file['windows_size'][1])
+			settings_config.set_window_size(settings_file['window_size'][0], settings_file['window_size'][1])
 	except Exception as e:
 		print('error loading settings file:')
 		print(e)

@@ -11,7 +11,7 @@ class SettingsStruct:
     __music: bool = True
     __sound: bool = True
     __fullscreen: bool = False
-    __windows_size: [int, int] = field(default=(1280, 720))
+    __window_size: [int, int] = field(default=(1280, 720))
 
     def print(self):
         """print representation of the SettingsStruct. Debug only"""
@@ -42,9 +42,9 @@ class SettingsStruct:
     def set_fullscreen(self, fullscreen: bool):
         self.__fullscreen = fullscreen
 
-    def get_windows_size(self) -> [int, int]:
-        return self.__windows_size
+    def get_window_size(self) -> [int, int]:
+        return self.__window_size
 
-    def set_windows_size(self, width: int, height: int):
-        self.__windows_size = [width, height]
+    def set_window_size(self, width: int, height: int):
+        self.__window_size = [width, height]
 
