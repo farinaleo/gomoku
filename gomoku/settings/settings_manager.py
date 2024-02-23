@@ -15,7 +15,7 @@ def save_settings(settings_config: SettingsStruct):
 		'music': settings_config.get_music(),
 		'sound': settings_config.get_sound(),
 		'fullscreen': settings_config.get_fullscreen(),
-		'windows_size': settings_config.get_window_size()
+		'window_size': settings_config.get_window_size()
 	}
 
 	try:
