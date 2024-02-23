@@ -9,7 +9,6 @@ def save_settings(settings_config: SettingsStruct):
 	"""
 	save_path = os.path.expanduser("~/.config/gomoku/settings.json")
 	save_dir = os.path.dirname(save_path)
-
 	settings_file = {
 		'max_framerate': settings_config.get_fps(),
 		'music': settings_config.get_music(),
@@ -17,16 +16,14 @@ def save_settings(settings_config: SettingsStruct):
 		'fullscreen': settings_config.get_fullscreen(),
 		'window_size': settings_config.get_window_size()
 	}
-
 	try:
 		if not os.path.exists(save_dir):
 			os.makedirs(save_dir)
 
 		with open(save_path, 'w') as file:
 			json.dump(settings_file, file)
-		print('ok')
-	except PermissionError:
-		print('cannot save settings file')
+	except Exception as e:
+		print(f'cannot save settings file: {e}')
 
 
 def load_settings() -> SettingsStruct:
@@ -48,7 +45,7 @@ def load_settings() -> SettingsStruct:
 			settings_config.set_fullscreen(settings_file['fullscreen'])
 			settings_config.set_window_size(settings_file['window_size'][0], settings_file['window_size'][1])
 	except Exception as e:
-		print('error loading settings file:')
-		print(e)
+		print(f'error loading settings file: {e}')
+		return SettingsStruct()
 	return settings_config
 
