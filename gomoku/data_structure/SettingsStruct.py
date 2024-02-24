@@ -9,11 +9,12 @@ class SettingsStruct:
     SettingsStruct class
     This class is used to store the settings for the application.
     """
-    __fps: int = 30
-    __music: bool = True
-    __sound: bool = True
-    __fullscreen: bool = False
-    __window_size: [int, int] = field(default=(1280, 720))
+    def __init__(self):
+        self.__fps = None
+        self.__music = None
+        self.__sound = None
+        self.__fullscreen = None
+        self.__window_size = None
 
     def print(self):
         """print representation of the SettingsStruct. Debug only"""
@@ -88,6 +89,7 @@ class SettingsStruct:
         try:
             if not os.path.exists(settings_path):
                 print('settings file not found, using default settings...')
+                self.load_default_settings()
                 return
             with open(settings_path, 'r') as file:
                 settings_file = json.load(file)
