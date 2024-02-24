@@ -9,7 +9,7 @@ class Engine:
     def __init__(self):
         pygame.init()
         self.settings = None
-        self.screen = pygame.display.set_mode((1280, 720))
+        self.screen = None
         self.clock = pygame.time.Clock()
         self.running = True
         self.current_screen = 'main_menu'
