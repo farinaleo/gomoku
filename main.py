@@ -1,7 +1,16 @@
 from gomoku import SettingsStruct
+from gomoku import Engine
+import pygame
+from gomoku import main_menu
 
-settings = SettingsStruct()
-settings.load()
-settings.print()
-settings.set_fps(20)
-settings.save()
+
+def main():
+	engine = Engine()
+	engine.load_settings()
+	engine.save_settings()
+	main_menu(engine)
+	pygame.quit()
+
+
+if __name__ == '__main__':
+	main()
