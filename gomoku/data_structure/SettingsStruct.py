@@ -48,6 +48,12 @@ class SettingsStruct:
     def get_window_size(self) -> [int, int]:
         return self.__window_size
 
+    def get_width(self) -> int:
+        return self.__window_size[0]
+
+    def get_height(self) -> int:
+        return self.__window_size[1]
+
     def set_window_size(self, width: int, height: int):
         self.__window_size = [width, height]
 
