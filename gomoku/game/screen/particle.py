@@ -3,12 +3,11 @@ import pygame
 
 
 class Particle(pygame.sprite.Sprite):
-	def __init__(self, groups: pygame.sprite.Group, pos: tuple[int, int], color: str, direction: pygame.math.Vector2, speed: int):
+	def __init__(self, groups: pygame.sprite.Group, pos: tuple[int, int], color: str, direction: pygame.math.Vector2):
 		super().__init__(groups)
 		self.pos = pos
 		self.color = color
 		self.direction = direction
-		self.speed = speed
 		self.image = None
 		self.rect = None
 		self.alpha = 255
@@ -21,19 +20,19 @@ class Particle(pygame.sprite.Sprite):
 		pygame.draw.circle(surface=self.image, color=self.color, center=(2, 2), radius=2)
 		self.rect = self.image.get_rect(center=self.pos)
 
-	def move(self, dt):
+	def move(self):
 		"""Move the particle in the direction and reduce the alpha
 		:param dt: delta time
 		"""
-		self.pos += self.direction * self.speed * dt
+		self.pos += self.direction
 		if self.alpha < 255 or randint(1, 50) == 1:
 			if self.alpha == 0:
 				self.kill()
 			self.alpha -= 5
 		self.rect.center = self.pos
 
-	def update(self, dt):
-		self.move(dt)
+	def update(self):
+		self.move()
 		self.image.set_alpha(self.alpha)
 
 
@@ -46,4 +45,4 @@ def stars_effect(max_stars: int, max_width: int, max_height: int, group: pygame.
 	"""
 	num_sprites = len(group.sprites())
 	if num_sprites < max_stars:
-		Particle(group, (randint(0, max_width), randint(0, max_height)), choice(("white", "yellow")), pygame.math.Vector2(uniform(-1, 1), uniform(-1, 1)), randint(5, 20))
+		Particle(group, (randint(0, max_width), randint(0, max_height)), choice(("white", "yellow")), pygame.math.Vector2(uniform(-1, 1), uniform(-1, 1)))
