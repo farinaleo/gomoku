@@ -21,7 +21,6 @@ class Engine:
 
     def update_settings(self):
         self.screen = pygame.display.set_mode(self.settings.get_window_size(), pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
-        self.clock.tick(self.settings.get_fps())
 
     def save_settings(self):
         self.settings.save()
