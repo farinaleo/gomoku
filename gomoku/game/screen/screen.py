@@ -13,6 +13,17 @@ def main_menu(engine: Engine):
 	engine.screen.fill((8, 26, 43))
 	pygame.display.update()
 	load_music('title_screen.mp3')
+
+	screen_width, screen_height = engine.settings.get_window_size()
+	image = pygame.image.load('gomoku/assets/img/logo-game.png')
+	image_width = screen_width // 3
+	aspect_ratio = image.get_width() / image.get_height()
+	image_height = int(image_width / aspect_ratio)
+
+	image = pygame.transform.scale(image, (image_width, image_height))
+	logo_rect = image.get_rect()
+	logo_rect.center = (screen_width // 2, image_height // 2)
+
 	running = True
 	group_particles = pygame.sprite.Group()
 	while running:
@@ -20,8 +31,9 @@ def main_menu(engine: Engine):
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
-		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
 		engine.screen.fill((8, 26, 43))
+		engine.screen.blit(image, logo_rect)
+		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
 		group_particles.draw(engine.screen)
 		group_particles.update(dt)
 		pygame.display.update()
