@@ -12,6 +12,7 @@ class Engine:
         self.screen = pygame.display.set_mode((1280, 720))
         self.clock = pygame.time.Clock()
         self.running = True
+        self.current_screen = 'main_menu'
 
     def load_settings(self):
         self.settings = SettingsStruct()
@@ -24,5 +25,11 @@ class Engine:
 
     def save_settings(self):
         self.settings.save()
+
+    def change_screen(self, screen):
+        self.current_screen = screen
+
+    def get_current_screen(self):
+        return self.current_screen
 
 

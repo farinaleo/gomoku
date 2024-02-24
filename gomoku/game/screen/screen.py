@@ -21,14 +21,8 @@ def main_menu(engine: Engine):
 			if event.type == pygame.QUIT:
 				running = False
 		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
-
-		#display
 		engine.screen.fill((8, 26, 43))
 		group_particles.draw(engine.screen)
-
-
-		#update
 		group_particles.update(dt)
 		pygame.display.update()
-
-	pygame.quit()
+	engine.change_screen(None)

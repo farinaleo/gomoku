@@ -8,7 +8,14 @@ def main():
 	engine = Engine()
 	engine.load_settings()
 	engine.save_settings()
-	main_menu(engine)
+	while True:
+		if engine.get_current_screen() == 'main_menu':
+			main_menu(engine)
+		if engine.get_current_screen() == 'game':
+			pass
+		if engine.get_current_screen() is None:
+			break
+	print('Exiting')
 	pygame.quit()
 
 
