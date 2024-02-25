@@ -22,6 +22,7 @@ class Grid:
 		self.__size = size
 		self.__grid = [[0 for _ in range(size)] for _ in range(size)]
 		self.__line_grid = [element for line in self.__grid for element in line]
+		self.__last_move = [None, None, None]
 
 	def __str__(self):
 		"""Return a string representation of the grid
@@ -47,6 +48,12 @@ class Grid:
 		"""
 		return self.__line_grid
 
+	def get_last_move(self):
+		""" Return the last move played
+		:return: [Player, x, y]
+		"""
+		return self.__last_move
+
 	def add_rock(self, row: int, col: int, player, rules) -> gm_rules.RuleStatus:
 		"""Add a rock to the grid
 		:param row: y coordinate
@@ -70,5 +77,6 @@ class Grid:
 						return gm_rules.RuleStatus.NO
 			self.__grid[row][col] = player
 			self.__line_grid[col + row * self.__size] = player
+			self.__last_move = [player, col, row]
 			return gm_rules.RuleStatus.OK
 		return gm_rules.RuleStatus.NO
