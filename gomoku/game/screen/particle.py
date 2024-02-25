@@ -16,14 +16,12 @@ class Particle(pygame.sprite.Sprite):
 	def create_surface(self):
 		"""Create a surface for the particle and set the rect"""
 		self.image = pygame.Surface((4, 4)).convert_alpha()
-		self.image.set_colorkey("black")
+		self.image.set_colorkey((8, 26, 43))
 		pygame.draw.circle(surface=self.image, color=self.color, center=(2, 2), radius=2)
 		self.rect = self.image.get_rect(center=self.pos)
 
 	def move(self):
-		"""Move the particle in the direction and reduce the alpha
-		:param dt: delta time
-		"""
+		"""Move the particle in the direction and reduce the alpha"""
 		self.pos += self.direction
 		if self.alpha < 255 or randint(1, 50) == 1:
 			if self.alpha == 0:
