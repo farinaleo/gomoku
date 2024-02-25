@@ -1,5 +1,4 @@
 import pygame
-from typing import Type
 from gomoku.game.engine import Engine
 
 
