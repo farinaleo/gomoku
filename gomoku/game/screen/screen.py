@@ -24,6 +24,16 @@ def main_menu(engine: Engine):
 	logo_rect = logo.get_rect()
 	logo_rect.center = (engine.settings.get_width() // 2, logo.get_height() // 2)
 
+	# Button 1VS1
+	button_1vs1 = get_image('button_1vs1.png', engine.settings.get_width() // 4, engine.settings.get_height() // 9)
+	button_1vs1_rect = button_1vs1.get_rect()
+	button_1vs1_rect.center = (engine.settings.get_width() // 2, engine.settings.get_height() // 2)
+
+	# Button AI
+	button_ai = get_image('button_ai.png', engine.settings.get_width() // 4, engine.settings.get_height() // 9)
+	button_ai_rect = button_ai.get_rect()
+	button_ai_rect.center = (engine.settings.get_width() // 2, engine.settings.get_height() // 2 + 150)
+
 	# Mute button
 	mute = mute_button(engine)
 	is_mute = 1 if engine.settings.get_music() else 0
@@ -51,6 +61,8 @@ def main_menu(engine: Engine):
 		engine.screen.blit(maximize[0], maximize[1])
 		engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
 		engine.screen.blit(credit_text, (10, engine.settings.get_height() - credit_text.get_height() - 10))
+		engine.screen.blit(button_1vs1, button_1vs1_rect)
+		engine.screen.blit(button_ai, button_ai_rect)
 		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
 		group_particles.draw(engine.screen)
 		group_particles.update()
