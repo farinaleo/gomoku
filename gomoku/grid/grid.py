@@ -1,5 +1,6 @@
+import copy
 from dataclasses import dataclass
-
+import gomoku.game_rules as gm_rules
 
 @dataclass
 class Grid:
@@ -37,20 +38,28 @@ class Grid:
 		"""
 		return self.__line_grid
 
-	def add_rock(self, row: int, col: int, player, rules) -> bool:
+	def add_rock(self, row: int, col: int, player, rules) -> gm_rules.RuleStatus:
 		"""Add a rock to the grid
 		:param row: y coordinate
 		:param col: x coordinate
 		:param player: player who wants to add the rock
 		:param rules: rules functions to apply. They must return True if the add
-			is allowed otherwise False [rule(row, col, grid) -> bool]
+			is allowed otherwise False [rule(row, col, player, grid) -> bool]
 		:return: True if rock was added else False
 		"""
 		if 0 <= row < self.__size and 0 <= col < self.__size and self.__grid[row][col] == 0:
-			for rule in rules:
-				if not rule(row, col, self.__grid):
-					return False
+			grid_cp = copy.deepcopy(self.__grid)
+			grid_cp[row][col] = player
+			if rules is not None:
+				for rule in rules:
+					if rule is None:
+						pass
+					res = rule(row, col, player, grid_cp)
+					if res == gm_rules.RuleStatus.WIN:
+						return gm_rules.RuleStatus.WIN
+					elif res == gm_rules.RuleStatus.NO:
+						return gm_rules.RuleStatus.NO
 			self.__grid[row][col] = player
 			self.__line_grid[col + row * self.__size] = player
-			return True
-		return False
+			return gm_rules.RuleStatus.OK
+		return gm_rules.RuleStatus.NO

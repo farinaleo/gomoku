@@ -1,1 +1,1 @@
-from gomoku.grid.grid import Grid
+from .grid import Grid
