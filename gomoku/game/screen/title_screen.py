@@ -35,7 +35,7 @@ def main_menu(engine: Engine):
     logo, logo_rect = get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3), get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3).get_rect(center=(engine.settings.get_width() // 2, engine.settings.get_height() // 4))
 
     button_1vs1 = create_button('button_1vs1.png', engine, 4, 9, (engine.settings.get_width() // 2, engine.settings.get_height() // 2))
-    button_ai = create_button('button_ai.png', engine, 4, 9, (engine.settings.get_width() // 2, engine.settings.get_height() // 2 + 150))
+    button_ai = create_button('button_ai.png', engine, 4, 9, (engine.settings.get_width() // 2, engine.settings.get_height() // 2 + (engine.settings.get_width() - engine.settings.get_height()) / 5))
 
     mute = mute_button(engine)
     is_mute = 1 if engine.settings.get_music() else 0
