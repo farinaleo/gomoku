@@ -16,8 +16,7 @@ def mute_button(engine: Engine):
 	return image_mute, image_mute_rect, image_unmute, image_unmute_rect
 
 
-def button_action(engine: Engine):
+def mute_action(engine: Engine):
 	"""Mute and unmute button action"""
-	engine.settings.set_music(not engine.settings.get_music())
-	pygame.mixer.music.set_volume(int(engine.settings.get_music()))
+	engine.mute()
 	return engine.settings.get_music()
