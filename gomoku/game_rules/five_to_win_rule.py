@@ -10,34 +10,33 @@
 import copy
 import math
 
-import gomoku as gmk
-import gomoku.game_rules as rules
+from gomoku import RuleStatus, rule
 
 
-def five_to_win(row: int, col: int, player, grid) -> rules.RuleStatus:
+@rule()
+def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more
+	:param row: y pos
+	:param col: x pos
+	:param player: who played the move
+	:param grid: the grid
 	:return: Rule status (WIN | OK | NO)
 	"""
 	goal = [player for _ in range(5)]
 	goal = ''.join(goal)
-	if __check_row(row, goal, grid) == rules.RuleStatus.WIN:
-		print('WIN')
-		return rules.RuleStatus.WIN
-	elif __check_column(col, goal, grid) == rules.RuleStatus.WIN:
-		print('WIN')
-		return rules.RuleStatus.WIN
-	elif __check_diagonal1(row, col, goal, grid) == rules.RuleStatus.WIN:
-		print('WIN')
-		return rules.RuleStatus.WIN
-	elif __check_diagonal2(row, col, goal, grid) == rules.RuleStatus.WIN:
-		print('WIN')
-		return rules.RuleStatus.WIN
+	if __check_row(row, goal, grid) == RuleStatus.WIN:
+		return RuleStatus.WIN
+	elif __check_column(col, goal, grid) == RuleStatus.WIN:
+		return RuleStatus.WIN
+	elif __check_diagonal1(row, col, goal, grid) == RuleStatus.WIN:
+		return RuleStatus.WIN
+	elif __check_diagonal2(row, col, goal, grid) == RuleStatus.WIN:
+		return RuleStatus.WIN
 
-	print('LOOSE')
-	return rules.RuleStatus.OK
+	return RuleStatus.OK
 
 
-def __check_column(col: int, goal, grid) -> rules.RuleStatus:
+def __check_column(col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in column.
 	:param col: column to analyse
 	:param goal: goal line
@@ -46,12 +45,12 @@ def __check_column(col: int, goal, grid) -> rules.RuleStatus:
 	"""
 	col = ''.join(str(line[col]) for line in grid)
 	if goal in col:
-		return rules.RuleStatus.WIN
+		return RuleStatus.WIN
 	else:
-		return rules.RuleStatus.NO
+		return RuleStatus.NO
 
 
-def __check_row(row: int, goal, grid) -> rules.RuleStatus:
+def __check_row(row: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in row.
 	:param row:  row to analyse
 	:param goal: goal line
@@ -60,12 +59,12 @@ def __check_row(row: int, goal, grid) -> rules.RuleStatus:
 	"""
 	line = ''.join(str(char) for char in grid[row])
 	if goal in line:
-		return rules.RuleStatus.WIN
+		return RuleStatus.WIN
 	else:
-		return rules.RuleStatus.NO
+		return RuleStatus.NO
 
 
-def __check_diagonal1(row: int, col: int, goal, grid) -> rules.RuleStatus:
+def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
 		:param row:  y pos
 		:param col:  x pos
@@ -90,11 +89,11 @@ def __check_diagonal1(row: int, col: int, goal, grid) -> rules.RuleStatus:
 		y += 1
 		x += 1
 	if goal in diagonal:
-		return rules.RuleStatus.WIN
-	return rules.RuleStatus.NO
+		return RuleStatus.WIN
+	return RuleStatus.NO
 
 
-def __check_diagonal2(row: int, col: int, goal, grid) -> rules.RuleStatus:
+def __check_diagonal2(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
 		:param row:  y pos
 		:param col:  x pos
@@ -115,10 +114,6 @@ def __check_diagonal2(row: int, col: int, goal, grid) -> rules.RuleStatus:
 		diagonal += str(grid[y][x])
 		y -= 1
 		x += 1
-	print('goal')
-	print(goal)
-	print('diagonal')
-	print(diagonal)
 	if goal in diagonal:
-		return rules.RuleStatus.WIN
-	return rules.RuleStatus.NO
+		return RuleStatus.WIN
+	return RuleStatus.NO
