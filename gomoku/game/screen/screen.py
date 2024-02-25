@@ -18,6 +18,7 @@ def main_menu(engine: Engine):
 	pygame.font.init()
 	font = pygame.font.Font('gomoku/assets/fonts/Roboto-Bold.ttf', 20)
 	credit_text = font.render('Developed by: nskiba and lfarina - ESC to exit', True, (255, 255, 255))
+
 	# Load logo
 	logo = get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3)
 	logo_rect = logo.get_rect()
