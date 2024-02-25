@@ -49,14 +49,14 @@ def main_menu(engine: Engine):
             elif result == 'restart':
                 break
             engine.screen.fill((8, 26, 43))
+            stars_effect(20, engine.get_window_size()[0], engine.get_window_size()[1], groups_particles)
+            groups_particles.update()
+            groups_particles.draw(engine.screen)
             engine.screen.blit(logo, logo_rect)
             engine.screen.blit(maximize[0], maximize[1])
             engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
             engine.screen.blit(credit_text, (10, engine.get_window_size()[1] - credit_text.get_height() - 10))
             engine.screen.blit(button_1vs1[0], button_1vs1[1])
             engine.screen.blit(button_ai[0], button_ai[1])
-            stars_effect(20, engine.get_window_size()[0], engine.get_window_size()[1], groups_particles)
-            groups_particles.draw(engine.screen)
             pygame.display.update()
-            groups_particles.update()
             engine.clock.tick(engine.settings.get_fps())
