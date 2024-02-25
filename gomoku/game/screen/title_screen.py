@@ -1,62 +1,62 @@
 import pygame
 from gomoku.game.screen.particle import stars_effect
-from gomoku.game.engine import Engine, load_music, get_image
-from gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action
+from gomoku.game.engine import Engine, load_music, get_image, set_titlescreen
+from gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action, get_gomoku_logo, get_1vs1_button, get_ai_button
 
 
-def create_button(image_path, engine, scale_width, scale_height, center_position):
-    button_image = get_image(image_path, engine.settings.get_width() // scale_width, engine.settings.get_height() // scale_height)
-    button_rect = button_image.get_rect()
-    button_rect.center = center_position
-    return button_image, button_rect
-
-
-def handle_events(engine, mute, maximize, is_mute):
+def handle_events(engine, events_list) -> str | bool:
     for event in pygame.event.get():
-        if event.type in [pygame.KEYDOWN, pygame.QUIT]:
+        if event.type in [pygame.VIDEORESIZE]:
+            if not engine.settings.get_fullscreen():
+                engine.update_screen_size()
+                return 'restart'
+        elif event.type in [pygame.KEYDOWN, pygame.QUIT]:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
-                return False, is_mute
+                return 'quit'
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if mute[1].collidepoint(event.pos):
-                is_mute = mute_action(engine)
-            elif maximize[1].collidepoint(event.pos):
+            if events_list[0][1].collidepoint(event.pos):
+                mute_action(engine)
+            elif events_list[1][1].collidepoint(event.pos):
                 maximize_action(engine)
-    return True, is_mute
+                return 'restart'
+            elif events_list[2][1].collidepoint(event.pos):
+                engine.change_screen('game_1vs1')
+                return 'game_1vs1'
+    return True
 
 
 def main_menu(engine: Engine):
-    pygame.display.set_caption('Gomoku - Title screen')
+    set_titlescreen('Gomoku - Main Menu')
     load_music('title_screen.mp3')
+    while True:
 
-    pygame.font.init()
-    font = pygame.font.Font('gomoku/assets/fonts/Roboto-Bold.ttf', 20)
-    credit_text = font.render('Developed by: nskiba and lfarina - ESC to exit', True, (255, 255, 255))
+        credit_text = engine.font.render('Developed by: nskiba and lfarina - ESC to exit', True, (255, 255, 255))
+        logo, logo_rect = get_gomoku_logo(engine)
+        button_1vs1 = get_1vs1_button(engine)
+        button_ai = get_ai_button(engine)
+        mute = mute_button(engine)
+        maximize = maximize_button(engine)
 
-    logo, logo_rect = get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3), get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3).get_rect(center=(engine.settings.get_width() // 2, engine.settings.get_height() // 4))
-
-    button_1vs1 = create_button('button_1vs1.png', engine, 4, 9, (engine.settings.get_width() // 2, engine.settings.get_height() // 2))
-    button_ai = create_button('button_ai.png', engine, 4, 9, (engine.settings.get_width() // 2, engine.settings.get_height() // 2 + (engine.settings.get_width() - engine.settings.get_height()) / 5))
-
-    mute = mute_button(engine)
-    is_mute = 1 if engine.settings.get_music() else 0
-    maximize = maximize_button(engine)
-
-    groups_particles = pygame.sprite.Group()
-    running = True
-    while running:
-        running, is_mute = handle_events(engine, mute, maximize, is_mute)
-
-        engine.screen.fill((8, 26, 43))
-        engine.screen.blit(logo, logo_rect)
-        engine.screen.blit(maximize[0], maximize[1])
-        engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
-        engine.screen.blit(credit_text, (10, engine.settings.get_height() - credit_text.get_height() - 10))
-        engine.screen.blit(button_1vs1[0], button_1vs1[1])
-        engine.screen.blit(button_ai[0], button_ai[1])
-        stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), groups_particles)
-        groups_particles.draw(engine.screen)
-        pygame.display.update()
-        groups_particles.update()
-        engine.clock.tick(engine.settings.get_fps())
-
-    engine.change_screen(None)
+        groups_particles = pygame.sprite.Group()
+        events_list = [mute, maximize, button_1vs1, button_ai]
+        running = True
+        while running:
+            is_mute = 1 if engine.settings.get_music() else 0
+            result = handle_events(engine, events_list)
+            if result == 'quit':
+                engine.change_screen(None)
+                return False
+            elif result == 'restart':
+                break
+            engine.screen.fill((8, 26, 43))
+            engine.screen.blit(logo, logo_rect)
+            engine.screen.blit(maximize[0], maximize[1])
+            engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
+            engine.screen.blit(credit_text, (10, engine.get_window_size()[1] - credit_text.get_height() - 10))
+            engine.screen.blit(button_1vs1[0], button_1vs1[1])
+            engine.screen.blit(button_ai[0], button_ai[1])
+            stars_effect(20, engine.get_window_size()[0], engine.get_window_size()[1], groups_particles)
+            groups_particles.draw(engine.screen)
+            pygame.display.update()
+            groups_particles.update()
+            engine.clock.tick(engine.settings.get_fps())

@@ -6,8 +6,8 @@ from gomoku import main_menu
 
 def main():
 	engine = Engine()
-	engine.load_settings()
-	while True:
+	engine.init_engine()
+	while engine.get_running():
 		if engine.get_current_screen() == 'main_menu':
 			main_menu(engine)
 		if engine.get_current_screen() == 'game':
