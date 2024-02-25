@@ -14,6 +14,10 @@ def main_menu(engine: Engine):
 	pygame.display.set_caption('Gomoku - Title screen')
 	load_music('title_screen.mp3')
 
+	# Load font
+	pygame.font.init()
+	font = pygame.font.Font('gomoku/assets/fonts/Roboto-Bold.ttf', 20)
+	credit_text = font.render('Developed by: nskiba and lfarina', True, (255, 255, 255))
 	# Load logo
 	logo = get_image('logo-game.png', engine.settings.get_width() // 3, engine.settings.get_height() // 3)
 	logo_rect = logo.get_rect()
@@ -45,6 +49,7 @@ def main_menu(engine: Engine):
 		engine.screen.blit(logo, logo_rect)
 		engine.screen.blit(maximize[0], maximize[1])
 		engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
+		engine.screen.blit(credit_text, (10, engine.settings.get_height() - credit_text.get_height() - 10))
 		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
 		group_particles.draw(engine.screen)
 		group_particles.update()
