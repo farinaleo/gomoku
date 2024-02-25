@@ -12,5 +12,5 @@ def maximize_button(engine: Engine):
 
 
 def maximize_action(engine: Engine):
-	"""Mute and unmute button action"""
+	"""Maximize button action"""
 	engine.maximize()
