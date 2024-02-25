@@ -2,6 +2,7 @@ import copy
 from dataclasses import dataclass
 import gomoku.game_rules as gm_rules
 
+
 @dataclass
 class Grid:
 	"""Class to represent the grid game"""

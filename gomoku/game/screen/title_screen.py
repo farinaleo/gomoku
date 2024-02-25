@@ -12,6 +12,7 @@ def handle_events(engine, events_list) -> str | bool:
                 return 'restart'
         elif event.type in [pygame.KEYDOWN, pygame.QUIT]:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
+                engine.set_running(False)
                 return 'quit'
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if events_list[0][1].collidepoint(event.pos):
@@ -20,8 +21,8 @@ def handle_events(engine, events_list) -> str | bool:
                 maximize_action(engine)
                 return 'restart'
             elif events_list[2][1].collidepoint(event.pos):
-                engine.change_screen('game_1vs1')
-                return 'game_1vs1'
+                engine.change_screen('game')
+                return 'quit'
     return True
 
 
@@ -29,7 +30,6 @@ def main_menu(engine: Engine):
     set_titlescreen('Gomoku - Main Menu')
     load_music('title_screen.mp3')
     while True:
-
         credit_text = engine.font.render('Developed by: nskiba and lfarina - ESC to exit', True, (255, 255, 255))
         logo, logo_rect = get_gomoku_logo(engine)
         button_1vs1 = get_1vs1_button(engine)
@@ -39,13 +39,11 @@ def main_menu(engine: Engine):
 
         groups_particles = pygame.sprite.Group()
         events_list = [mute, maximize, button_1vs1, button_ai]
-        running = True
-        while running:
+        while True:
             is_mute = 1 if engine.settings.get_music() else 0
             result = handle_events(engine, events_list)
             if result == 'quit':
-                engine.change_screen(None)
-                return False
+                return
             elif result == 'restart':
                 break
             engine.screen.fill((8, 26, 43))

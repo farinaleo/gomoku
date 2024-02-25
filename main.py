@@ -1,7 +1,7 @@
 from gomoku import SettingsStruct
 from gomoku import Engine
 import pygame
-from gomoku import main_menu
+from gomoku import main_menu, game_screen
 
 
 def main():
@@ -11,7 +11,7 @@ def main():
 		if engine.get_current_screen() == 'main_menu':
 			main_menu(engine)
 		if engine.get_current_screen() == 'game':
-			pass
+			game_screen(engine)
 		if engine.get_current_screen() is None:
 			break
 	print('Exiting')
