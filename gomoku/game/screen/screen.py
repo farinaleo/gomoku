@@ -4,7 +4,8 @@ import pygame
 from gomoku.game.engine import Engine
 from gomoku.game.engine import load_music, get_image
 from gomoku.game.screen.particle import stars_effect
-from gomoku.game.screen.components import mute_button, button_action
+from gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action
+
 
 def main_menu(engine: Engine):
 	""" Main menu screen """
@@ -22,6 +23,10 @@ def main_menu(engine: Engine):
 	mute = mute_button(engine)
 	is_mute = 1 if engine.settings.get_music() else 0
 	print(mute)
+
+	# Maximize button
+	maximize = maximize_button(engine)
+
 	# While loop
 	running = True
 	group_particles = pygame.sprite.Group()
@@ -33,10 +38,12 @@ def main_menu(engine: Engine):
 				running = False
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if mute[1].collidepoint(event.pos):
-					is_mute = button_action(engine)
+					is_mute = mute_action(engine)
+				if maximize[1].collidepoint(event.pos):
+					maximize_action(engine)
 		engine.screen.fill((8, 26, 43))
 		engine.screen.blit(logo, logo_rect)
-
+		engine.screen.blit(maximize[0], maximize[1])
 		engine.screen.blit(mute[is_mute * 2], mute[is_mute * 2 + 1])
 		stars_effect(20, engine.settings.get_width(), engine.settings.get_height(), group_particles)
 		group_particles.draw(engine.screen)
@@ -44,15 +51,3 @@ def main_menu(engine: Engine):
 		pygame.display.update()
 		engine.clock.tick(engine.settings.get_fps())
 	engine.change_screen(None)
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.
-	# IL FAUT : voir pour mute et unmute. comment faire la gestion de mute et unmute. faire le bouton clickable pour mute et unmute.

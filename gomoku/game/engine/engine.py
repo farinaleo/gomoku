@@ -49,12 +49,14 @@ class Engine:
         return pygame.time.get_ticks()# a verifi
 
     def mute(self):
-        if self.settings.get_music is False:
-            self.settings.set_music(True)
-            pygame.mixer.music.set_volume(1)
-        else:
-            self.settings.set_music(False)
-            pygame.mixer.music.set_volume(0)
+        self.settings.set_music(not self.settings.get_music())
+        pygame.mixer.music.set_volume(int(self.settings.get_music()))
+
+    def maximize(self):
+        self.settings.set_fullscreen(not self.settings.get_fullscreen())
+        self.screen = pygame.display.set_mode(self.settings.get_window_size(),
+                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
+        print(self.settings.get_fullscreen())
 
     def get_music(self):
         return self.settings.get_music()
