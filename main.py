@@ -7,7 +7,6 @@ from gomoku import main_menu
 def main():
 	engine = Engine()
 	engine.load_settings()
-	engine.save_settings()
 	while True:
 		if engine.get_current_screen() == 'main_menu':
 			main_menu(engine)
@@ -16,6 +15,7 @@ def main():
 		if engine.get_current_screen() is None:
 			break
 	print('Exiting')
+	engine.save_settings()
 	pygame.quit()
 
 
