@@ -31,5 +31,4 @@ jobs:
         if [ -f requirements/requirements.txt ]; then pip install -r requirements/requirements.txt; fi
     - name: Test with pytest
       run: |
-        ls
         if [ -f tests/run_test.sh ]; then bash tests/run_test.sh tests; fi
