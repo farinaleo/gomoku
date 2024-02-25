@@ -9,7 +9,8 @@
 
 import copy
 from dataclasses import dataclass
-import gomoku.game_rules as gm_rules
+from gomoku import RuleStatus
+
 
 @dataclass
 class Grid:
@@ -54,7 +55,7 @@ class Grid:
 		"""
 		return self.__last_move
 
-	def add_rock(self, row: int, col: int, player, rules) -> gm_rules.RuleStatus:
+	def add_rock(self, row: int, col: int, player, rules) -> RuleStatus:
 		"""Add a rock to the grid
 		:param row: y coordinate
 		:param col: x coordinate
@@ -70,13 +71,35 @@ class Grid:
 				for rule in rules:
 					if rule is None:
 						pass
-					res = rule(row, col, player, grid_cp)
-					if res == gm_rules.RuleStatus.WIN:
-						return gm_rules.RuleStatus.WIN
-					elif res == gm_rules.RuleStatus.NO:
-						return gm_rules.RuleStatus.NO
-			self.__grid[row][col] = player
-			self.__line_grid[col + row * self.__size] = player
-			self.__last_move = [player, col, row]
-			return gm_rules.RuleStatus.OK
-		return gm_rules.RuleStatus.NO
+					res = rule(row, col, player, grid_cp, self)
+					if res == RuleStatus.WIN:
+						return RuleStatus.WIN
+					elif res == RuleStatus.NO:
+						return RuleStatus.NO
+			self.force_rock(col, row, player)
+			return RuleStatus.OK
+		return RuleStatus.NO
+
+	def remove_rock(self, col, row) -> RuleStatus:
+		"""remove a rock from the grid
+		:param col: x coordinate
+		:param row: y coordinate
+		:return: rule Status
+		"""
+		if 0 <= row < self.__size and 0 <= col < self.__size and self.__grid[row][col] != 0:
+			self.__grid[row][col] = 0
+			self.__line_grid[col + row * self.__size] = 0
+			return RuleStatus.OK
+		return RuleStatus.NO
+
+	def force_rock(self, col, row, player) -> RuleStatus:
+		"""force a rock in the grid
+		:param col: x coordinate
+		:param row: y coordinate
+		:param player: player who want to force the rock
+		:return: rule status
+		"""
+		self.__grid[row][col] = player
+		self.__line_grid[col + row * self.__size] = player
+		self.__last_move = [player, col, row]
+		return RuleStatus.OK
