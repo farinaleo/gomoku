@@ -198,7 +198,6 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     line = ''
     x, y = col, row
     
-
     while 0 <= x < size and 0 <= y < size and inc < 4:
         line += str(grid[y][x])
         y -= 1
