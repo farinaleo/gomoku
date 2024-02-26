@@ -1,10 +1,10 @@
 import pygame
-from gomoku.game.engine import Engine
+from ft_gomoku.engine import Engine
 
 
 def get_1vs1_button(engine: Engine):
 	"""Return 1vs1 button"""
-	image = pygame.image.load('gomoku/assets/img/button_1vs1.png')
+	image = pygame.image.load('ft_gomoku/assets/img/button_1vs1.png')
 	image_width = 530
 	image_height = 130
 	ratio_width = engine.get_window_size()[0] / 1920
@@ -16,7 +16,7 @@ def get_1vs1_button(engine: Engine):
 
 def get_ai_button(engine: Engine):
 	"""Return AI button"""
-	image = pygame.image.load('gomoku/assets/img/button_ai.png')
+	image = pygame.image.load('ft_gomoku/assets/img/button_ai.png')
 	image_width = 530
 	image_height = 130
 	ratio_width = engine.get_window_size()[0] / 1920

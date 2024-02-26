@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from gomoku import SettingsStruct
+from ft_gomoku import SettingsStruct
 import pygame
 import os
 
@@ -72,11 +72,11 @@ class Engine:
     def init_font(self):
         """Initialize the font"""
         pygame.font.init()
-        self.font = pygame.font.Font('gomoku/assets/fonts/Roboto-Bold.ttf', 20)
+        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 20)
 
     def init_icon(self):
         """Initialize the icon of the window"""
-        image_path = os.path.join('gomoku', 'assets', 'img', 'logo_favicon.png')
+        image_path = os.path.join('ft_gomoku', 'assets', 'img', 'logo_favicon.png')
         self.favicon = pygame.image.load(image_path)
         pygame.display.set_icon(self.favicon)
 

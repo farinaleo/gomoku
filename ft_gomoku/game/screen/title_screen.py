@@ -1,7 +1,7 @@
 import pygame
-from gomoku.game.screen.particle import stars_effect
-from gomoku.game.engine import Engine, load_music, get_image, set_titlescreen
-from gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action, get_gomoku_logo, get_1vs1_button, get_ai_button
+from ft_gomoku.game.screen.particle import stars_effect
+from ft_gomoku.engine import Engine, load_music, set_titlescreen
+from ft_gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action, get_gomoku_logo, get_1vs1_button, get_ai_button
 
 
 def handle_events(engine, events_list) -> str | bool:

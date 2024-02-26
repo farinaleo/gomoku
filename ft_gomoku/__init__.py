@@ -12,4 +12,7 @@ from .game_rules.rules_decorator import rule
 from .game_rules.five_to_win_rule import five_to_win
 from .game_rules.capture import capture
 from .data_structure import SettingsStruct
+from .engine import Engine
+from .game import main_menu
+from .game import game_screen
 from .grid.grid import Grid

@@ -1,5 +1,5 @@
 import pygame
-from gomoku.game.engine import Engine, load_music, get_image, set_titlescreen
+from ft_gomoku.engine import Engine, get_image, set_titlescreen
 
 
 def handle_events(engine, events_list) -> str | bool:

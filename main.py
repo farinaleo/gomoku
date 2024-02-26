@@ -1,7 +1,7 @@
-from gomoku import SettingsStruct
-from gomoku import Engine
+from ft_gomoku import SettingsStruct
+from ft_gomoku import Engine
 import pygame
-from gomoku import main_menu, game_screen
+from ft_gomoku import main_menu, game_screen
 
 
 def main():

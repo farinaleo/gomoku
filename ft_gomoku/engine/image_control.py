@@ -1,5 +1,4 @@
 import pygame
-from gomoku.game.engine import Engine
 import os
 
 
@@ -10,7 +9,7 @@ def get_image(image_file: str, width: int, height: int) -> pygame.Surface:
 	:param height: image height.
 	"""
 	try:
-		path_file = os.path.join('gomoku', 'assets', 'img', image_file)
+		path_file = os.path.join('ft_gomoku', 'assets', 'img', image_file)
 		image = pygame.image.load(path_file)
 	except Exception as e:
 		print(f'load image error: {e}')
