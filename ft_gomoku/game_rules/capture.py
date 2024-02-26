@@ -7,10 +7,10 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from gomoku import RuleStatus, CAPTURE, rule
-
+from ft_gomoku import RuleStatus, CAPTURE, rule
 
 point = [(0, 0), (0, 0)]
+
 
 @rule()
 def capture(row: int, col: int, player, grid):
@@ -33,14 +33,14 @@ def capture(row: int, col: int, player, grid):
         if left != CAPTURE.NO_LEFT:
             if __check_up_left(row, col, player, grid, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
-        elif right != CAPTURE.NO_RIGHT:
+        if right != CAPTURE.NO_RIGHT:
             if __check_up_right(row, col, player, grid, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
-    elif down != CAPTURE.NO_DOWN:
+    if down != CAPTURE.NO_DOWN:
         if left != CAPTURE.NO_LEFT:
             if __check_down_left(row, col, player, grid, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
-        elif right != CAPTURE.NO_RIGHT:
+        if right != CAPTURE.NO_RIGHT:
             if __check_down_right(row, col, player, grid, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
     return RuleStatus.OK
