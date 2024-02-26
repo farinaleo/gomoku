@@ -1,4 +1,4 @@
-from gomoku import SettingsStruct
+from ft_gomoku import SettingsStruct
 
 settings = SettingsStruct()
 settings.load()
