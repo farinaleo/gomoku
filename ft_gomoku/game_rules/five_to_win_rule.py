@@ -67,12 +67,12 @@ def __check_row(row: int, goal, grid) -> RuleStatus:
 
 def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
-		:param row:  y pos
-		:param col:  x pos
-		:param goal: goal line
-		:param grid: grid to analyse
-		:return: Rule status (WIN | NO)
-		"""
+	:param row:  y pos
+	:param col:  x pos
+	:param goal: goal line
+	:param grid: grid to analyse
+	:return: Rule status (WIN | NO)
+	"""
 	max_v = max(row, col)
 	y = row - max_v
 	x = col - max_v
@@ -96,12 +96,12 @@ def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 
 def __check_diagonal2(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
-		:param row:  y pos
-		:param col:  x pos
-		:param goal: goal line
-		:param grid: grid to analyse
-		:return: Rule status (WIN | NO)
-		"""
+	:param row:  y pos
+	:param col:  x pos
+	:param goal: goal line
+	:param grid: grid to analyse
+	:return: Rule status (WIN | NO)
+	"""
 	x = col
 	y = row
 	size = len(grid)
