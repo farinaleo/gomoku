@@ -16,14 +16,19 @@ from ft_gomoku import RuleStatus
 class Grid:
 	"""Class to represent the grid game"""
 
-	def __init__(self, size: int):
+	def __init__(self, size: int, player1, player2):
 		"""Initialize the class
 		:param size: The size of the grid
 		"""
+		if size is None or player1 is None or player2 is None or player1 == player2:
+			raise ValueError("Grid initialisation failed due to bad parameters")
 		self.__size = size
 		self.__grid = [[0 for _ in range(size)] for _ in range(size)]
 		self.__line_grid = [element for line in self.__grid for element in line]
 		self.__last_move = [None, None, None]
+		self.__player1 = player1
+		self.__player2 = player2
+		self.__captured_stones = {player1: 0, player2: 0}
 
 	def __str__(self):
 		"""Return a string representation of the grid
@@ -103,3 +108,11 @@ class Grid:
 		self.__line_grid[col + row * self.__size] = player
 		self.__last_move = [player, col, row]
 		return RuleStatus.OK
+
+	def cnt_capture(self, player, nb_stones: int):
+		"""Add the captured stones to the count
+		:param player: player who captured stones
+		:param nb_stones: number of stones captured
+		"""
+		if player == self.__player1 or player == self.__player2:
+			self.__captured_stones[player] += nb_stones
