@@ -24,13 +24,14 @@ def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 	"""
 	goal = [player for _ in range(5)]
 	goal = ''.join(goal)
-	if __check_row(row, goal, grid) == RuleStatus.WIN:
+	grid_tab = grid.get_grid()
+	if __check_row(row, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_column(col, goal, grid) == RuleStatus.WIN:
+	elif __check_column(col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_diagonal1(row, col, goal, grid) == RuleStatus.WIN:
+	elif __check_diagonal1(row, col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_diagonal2(row, col, goal, grid) == RuleStatus.WIN:
+	elif __check_diagonal2(row, col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
 
 	return RuleStatus.OK

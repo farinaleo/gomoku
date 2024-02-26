@@ -60,6 +60,18 @@ class Grid:
 		"""
 		return self.__last_move
 
+	def get_player1(self):
+		""" Return the player1
+		:return: The player1
+		"""
+		return self.__player1
+
+	def get_player2(self):
+		""" Return the player2
+		:return: The player 2
+		"""
+		return self.__player2
+
 	def add_rock(self, row: int, col: int, player, rules) -> RuleStatus:
 		"""Add a rock to the grid
 		:param row: y coordinate
@@ -70,8 +82,8 @@ class Grid:
 		:return: True if rock was added else False
 		"""
 		if 0 <= row < self.__size and 0 <= col < self.__size and self.__grid[row][col] == 0:
-			grid_cp = copy.deepcopy(self.__grid)
-			grid_cp[row][col] = player
+			grid_cp = copy.deepcopy(self)
+			grid_cp.force_rock(col, row, player)
 			if rules is not None:
 				for rule in rules:
 					if rule is None:

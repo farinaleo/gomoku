@@ -21,29 +21,30 @@ def capture(row: int, col: int, player, grid):
     :param grid: the grid
     :return: Rule status (CAPTURE | NO)
     """
-    size = len(grid)
-    goal = 'qaaq' if player == 'q' else 'aqqa'
-    
-    up = __check_up(row, col, goal, grid, size)
-    down = __check_down(row, col, goal, grid, size)
-    left = __check_left(row, col, goal, grid, size)
-    right = __check_right(row, col, goal, grid, size)
+    size = grid.get_size()
+    p1, p2 = grid.get_player1(), grid.get_player2()
+    goal = str(p1+p2+p2+p1) if player == p1 else str(p2+p1+p1+p2)
+    grid_tab = grid.get_grid()
+    up = __check_up(row, col, goal, grid_tab, size)
+    down = __check_down(row, col, goal, grid_tab, size)
+    left = __check_left(row, col, goal, grid_tab, size)
+    right = __check_right(row, col, goal, grid_tab, size)
 
     if up == CAPTURE.CAPTURE or down == CAPTURE.CAPTURE or left == CAPTURE.CAPTURE or right == CAPTURE.CAPTURE:
         return RuleStatus.CAPTURE, point
     elif up != CAPTURE.NO_UP:
         if left != CAPTURE.NO_LEFT:
-            if __check_up_left(row, col, goal, grid, size) == CAPTURE.CAPTURE:
+            if __check_up_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
         if right != CAPTURE.NO_RIGHT:
-            if __check_up_right(row, col, goal, grid, size) == CAPTURE.CAPTURE:
+            if __check_up_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
     if down != CAPTURE.NO_DOWN:
         if left != CAPTURE.NO_LEFT:
-            if __check_down_left(row, col, goal, grid, size) == CAPTURE.CAPTURE:
+            if __check_down_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
         if right != CAPTURE.NO_RIGHT:
-            if __check_down_right(row, col, goal, grid, size) == CAPTURE.CAPTURE:
+            if __check_down_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
                 return RuleStatus.CAPTURE, point
     return RuleStatus.OK
 
@@ -197,7 +198,7 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     inc = 0
     line = ''
     x, y = col, row
-    
+
     while 0 <= x < size and 0 <= y < size and inc < 4:
         line += str(grid[y][x])
         y -= 1
