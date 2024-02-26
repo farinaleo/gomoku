@@ -11,7 +11,7 @@ import ft_gomoku as gmk
 
 
 def test_1():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 0, 'q', [gmk.capture])
 	grid.add_rock(0, 1, 'a', [gmk.capture])
 	grid.add_rock(0, 2, 'a', [gmk.capture])
@@ -22,7 +22,7 @@ def test_1():
 
 
 def test_2():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 0, 'q', [gmk.capture])
 	grid.add_rock(1, 0, 'a', [gmk.capture])
 	grid.add_rock(2, 0, 'a', [gmk.capture])
@@ -33,7 +33,7 @@ def test_2():
 	
 	
 def test_3():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 0, 'q', [gmk.capture])
 	grid.add_rock(1, 1, 'a', [gmk.capture])
 	grid.add_rock(2, 2, 'a', [gmk.capture])
@@ -44,7 +44,7 @@ def test_3():
 	
 	
 def test_4():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 3, 'q', [gmk.capture])
 	grid.add_rock(1, 2, 'a', [gmk.capture])
 	grid.add_rock(2, 1, 'a', [gmk.capture])
@@ -55,7 +55,7 @@ def test_4():
 
 
 def test_5():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 3, 'q', [gmk.capture])
 	grid.add_rock(0, 2, 'a', [gmk.capture])
 	grid.add_rock(0, 1, 'a', [gmk.capture])
@@ -66,7 +66,7 @@ def test_5():
 
 
 def test_6():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(3, 0, 'q', [gmk.capture])
 	grid.add_rock(2, 0, 'a', [gmk.capture])
 	grid.add_rock(1, 0, 'a', [gmk.capture])
@@ -77,7 +77,7 @@ def test_6():
 
 
 def test_7():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(3, 3, 'q', [gmk.capture])
 	grid.add_rock(2, 2, 'a', [gmk.capture])
 	grid.add_rock(1, 1, 'a', [gmk.capture])
@@ -88,7 +88,7 @@ def test_7():
 
 
 def test_8():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(3, 0, 'q', [gmk.capture])
 	grid.add_rock(2, 1, 'a', [gmk.capture])
 	grid.add_rock(1, 2, 'a', [gmk.capture])
@@ -98,8 +98,22 @@ def test_8():
 	assert line == goal
 
 
+def test_9():
+	grid = gmk.Grid(4, 'a', 'q')
+	grid.add_rock(0, 0, 'q', [gmk.capture])
+	grid.add_rock(3, 3, 'q', [gmk.capture])
+	grid.add_rock(0, 1, 'a', [gmk.capture])
+	grid.add_rock(0, 2, 'a', [gmk.capture])
+	grid.add_rock(1, 3, 'a', [gmk.capture])
+	grid.add_rock(2, 3, 'a', [gmk.capture])
+	grid.add_rock(0, 3, 'q', [gmk.capture])
+	line = grid.get_line()
+	goal = ['q', 0, 0, 'q', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'q']
+	assert line == goal
+
+
 def test_r1():
-	grid = gmk.Grid(4)
+	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 0, 'q', [gmk.capture])
 	grid.add_rock(0, 1, 'a', [gmk.capture])
 	grid.add_rock(0, 3, 'q', [gmk.capture])

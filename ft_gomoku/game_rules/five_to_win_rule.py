@@ -24,13 +24,14 @@ def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 	"""
 	goal = [player for _ in range(5)]
 	goal = ''.join(goal)
-	if __check_row(row, goal, grid) == RuleStatus.WIN:
+	grid_tab = grid.get_grid()
+	if __check_row(row, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_column(col, goal, grid) == RuleStatus.WIN:
+	elif __check_column(col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_diagonal1(row, col, goal, grid) == RuleStatus.WIN:
+	elif __check_diagonal1(row, col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
-	elif __check_diagonal2(row, col, goal, grid) == RuleStatus.WIN:
+	elif __check_diagonal2(row, col, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
 
 	return RuleStatus.OK
@@ -66,12 +67,12 @@ def __check_row(row: int, goal, grid) -> RuleStatus:
 
 def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
-		:param row:  y pos
-		:param col:  x pos
-		:param goal: goal line
-		:param grid: grid to analyse
-		:return: Rule status (WIN | NO)
-		"""
+	:param row:  y pos
+	:param col:  x pos
+	:param goal: goal line
+	:param grid: grid to analyse
+	:return: Rule status (WIN | NO)
+	"""
 	max_v = max(row, col)
 	y = row - max_v
 	x = col - max_v
@@ -95,12 +96,12 @@ def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 
 def __check_diagonal2(row: int, col: int, goal, grid) -> RuleStatus:
 	"""Check if the next move is winning by aligning five stones or more in a diagonal.
-		:param row:  y pos
-		:param col:  x pos
-		:param goal: goal line
-		:param grid: grid to analyse
-		:return: Rule status (WIN | NO)
-		"""
+	:param row:  y pos
+	:param col:  x pos
+	:param goal: goal line
+	:param grid: grid to analyse
+	:return: Rule status (WIN | NO)
+	"""
 	x = col
 	y = row
 	size = len(grid)
