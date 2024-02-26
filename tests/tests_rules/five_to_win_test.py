@@ -11,7 +11,7 @@ import ft_gomoku as gmk
 
 
 def test_col1():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(1, 1, 'q', [gmk.five_to_win])
@@ -21,7 +21,7 @@ def test_col1():
 
 
 def test_col2():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(4, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(3, 1, 'q', [gmk.five_to_win])
@@ -31,7 +31,7 @@ def test_col2():
 
 
 def test_row():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(1, 0, 'q', [gmk.five_to_win])
@@ -41,7 +41,7 @@ def test_row():
 
 
 def test_line():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 1, 'q', [gmk.five_to_win])
@@ -51,7 +51,7 @@ def test_line():
 
 
 def test_row_f():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(1, 0, 'q', [gmk.five_to_win])
@@ -61,7 +61,7 @@ def test_row_f():
 
 
 def test_line_f():
-	grid = gmk.Grid(19)
+	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
 	grid.add_rock(0, 1, 'q', [gmk.five_to_win])
