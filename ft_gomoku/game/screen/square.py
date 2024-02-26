@@ -7,20 +7,20 @@ class Square:
 	"""Class to represent a square in the board"""
 	x: int
 	y: int
-	color: tuple
-	color_bottom: tuple
 	window_size: tuple
+	square_id: int
+	square_size: int
 	rect_square: pygame.Rect = None
 	rect_bottom: pygame.Rect = None
 
 	def create_surface(self):
 		"""Create a surface for the square and set the rect"""
-		ratio_x = self.window_size[0] // 1920
-		ratio_y =  self.window_size[1] // 1080
-		self.rect_square = pygame.Rect(self.x, self.y, 50 * ratio_x, 50 * ratio_y)
-		self.rect_bottom = pygame.Rect(self.x, self.y + 50, 50, 20)
+		self.rect_square = pygame.Rect(self.x, self.y,  self.square_size, self.square_size)
+		self.rect_bottom = pygame.Rect(self.x, self.y + self.square_size, self.square_size, self.square_size // 3)
 
 	def draw(self, screen: pygame.Surface):
 		"""Draw the square on the screen"""
-		pygame.draw.rect(screen, self.color, self.rect_square)
-		pygame.draw.rect(screen, self.color_bottom, self.rect_bottom)
+		color_square = (10, 130, 141) if self.square_id % 2 == 0 else (12, 154, 165)
+		color_bottom = (12, 88, 95) if self.square_id % 2 == 0 else (9, 110, 119)
+		pygame.draw.rect(screen, color_square, self.rect_square)
+		pygame.draw.rect(screen, color_bottom, self.rect_bottom)
