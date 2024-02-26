@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from gomoku import Grid, RuleStatus
+from ft_gomoku import Grid, RuleStatus
 
 
 def test_1():
