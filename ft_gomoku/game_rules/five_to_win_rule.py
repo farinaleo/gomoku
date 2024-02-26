@@ -10,7 +10,7 @@
 import copy
 import math
 
-from gomoku import RuleStatus, rule
+from ft_gomoku import RuleStatus, rule
 
 
 @rule()

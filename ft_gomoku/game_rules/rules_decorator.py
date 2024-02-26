@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from gomoku import RuleStatus
+from ft_gomoku import RuleStatus
 
 
 def rule():

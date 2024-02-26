@@ -9,7 +9,7 @@
 
 import copy
 from dataclasses import dataclass
-from gomoku import RuleStatus
+from ft_gomoku import RuleStatus
 
 
 @dataclass
