@@ -17,6 +17,7 @@ def rule():
             if type(result) == tuple and result[0] == RuleStatus.CAPTURE:
                 game.remove_rock(result[1][0][0], result[1][0][1])
                 game.remove_rock(result[1][1][0], result[1][1][1])
+                game.cnt_capture(player, len(result[1]))
                 return RuleStatus.OK
             elif type(result) == RuleStatus and result == RuleStatus.WIN:
                 game.force_rock(col, row, player)
