@@ -72,6 +72,16 @@ class Grid:
 		"""
 		return self.__player2
 
+	def get_captured_stones(self, player):
+		"""Get the number of captured stones
+		:param player: The who captured the stones
+		:return: The number of captured stones
+		"""
+		if player == self.__player1 or player == self.__player2:
+			return self.__captured_stones[player]
+		else:
+			return None
+
 	def add_rock(self, row: int, col: int, player, rules) -> RuleStatus:
 		"""Add a rock to the grid
 		:param row: y coordinate
