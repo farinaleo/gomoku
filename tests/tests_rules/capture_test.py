@@ -98,6 +98,20 @@ def test_8():
 	assert line == goal
 
 
+def test_9():
+	grid = gmk.Grid(4, 'a', 'q')
+	grid.add_rock(0, 0, 'q', [gmk.capture])
+	grid.add_rock(3, 3, 'q', [gmk.capture])
+	grid.add_rock(0, 1, 'a', [gmk.capture])
+	grid.add_rock(0, 2, 'a', [gmk.capture])
+	grid.add_rock(1, 3, 'a', [gmk.capture])
+	grid.add_rock(2, 3, 'a', [gmk.capture])
+	grid.add_rock(0, 3, 'q', [gmk.capture])
+	line = grid.get_line()
+	goal = ['q', 0, 0, 'q', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'q']
+	assert line == goal
+
+
 def test_r1():
 	grid = gmk.Grid(4, 'a', 'q')
 	grid.add_rock(0, 0, 'q', [gmk.capture])

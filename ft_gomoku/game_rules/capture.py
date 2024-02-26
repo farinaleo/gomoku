@@ -9,7 +9,7 @@
 
 from ft_gomoku import RuleStatus, CAPTURE, rule
 
-point = [(0, 0), (0, 0)]
+point = []
 
 
 @rule()
@@ -21,32 +21,37 @@ def capture(row: int, col: int, player, grid):
     :param grid: the grid
     :return: Rule status (CAPTURE | NO)
     """
+    status = RuleStatus.OK
     size = grid.get_size()
+    grid_tab = grid.get_grid()
     p1, p2 = grid.get_player1(), grid.get_player2()
     goal = str(p1+p2+p2+p1) if player == p1 else str(p2+p1+p1+p2)
-    grid_tab = grid.get_grid()
+
     up = __check_up(row, col, goal, grid_tab, size)
     down = __check_down(row, col, goal, grid_tab, size)
     left = __check_left(row, col, goal, grid_tab, size)
     right = __check_right(row, col, goal, grid_tab, size)
 
     if up == CAPTURE.CAPTURE or down == CAPTURE.CAPTURE or left == CAPTURE.CAPTURE or right == CAPTURE.CAPTURE:
-        return RuleStatus.CAPTURE, point
+        status = RuleStatus.CAPTURE
     elif up != CAPTURE.NO_UP:
         if left != CAPTURE.NO_LEFT:
             if __check_up_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
-                return RuleStatus.CAPTURE, point
+                status = RuleStatus.CAPTURE
         if right != CAPTURE.NO_RIGHT:
             if __check_up_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
-                return RuleStatus.CAPTURE, point
+                status = RuleStatus.CAPTURE
     if down != CAPTURE.NO_DOWN:
         if left != CAPTURE.NO_LEFT:
             if __check_down_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
-                return RuleStatus.CAPTURE, point
+                status = RuleStatus.CAPTURE
         if right != CAPTURE.NO_RIGHT:
             if __check_down_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
-                return RuleStatus.CAPTURE, point
-    return RuleStatus.OK
+                status = RuleStatus.CAPTURE
+
+    if status == RuleStatus.OK:
+        return status
+    return status, point
 
 
 def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
@@ -69,7 +74,8 @@ def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col, row - 1), (col, row - 2)]
+        point.append((col, row - 1))
+        point.append((col, row - 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -96,7 +102,8 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col, row + 1), (col, row + 2)]
+        point.append((col, row + 1))
+        point.append((col, row + 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -123,7 +130,8 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col - 1, row), (col - 2, row)]
+        point.append((col - 1, row))
+        point.append((col - 2, row))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -150,7 +158,8 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col + 1, row), (col + 2, row)]
+        point.append((col + 1, row))
+        point.append((col + 2, row))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -178,7 +187,8 @@ def __check_up_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col - 1, row - 1), (col - 2, row - 2)]
+        point.append((col - 1, row - 1))
+        point.append((col - 2, row - 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -206,7 +216,8 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col + 1, row - 1), (col + 2, row - 2)]
+        point.append((col + 1, row - 1))
+        point.append((col + 2, row - 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -234,7 +245,8 @@ def __check_down_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         inc += 1
 
     if line == goal:
-        point = [(col - 1, row + 1), (col - 2, row + 2)]
+        point.append((col - 1, row + 1))
+        point.append((col - 2, row + 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
@@ -261,7 +273,8 @@ def __check_down_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         x += 1
         inc += 1
     if line == goal:
-        point = [(col + 1, row + 1), (col + 2, row + 2)]
+        point.append((col + 1, row + 1))
+        point.append((col + 2, row + 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
         return CAPTURE.NO_UP
