@@ -7,7 +7,6 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-import copy
 import math
 
 from ft_gomoku import RuleStatus, rule
