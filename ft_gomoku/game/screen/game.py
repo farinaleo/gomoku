@@ -1,5 +1,10 @@
+from time import sleep
+
 import pygame
-from ft_gomoku.engine import Engine, get_image, set_titlescreen
+from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
+from .square import Square
+
+
 
 
 def handle_events(engine, events_list) -> str | bool:
@@ -18,14 +23,15 @@ def handle_events(engine, events_list) -> str | bool:
 
 def game_screen(engine: Engine):
 	set_titlescreen('Gomoku - Game')
+
 	while True:
 		events_list = []
+
+		engine.screen.fill((8, 26, 43))
+		draw_board(engine)
 		running = True
 
 		while running:
-			engine.screen.fill((8, 26, 43))
-			draw_board(engine)
-
 			result = handle_events(engine, events_list)
 			if result == 'quit':
 				return
@@ -34,11 +40,13 @@ def game_screen(engine: Engine):
 
 def draw_board(engine: Engine):
 	"""Draw the game board"""
-	image = get_image('grid_19x19.png', 2000, 2000)
-	image_width = 800
-	image_height = 800
-	ratio_width = engine.get_window_size()[0] / 1920
-	ratio_height = engine.get_window_size()[1] / 1080
-	image = pygame.transform.scale(image, (image_width * ratio_width, image_height * ratio_height))
-	image_rect = image.get_rect(center=(engine.get_window_size()[0] // 2, engine.get_window_size()[1] // 2))
-	engine.screen.blit(image, image_rect)
+	for i in range(19):
+		for j in range(19):
+			color = (10, 130, 141) if (i + j) % 2 == 0 else (12, 154, 165)
+			color_bottom = (12, 88, 95) if (i + j) % 2 == 0 else (9, 110, 119)
+			square = Square(j * 50, i * 50, color, color_bottom)
+			square.create_surface()
+			square.draw(engine.screen)
+			sleep(0.009)
+			pygame.display.update()
+
