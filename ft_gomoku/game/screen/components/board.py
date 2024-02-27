@@ -22,7 +22,9 @@ def draw_board(engine: Engine, size: int, sleep_time=0.0):
 def get_size_square(window_size: tuple, size: int) -> int:
 	"""Get the size of the square"""
 	ratio_square = window_size[1] / 1080
-	return int(50 * ratio_square)
+	ratio_nbr = 19 / size
+	print(int(50 * ratio_square * ratio_nbr))
+	return int(50 * ratio_square * ratio_nbr)
 
 
 def get_start_pos(window_size: tuple, size: int, square_size: int) -> tuple:

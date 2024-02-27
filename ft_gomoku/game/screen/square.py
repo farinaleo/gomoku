@@ -10,11 +10,13 @@ class Square:
 	window_size: tuple
 	square_id: int
 	square_size: int
+	square_surface: pygame.Surface = None
+	bottom_surface: pygame.Surface = None
 	rect_square: pygame.Rect = None
 	rect_bottom: pygame.Rect = None
 
 	def create_surface(self):
-		"""Create a surface for the square and set the rect"""
+		"""Create a rect for the square and bottom"""
 		self.rect_square = pygame.Rect(self.x, self.y,  self.square_size, self.square_size)
 		self.rect_bottom = pygame.Rect(self.x, self.y + self.square_size, self.square_size, self.square_size // 3)
 
@@ -22,5 +24,9 @@ class Square:
 		"""Draw the square on the screen"""
 		color_square = (10, 130, 141) if self.square_id % 2 == 0 else (12, 154, 165)
 		color_bottom = (12, 88, 95) if self.square_id % 2 == 0 else (9, 110, 119)
-		pygame.draw.rect(screen, color_square, self.rect_square)
-		pygame.draw.rect(screen, color_bottom, self.rect_bottom)
+		self.square_surface = pygame.Surface((self.square_size, self.square_size))
+		self.square_surface.fill(color_square)
+		self.bottom_surface = pygame.Surface((self.square_size, self.square_size // 3))
+		self.bottom_surface.fill(color_bottom)
+		screen.blit(self.square_surface, self.rect_square)
+		screen.blit(self.bottom_surface, self.rect_bottom)
