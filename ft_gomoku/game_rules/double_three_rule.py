@@ -49,8 +49,8 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	for line in lines:
 		cnt += __count_stone_trio_player_mid(line, player)
 
-	print(f'print cnt {cnt}')
-
+	if cnt > 1:
+		return RuleStatus.NO
 	return RuleStatus.OK
 
 
