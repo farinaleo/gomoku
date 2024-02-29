@@ -26,7 +26,7 @@ def game_screen(engine: Engine):
 		events_list = []
 
 		engine.screen.fill((8, 26, 43))
-		draw_board(engine, 3)
+		draw_board(engine, 18)
 		running = True
 
 		while running:

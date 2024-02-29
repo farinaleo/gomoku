@@ -14,7 +14,7 @@ def draw_board(engine: Engine, size: int, sleep_time=0.0):
 			square = Square((j * square_size) + start_x, (i * square_size + start_y), engine.get_window_size(), i + j, square_size)
 			square.create_surface()
 			square.draw(engine.screen)
-			get_rocks_pos((j * square_size) + start_x, (i * square_size + start_y), i, j, size, square_size, engine.screen)
+			get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size, engine.screen)
 			if sleep_time > 0:
 				pygame.display.update()
 				sleep(sleep_time)
@@ -24,8 +24,8 @@ def get_size_square(window_size: tuple, size: int) -> int:
 	"""Get the size of the square"""
 	ratio_square = window_size[1] / 1080
 	ratio_nbr = 19 / size
-	print(int(50 * ratio_square * ratio_nbr))
-	return int(50 * ratio_square * ratio_nbr)
+	print(int(40 * ratio_square * ratio_nbr))
+	return int(40 * ratio_square * ratio_nbr)
 
 
 def get_start_pos(window_size: tuple, size: int, square_size: int) -> tuple:
@@ -35,26 +35,11 @@ def get_start_pos(window_size: tuple, size: int, square_size: int) -> tuple:
 	return start_x, start_y
 
 
-def get_rocks_pos(x: int, y: int, i: int, j: int, size: int, square_size: int, screen: pygame.Surface):
-	print('Point: ', x, y)
-	tmp = pygame.Surface((square_size // 2, square_size // 2))
-	tmp1 = None
-	tmp2 = None
-	tmp3 = None
-	if j + 1 == size:
-		tmp1 = tmp2 = pygame.Surface((square_size // 2, square_size // 2))
-	if i + 1 == size:
-		tmp2 = pygame.Surface((square_size // 2, square_size // 2))
-		if j + 1 == size:
-			tmp3 = pygame.Surface((square_size // 2, square_size // 2))
-	pygame.draw.circle(tmp, (255, 255, 255), (square_size // 4, square_size // 4), square_size // 4)
-	screen.blit(tmp, (x - square_size // 4, y - square_size // 4))
-	if tmp1 is not None:
-		pygame.draw.circle(tmp1, (255, 255, 255), (square_size // 4, square_size // 4), square_size // 4)
-		screen.blit(tmp, (x + square_size - square_size // 4, y - square_size // 4))
-	if tmp2 is not None:
-		pygame.draw.circle(tmp2, (255, 255, 255), (square_size // 4, square_size // 4), square_size // 4)
-		screen.blit(tmp, (x - square_size // 4, y + square_size - square_size // 4))
-	if tmp3 is not None:
-		pygame.draw.circle(tmp3, (255, 255, 255), (square_size // 4, square_size // 4), square_size // 4)
-		screen.blit(tmp, (x + square_size - square_size // 4, y + square_size - square_size // 4))
+def get_rocks_pos(x: int, y: int, square_size: int, screen: pygame.Surface):
+	"""Get the position of the rocks"""
+	rocks_coord = [(x, y), (x + square_size, y), (x, y + square_size), (x + square_size, y + square_size)]
+	for coord in rocks_coord:
+		pygame.draw.circle(screen, (0, 0, 0), coord, 10)
+		pygame.draw.circle(screen, (255, 255, 255), coord, 8)
+
+
