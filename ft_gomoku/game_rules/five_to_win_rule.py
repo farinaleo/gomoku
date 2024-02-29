@@ -21,8 +21,7 @@ def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 	:param grid: the grid
 	:return: Rule status (WIN | OK | NO)
 	"""
-	goal = [player for _ in range(5)]
-	goal = ''.join(goal)
+	goal = f'{player}{player}{player}{player}{player}'
 	grid_tab = grid.get_grid()
 	if __check_row(row, goal, grid_tab) == RuleStatus.WIN:
 		return RuleStatus.WIN
