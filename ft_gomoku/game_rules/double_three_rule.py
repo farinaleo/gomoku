@@ -28,7 +28,7 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	lines = []
 	parts = []
 	size = grid.get_size()
-	grid_tab = grid.get_grid()
+	grid_tab = grid.get_line()
 	if capture(row, col, player, grid) == RuleStatus.CAPTURE:
 		return RuleStatus.OK
 
@@ -69,18 +69,18 @@ def __extract_column(col: int, row: int, size: int, grid, player):
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal = str(grid[y][x]) + diagonal
-		before = str(grid[y][x]) + before
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal = str(grid[x + y * size]) + diagonal
+		before = str(grid[x + y * size]) + before
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		after += str(grid[y][x])
+	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		after += str(grid[x + y * size])
 	x = col + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal += str(grid[y][x])
-		after += str(grid[y][x])
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal += str(grid[x + y * size])
+		after += str(grid[x + y * size])
 		x += 1
 		i += 1
 	return before, after, diagonal
@@ -101,18 +101,18 @@ def __extract_row(col: int, row: int, size: int, grid, player):
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal = str(grid[y][x]) + diagonal
-		before = str(grid[y][x]) + before
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal = str(grid[x + y * size]) + diagonal
+		before = str(grid[x + y * size]) + before
 		y -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		after += str(grid[y][x])
+	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		after += str(grid[x + y * size])
 	y = row + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal += str(grid[y][x])
-		after += str(grid[y][x])
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal += str(grid[x + y * size])
+		after += str(grid[x + y * size])
 		y += 1
 		i += 1
 	return before, after, diagonal
@@ -133,20 +133,20 @@ def __extract_diagonal1(col: int, row: int, size: int, grid, player):
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal = str(grid[y][x]) + diagonal
-		before = str(grid[y][x]) + before
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal = str(grid[x + y * size]) + diagonal
+		before = str(grid[x + y * size]) + before
 		y -= 1
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		after += str(grid[y][x])
+	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		after += str(grid[x + y * size])
 	x = col + 1
 	y = row + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal += str(grid[y][x])
-		after += str(grid[y][x])
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal += str(grid[x + y * size])
+		after += str(grid[x + y * size])
 		y += 1
 		x += 1
 		i += 1
@@ -168,20 +168,20 @@ def __extract_diagonal2(col: int, row: int, size: int, grid, player):
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal = str(grid[y][x]) + diagonal
-		before = str(grid[y][x]) + before
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal = str(grid[x + y * size]) + diagonal
+		before = str(grid[x + y * size]) + before
 		y += 1
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		after += str(grid[y][x])
+	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		after += str(grid[x + y * size])
 	x = col + 1
 	y = row - 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[y][x] == 0 or grid[y][x] == player):
-		diagonal += str(grid[y][x])
-		after += str(grid[y][x])
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
+		diagonal += str(grid[x + y * size])
+		after += str(grid[x + y * size])
 		y -= 1
 		x += 1
 		i += 1
