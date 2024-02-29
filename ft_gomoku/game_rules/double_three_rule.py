@@ -29,7 +29,7 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	parts = []
 	size = grid.get_size()
 	grid_tab = grid.get_grid()
-	if capture(row, col, player, grid, None) == RuleStatus.CAPTURE:
+	if capture(row, col, player, grid) == RuleStatus.CAPTURE:
 		return RuleStatus.OK
 
 	row_l = __extract_row(col, row, size, grid_tab, player)
