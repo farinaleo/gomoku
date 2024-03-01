@@ -49,9 +49,10 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	for line in lines:
 		cnt += __count_stone_trio_player_mid(line, player)
 
-	if cnt > 1:
+	if cnt >= 2:
 		return RuleStatus.NO
-	return RuleStatus.OK
+	else:
+		return RuleStatus.OK
 
 
 def __extract_column(col: int, row: int, size: int, grid, player):
@@ -74,8 +75,7 @@ def __extract_column(col: int, row: int, size: int, grid, player):
 		before = str(grid[x + y * size]) + before
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		after += str(grid[x + y * size])
+	after += str(player)
 	x = col + 1
 	i = 1
 	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
@@ -106,8 +106,7 @@ def __extract_row(col: int, row: int, size: int, grid, player):
 		before = str(grid[x + y * size]) + before
 		y -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		after += str(grid[x + y * size])
+	after += str(player)
 	y = row + 1
 	i = 1
 	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
@@ -139,8 +138,7 @@ def __extract_diagonal1(col: int, row: int, size: int, grid, player):
 		y -= 1
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		after += str(grid[x + y * size])
+	after += str(player)
 	x = col + 1
 	y = row + 1
 	i = 1
@@ -174,8 +172,7 @@ def __extract_diagonal2(col: int, row: int, size: int, grid, player):
 		y += 1
 		x -= 1
 		i += 1
-	if 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		after += str(grid[x + y * size])
+	after += str(player)
 	x = col + 1
 	y = row - 1
 	i = 1
@@ -196,15 +193,17 @@ def __count_stone_trio_player_start(line: str, player) -> int:
 	"""
 	size = len(line)
 
+	print(f'line tested {line}')
+
 	goal_32 = f'{player}{player}{player}00'
 	goal_33 = f'00{player}{player}{player}'
 	goal_211 = f'{player}{player}0{player}0'
 	goal_212 = f'0{player}{player}0{player}'
 	goal_121 = f'{player}0{player}{player}0'
 	goal_122 = f'0{player}0{player}{player}'
-	skip = f'{player}{player}{player}{player}' # a voir
+	skip = f'{player}{player}{player}{player}'
 
-	if size < 3:
+	if size <= 3:
 		return 0
 	if skip in line:
 		return 0
@@ -229,9 +228,9 @@ def __count_stone_trio_player_mid(line: str, player) -> int:
 	goal_31 = f'0{player}{player}{player}0'
 	goal_213 = f'0{player}{player}0{player}0'
 	goal_123 = f'0{player}0{player}{player}0'
-	skip = f'{player}{player}{player}{player}' # a voir
+	skip = f'{player}{player}{player}{player}'
 
-	if size < 3:
+	if size <= 3:
 		return 0
 	if skip in line:
 		return 0
