@@ -91,7 +91,7 @@ class Grid:
 			is allowed otherwise False [rule(row, col, player, grid) -> bool]
 		:return: True if rock was added else False
 		"""
-		if 0 <= row < self.__size and 0 <= col < self.__size and self.__grid[row][col] == 0:
+		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] == 0:
 			grid_cp = copy.deepcopy(self)
 			grid_cp.force_rock(col, row, player)
 			if rules is not None:
@@ -113,7 +113,7 @@ class Grid:
 		:param row: y coordinate
 		:return: rule Status
 		"""
-		if 0 <= row < self.__size and 0 <= col < self.__size and self.__grid[row][col] != 0:
+		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] != 0:
 			self.__grid[row][col] = 0
 			self.__line_grid[col + row * self.__size] = 0
 			return RuleStatus.OK
