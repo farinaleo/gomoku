@@ -23,30 +23,30 @@ def capture(row: int, col: int, player, grid):
     """
     status = RuleStatus.OK
     size = grid.get_size()
-    grid_tab = grid.get_grid()
+    grid_line = grid.get_line()
     p1, p2 = grid.get_player1(), grid.get_player2()
     goal = str(p1+p2+p2+p1) if player == p1 else str(p2+p1+p1+p2)
 
-    up = __check_up(row, col, goal, grid_tab, size)
-    down = __check_down(row, col, goal, grid_tab, size)
-    left = __check_left(row, col, goal, grid_tab, size)
-    right = __check_right(row, col, goal, grid_tab, size)
+    up = __check_up(row, col, goal, grid_line, size)
+    down = __check_down(row, col, goal, grid_line, size)
+    left = __check_left(row, col, goal, grid_line, size)
+    right = __check_right(row, col, goal, grid_line, size)
 
     if up == CAPTURE.CAPTURE or down == CAPTURE.CAPTURE or left == CAPTURE.CAPTURE or right == CAPTURE.CAPTURE:
         status = RuleStatus.CAPTURE
     elif up != CAPTURE.NO_UP:
         if left != CAPTURE.NO_LEFT:
-            if __check_up_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
+            if __check_up_left(row, col, goal, grid_line, size) == CAPTURE.CAPTURE:
                 status = RuleStatus.CAPTURE
         if right != CAPTURE.NO_RIGHT:
-            if __check_up_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
+            if __check_up_right(row, col, goal, grid_line, size) == CAPTURE.CAPTURE:
                 status = RuleStatus.CAPTURE
     if down != CAPTURE.NO_DOWN:
         if left != CAPTURE.NO_LEFT:
-            if __check_down_left(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
+            if __check_down_left(row, col, goal, grid_line, size) == CAPTURE.CAPTURE:
                 status = RuleStatus.CAPTURE
         if right != CAPTURE.NO_RIGHT:
-            if __check_down_right(row, col, goal, grid_tab, size) == CAPTURE.CAPTURE:
+            if __check_down_right(row, col, goal, grid_line, size) == CAPTURE.CAPTURE:
                 status = RuleStatus.CAPTURE
 
     if status == RuleStatus.OK:
@@ -69,7 +69,7 @@ def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y -= 1
         inc += 1
 
@@ -97,7 +97,7 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y += 1
         inc += 1
 
@@ -125,7 +125,7 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         x -= 1
         inc += 1
 
@@ -153,7 +153,7 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         x += 1
         inc += 1
 
@@ -181,7 +181,7 @@ def __check_up_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y -= 1
         x -= 1
         inc += 1
@@ -210,7 +210,7 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
 
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y -= 1
         x += 1
         inc += 1
@@ -239,7 +239,7 @@ def __check_down_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y += 1
         x -= 1
         inc += 1
@@ -268,7 +268,7 @@ def __check_down_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[y][x])
+        line += str(grid[x + y * size])
         y += 1
         x += 1
         inc += 1
