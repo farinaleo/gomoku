@@ -15,3 +15,4 @@ from .game_rules.ten_captures_to_win_rule import ten_capture_to_win
 from .game_rules.double_three_rule import double_three_forbidden
 from .data_structure import SettingsStruct
 from .grid.grid import Grid
+from .AI.next_generation import next_generation
