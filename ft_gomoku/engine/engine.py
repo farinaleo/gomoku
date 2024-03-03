@@ -25,7 +25,7 @@ class Engine:
     def init_engine(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.current_screen = 'game'
+        self.current_screen = 'main_menu'
         self.init_font()
         self.init_icon()
         self.load_settings()
