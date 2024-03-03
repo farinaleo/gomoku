@@ -20,6 +20,7 @@ class Engine:
         self.font = None
         self.favicon = None
         self.window_size = None
+        self.player_turn = 1
 
     def init_engine(self):
         pygame.init()
@@ -94,3 +95,4 @@ class Engine:
         size_ratio = window_size[0] / window_size[1]
         if size_ratio > 1.3 and (window_size[0] > 350 and window_size[1] > 350):
             self.window_size = (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+
