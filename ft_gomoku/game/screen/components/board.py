@@ -2,9 +2,10 @@ import pygame
 from time import sleep
 from ft_gomoku.engine import Engine
 from ft_gomoku.game.screen.square import Square
+from ft_gomoku.engine.image_control import get_image
 
 
-def draw_board(engine: Engine, size: int, sleep_time=0.0):
+def draw_board(engine: Engine, size: int, sleep_time=0.0) -> dict:
 	"""Draw the game board
 	:param engine: the game engine
 	:param size: the size of the board
@@ -19,10 +20,12 @@ def draw_board(engine: Engine, size: int, sleep_time=0.0):
 			square = Square((j * square_size) + start_x, (i * square_size + start_y), engine.get_window_size(), i + j, square_size)
 			square.create_surface()
 			square.draw(engine.screen)
-			coords_dict.update(get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size, engine.screen))
+			coords_dict.update(get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size))
+			# draw_all_rocks(engine.screen, coords_dict, (255, 255, 255), square_size // 4, 255)
 			if sleep_time > 0:
 				pygame.display.update()
 				sleep(sleep_time)
+	return coords_dict
 
 
 def get_size_square(window_size: tuple, size: int) -> int:
@@ -47,18 +50,18 @@ def get_start_pos(window_size: tuple, size: int, square_size: int) -> tuple:
 	return start_x, start_y
 
 
-def get_rocks_pos(x: int, y: int, square_size: int, screen: pygame.Surface) -> dict:
+def get_rocks_pos(x: int, y: int, square_size: int) -> dict:
 	"""Get the position of the rocks
 	:param x: the x position of the square
 	:param y: the y position of the square
 	:param square_size: the size of the square
-	:param screen: the pygame screen
 	"""
+	rocks_size = square_size
 	coords_dict = {
-		(x, y, square_size, square_size): (x, y),
-		(x + square_size, y, square_size, square_size): (x + square_size, y),
-		(x, y + square_size, square_size, square_size): (x, y + square_size),
-		(x + square_size, y + square_size, square_size, square_size): (x + square_size, y + square_size)
+		(x, y, rocks_size, rocks_size): (x, y),
+		(x + square_size, y, rocks_size, rocks_size): (x + square_size, y),
+		(x, y + square_size, rocks_size, rocks_size): (x, y + square_size),
+		(x + square_size, y + square_size, rocks_size, rocks_size): (x + square_size, y + square_size)
 	}
 	return coords_dict
 
@@ -75,6 +78,7 @@ def draw_transparent_circle(screen: pygame.Surface, color: tuple, pos: tuple, ra
 	pygame.draw.circle(tmp_surface, color+(alpha,), (radius, radius), radius)
 	screen.blit(tmp_surface, (pos[0]-radius, pos[1]-radius))
 
+
 # DEBUG FUNCTION
 # def draw_all_rocks(screen: pygame.Surface, coords_dict: dict, color: tuple, radius: int, alpha: int = 255):
 # 	"""Draw all the rocks on the screen
@@ -90,3 +94,18 @@ def draw_transparent_circle(screen: pygame.Surface, color: tuple, pos: tuple, ra
 # 		i += 1
 # 		draw_transparent_circle(screen, color, _, radius, alpha)
 # 	pygame.display.update()
+
+
+def place_rocks(screen: pygame.Surface, coords: tuple, player: int, radius: int):
+	"""Place the rocks on the screen
+	:param screen: the pygame screen
+	:param coords: the coordinates of the rocks
+	:param player: the player (1 or 2)
+	"""
+	rock_img = None
+	if player == 1:
+		rock_img = get_image('rocks_white.png', radius, radius)
+	else:
+		rock_img = get_image('rocks_black.png', radius, radius)
+	screen.blit(rock_img, (coords[0] - radius // 2, coords[1] - radius // 2))
+	pygame.display.update()
