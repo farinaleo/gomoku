@@ -44,7 +44,7 @@ class GameStruct:
 	def get_time(self):
 		return self.time
 
-	def get_size(self):
+	def get_board_size(self):
 		return self.grid_size
 
 	def get_player(self, player: int):

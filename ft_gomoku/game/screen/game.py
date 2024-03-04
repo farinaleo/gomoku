@@ -24,13 +24,21 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 
 
 def game_screen(engine: Engine):
+
+	# Set the title screen
 	set_titlescreen('Gomoku - Game')
+
+	# Set the game engine
 	game_engine = GameStruct(18, "Nolan", "Leo")
-	# start_time = pygame.time.get_ticks()
+
+	# Main loop
 	while True:
 		events_list = []
 		engine.screen.fill((8, 26, 43))
+
+		# Draw the board and get the possible rocks coordinates
 		rocks_coord = draw_board(engine, game_engine)
+		redraw_board(engine, game_engine)
 		running = True
 		while running:
 			result = handle_events(engine, events_list, rocks_coord, game_engine)
@@ -43,8 +51,7 @@ def game_screen(engine: Engine):
 			# engine.screen.blit(text, (10, 10))
 			pygame.display.update()
 			engine.clock.tick(engine.settings.get_fps())
-			sleep(1)
-			redraw_board(engine, game_engine)
+			# redraw_board(engine, game_engine)
 			# game_engine.update_time(1)
 
 

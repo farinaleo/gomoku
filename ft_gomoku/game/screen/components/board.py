@@ -6,31 +6,31 @@ from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
 
 
-def draw_board(engine: Engine, game_engine: GameStruct, sleep_time=0.0) -> dict:
+def draw_board(engine: Engine, game_engine: GameStruct) -> dict:
 	"""Draw the game board
 	:param engine: the game engine
 	:param game_engine: the game engine
-	:param sleep_time: the time to sleep between each square
+	:return: the coordinates of the rocks
 	"""
-	size = game_engine.get_size()
+	size = game_engine.get_board_size()
 	coords_dict = {}
+
+	# Get the size of the square
 	square_size = get_size_square(engine.get_window_size(), size)
+
+	# Get the start position of the board
 	start_x, start_y = get_start_pos(engine.get_window_size(), size, square_size)
 
 	for i in range(size):
 		for j in range(size):
-			print(j, i)
-			square = Square((j * square_size) + start_x, (i * square_size + start_y), engine.get_window_size(), i + j,
-			                square_size)
+
+			# Create the square and add it to the board
+			square = Square((j * square_size) + start_x, (i * square_size + start_y), engine.get_window_size(), i + j, square_size)
 			square.create_surface()
-			square.draw(engine.screen)
 			game_engine.add_square(square)
-			coords_dict.update(
-				get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size, j, i))
-			# draw_all_rocks(engine.screen, coords_dict, (255, 255, 255), square_size // 4, 255)
-			if sleep_time > 0:
-				pygame.display.update()
-				sleep(sleep_time)
+
+			# Add the rocks coordinates to the dictionary
+			coords_dict.update(get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size, j, i))
 	return coords_dict
 
 
@@ -38,6 +38,7 @@ def get_size_square(window_size: tuple, size: int) -> int:
 	"""Get the size of the square
 	:param window_size: the size of the window
 	:param size: the size of the board
+	:return: the size of the square
 	"""
 	ratio_square = window_size[1] / 1080
 	ratio_nbr = 19 / size
@@ -50,6 +51,7 @@ def get_start_pos(window_size: tuple, size: int, square_size: int) -> tuple:
 	:param window_size: the size of the window
 	:param size: the size of the board
 	:param square_size: the size of the square
+	:return: the start position of the board
 	"""
 	start_x = (window_size[0] - (square_size * size)) // 2
 	start_y = (window_size[1] - (square_size * size)) // 2
@@ -87,22 +89,6 @@ def draw_transparent_circle(screen: pygame.Surface, color: tuple, pos: tuple, ra
 	screen.blit(tmp_surface, (pos[0] - radius, pos[1] - radius))
 
 
-# DEBUG FUNCTION
-# def draw_all_rocks(screen: pygame.Surface, coords_dict: dict, color: tuple, radius: int, alpha: int = 255):
-# 	"""Draw all the rocks on the screen
-# 	:param screen: the pygame screen
-# 	:param coords_dict: the dictionary of the coordinates of the rocks
-# 	:param color: the color of the rocks
-# 	:param radius: the radius of the rocks
-# 	:param alpha: the alpha of the rocks (0-255)
-# 	"""
-# 	i = 1
-# 	for pos, _ in coords_dict.items():
-# 		print(i)
-# 		i += 1
-# 		draw_transparent_circle(screen, color, _, radius, alpha)
-# 	pygame.display.update()
-
 def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int):
 	"""Place the rocks on the screen
 	:param screen: the pygame screen
@@ -110,22 +96,40 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param coords: the coordinates of the rocks
 	:param radius: the radius of the rocks
 	"""
-	rock_img = None
+	print(coords)
 	player_turn = game_engine.get_player_turn()
-	print(player_turn)
-	if player_turn == game_engine.get_player(1):
+	game_engine.grid.force_rock(coords[1][0], coords[1][1], player_turn[1])
+	game_engine.update_player_turn()
+	draw_rocks(screen, game_engine, coords, radius, player_turn)
+	print(game_engine.grid.get_grid())
+	pygame.display.update()
+
+
+def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player):
+	"""Draw the rocks on the screen
+	:param screen: the pygame screen
+	:param game_engine: the game engine
+	:param coords: the coordinates of the rocks
+	:param radius: the radius of the rocks
+	:param player: the player
+	"""
+	rock_img = None
+	if player == game_engine.get_player(1):
 		rock_img = get_image('rocks_white.png', radius, radius)
 	else:
 		rock_img = get_image('rocks_black.png', radius, radius)
 	screen.blit(rock_img, (coords[0][0] - radius // 2, coords[0][1] - radius // 2))
-	print(coords)
-	game_engine.update_player_turn()
-	game_engine.grid.force_rock(coords[1][0], coords[1][1], player_turn[1])
-	print(game_engine.grid.get_grid())
 	pygame.display.update()
 
 
 def redraw_board(engine: Engine, game_engine: GameStruct):
 	for square in game_engine.board:
 		square.draw(engine.screen)
+	grid = game_engine.grid.get_grid()
+	for i in range(len(grid)):
+		for j in range(len(grid[i])):
+			if grid[i][j] == '1':
+				place_rocks(engine.screen, game_engine, ((i, j), (i, j)), 35)
+			elif grid[i][j] == '2':
+				place_rocks(engine.screen, game_engine, ((i, j), (i, j)), 35)
 
