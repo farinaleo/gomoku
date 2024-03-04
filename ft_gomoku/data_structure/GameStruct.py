@@ -14,8 +14,15 @@ class GameStruct:
 		self.player_turn = None
 		self.time = 0
 		self.board = []
+		self.last_move = [None, None, None]
 		self.random_player_turn()
 		print("Player turn", self.player_turn)
+
+	def get_last_move(self):
+		return self.last_move
+
+	def set_last_move(self, last_move):
+		self.last_move = last_move
 
 	def add_square(self, square):
 		self.board.append(square)

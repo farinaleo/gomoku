@@ -38,7 +38,7 @@ def game_screen(engine: Engine):
 
 		# Draw the board and get the possible rocks coordinates
 		rocks_coord = draw_board(engine, game_engine)
-		redraw_board(engine, game_engine)
+		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
 			result = handle_events(engine, events_list, rocks_coord, game_engine)
@@ -49,8 +49,11 @@ def game_screen(engine: Engine):
 			# seconds = elapsed_time / 1000.0
 			# text = font.render(f"Temps écoulé : {seconds:.2f} secondes", True, (0, 0, 0))
 			# engine.screen.blit(text, (10, 10))
-			pygame.display.update()
+			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
+				game_engine.set_last_move(game_engine.grid.get_last_move())
+				redraw_board(engine, game_engine, rocks_coord)
 			engine.clock.tick(engine.settings.get_fps())
+			pygame.display.update()
 			# redraw_board(engine, game_engine)
 			# game_engine.update_time(1)
 
@@ -62,9 +65,9 @@ def check_rocks_pos(rocks_coord: dict, mouse_pos: tuple, radius=15) -> tuple | N
 	:param radius: the radius of the rock
 	return: the rock position or None
 	"""
-	for _rect, _dict in rocks_coord.items():
-		dx = abs(_rect[0] - mouse_pos[0])
-		dy = abs(_rect[1] - mouse_pos[1])
+	for _coords, _board_coords in rocks_coord.items():
+		dx = abs(_board_coords[0] - mouse_pos[0])
+		dy = abs(_board_coords[1] - mouse_pos[1])
 		if dx <= radius and dy <= radius:
-			return _dict['coords'], (_dict['x'], _dict['y'])
+			return _coords, _board_coords
 	return None

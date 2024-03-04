@@ -68,10 +68,10 @@ def get_rocks_pos(x: int, y: int, square_size: int, g_x: int, g_y: int) -> dict:
 	"""
 	rocks_size = square_size
 	coords_dict = {
-		(x, y, rocks_size, rocks_size): {'coords': (x, y), 'y': g_y, 'x': g_x},
-		(x + square_size, y, rocks_size, rocks_size): {'coords': (x + square_size, y), 'y': g_y, 'x': g_x + 1},
-		(x, y + square_size, rocks_size, rocks_size): {'coords': (x, y + square_size), 'y': g_y + 1, 'x': g_x},
-		(x + square_size, y + square_size, rocks_size, rocks_size): {'coords': (x + square_size, y + square_size), 'y': g_y + 1, 'x': g_x + 1}
+		(g_x, g_y): (x, y),
+		(g_x + 1, g_y): (x + square_size, y),
+		(g_x, g_y + 1): (x, y + square_size),
+		(g_x + 1, g_y + 1): (x + square_size, y + square_size),
 	}
 	return coords_dict
 
@@ -96,16 +96,16 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param coords: the coordinates of the rocks
 	:param radius: the radius of the rocks
 	"""
-	print(coords)
+	print(coords[0])
 	player_turn = game_engine.get_player_turn()
-	game_engine.grid.force_rock(coords[1][0], coords[1][1], player_turn[1])
+	game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
 	game_engine.update_player_turn()
-	draw_rocks(screen, game_engine, coords, radius, player_turn)
+	# draw_rocks(screen, game_engine, coords, radius, player_turn[1])
 	print(game_engine.grid.get_grid())
 	pygame.display.update()
 
 
-def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player):
+def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: int):
 	"""Draw the rocks on the screen
 	:param screen: the pygame screen
 	:param game_engine: the game engine
@@ -114,22 +114,24 @@ def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, r
 	:param player: the player
 	"""
 	rock_img = None
-	if player == game_engine.get_player(1):
+	if player == '1':
 		rock_img = get_image('rocks_white.png', radius, radius)
 	else:
 		rock_img = get_image('rocks_black.png', radius, radius)
-	screen.blit(rock_img, (coords[0][0] - radius // 2, coords[0][1] - radius // 2))
-	pygame.display.update()
+
+	screen.blit(rock_img, (coords[0] - radius // 2, coords[1] - radius // 2))
 
 
-def redraw_board(engine: Engine, game_engine: GameStruct):
+def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
+	engine.screen.fill((8, 26, 43))
 	for square in game_engine.board:
 		square.draw(engine.screen)
 	grid = game_engine.grid.get_grid()
 	for i in range(len(grid)):
 		for j in range(len(grid[i])):
-			if grid[i][j] == '1':
-				place_rocks(engine.screen, game_engine, ((i, j), (i, j)), 35)
-			elif grid[i][j] == '2':
-				place_rocks(engine.screen, game_engine, ((i, j), (i, j)), 35)
+			value = grid[i][j]
+			if value is not 0:
+				coords = coords_dict[(j, i)]
+				print(coords)
+				draw_rocks(engine.screen, game_engine, coords, 35, value)
 
