@@ -6,7 +6,7 @@ from ft_gomoku.grid.grid import Grid
 @dataclass
 class GameStruct:
 	def __init__(self, size: int, player1, player2):
-		self.grid = Grid(size, player1, player2)
+		self.grid = Grid(size + 1, player1, player2)
 		self.player_1 = player1
 		self.player_2 = player2
 		self.grid_size = size
