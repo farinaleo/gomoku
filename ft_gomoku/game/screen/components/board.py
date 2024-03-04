@@ -6,12 +6,13 @@ from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
 
 
-def draw_board(engine: Engine, size: int, sleep_time=0.0) -> dict:
+def draw_board(engine: Engine, game_engine: GameStruct, sleep_time=0.0) -> dict:
 	"""Draw the game board
 	:param engine: the game engine
-	:param size: the size of the board
+	:param game_engine: the game engine
 	:param sleep_time: the time to sleep between each square
 	"""
+	size = game_engine.get_size()
 	coords_dict = {}
 	square_size = get_size_square(engine.get_window_size(), size)
 	start_x, start_y = get_start_pos(engine.get_window_size(), size, square_size)
@@ -23,6 +24,7 @@ def draw_board(engine: Engine, size: int, sleep_time=0.0) -> dict:
 			                square_size)
 			square.create_surface()
 			square.draw(engine.screen)
+			game_engine.add_square(square)
 			coords_dict.update(
 				get_rocks_pos((j * square_size + start_x), (i * square_size + start_y), square_size, j, i))
 			# draw_all_rocks(engine.screen, coords_dict, (255, 255, 255), square_size // 4, 255)
@@ -118,6 +120,12 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	screen.blit(rock_img, (coords[0][0] - radius // 2, coords[0][1] - radius // 2))
 	print(coords)
 	game_engine.update_player_turn()
-	game_engine.grid.force_rock(coords[1][0], coords[1][1], player_turn)
+	game_engine.grid.force_rock(coords[1][0], coords[1][1], player_turn[1])
 	print(game_engine.grid.get_grid())
 	pygame.display.update()
+
+
+def redraw_board(engine: Engine, game_engine: GameStruct):
+	for square in game_engine.board:
+		square.draw(engine.screen)
+

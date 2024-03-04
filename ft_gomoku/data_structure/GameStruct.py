@@ -6,13 +6,19 @@ from ft_gomoku.grid.grid import Grid
 @dataclass
 class GameStruct:
 	def __init__(self, size: int, player1, player2):
-		self.grid = Grid(size + 1, player1, player2)
-		self.player_1 = player1
-		self.player_2 = player2
+		self.grid = Grid(size + 1, player1[0], player2[1])
+		self.player_1 = (player1, '1')
+		self.player_2 = (player2, '2')
 		self.grid_size = size
 		self.game_mode = None
 		self.player_turn = None
 		self.time = 0
+		self.board = []
+		self.random_player_turn()
+		print("Player turn", self.player_turn)
+
+	def add_square(self, square):
+		self.board.append(square)
 
 	def set_game_mode(self, game_mode):
 		self.game_mode = game_mode
@@ -24,7 +30,7 @@ class GameStruct:
 		self.player_turn = player_turn
 
 	def update_player_turn(self):
-		self.player_turn = 2 if self.player_turn == 1 else 1
+		self.player_turn = self.player_2 if self.player_turn == self.player_1 else self.player_1
 
 	def get_player_turn(self):
 		return self.player_turn
@@ -49,4 +55,4 @@ class GameStruct:
 
 	def random_player_turn(self):
 		random_player = random.randint(1, 2)
-		self.set_player_turn(random_player)
+		self.player_turn = self.player_1 if random_player == 1 else self.player_2

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from ft_gomoku import SettingsStruct
+from ft_gomoku.data_structure.SettingsStruct import SettingsStruct
 import pygame
 import os
 
