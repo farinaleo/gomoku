@@ -8,6 +8,7 @@
 #  Copyright (c) 2024.
 
 import copy
+import numpy as np
 from dataclasses import dataclass
 from ft_gomoku import RuleStatus
 
@@ -23,12 +24,20 @@ class Grid:
 		if size is None or player1 is None or player2 is None or player1 == player2:
 			raise ValueError("Grid initialisation failed due to bad parameters")
 		self.__size = size
-		self.__grid = [[0 for _ in range(size)] for _ in range(size)]
-		self.__line_grid = [element for line in self.__grid for element in line]
-		self.__last_move = [None, None, None]
+		self.__grid = [['0' for _ in range(size)] for _ in range(size)]
+		self.__line_grid = np.array([element for line in self.__grid for element in line])
+		self.__history = []
 		self.__player1 = player1
 		self.__player2 = player2
 		self.__captured_stones = {player1: 0, player2: 0}
+
+	def __copy__(self):
+		new_grid = Grid(self.__size, self.__player1, self.__player2)
+		new_grid.__grid = [row[:] for row in self.__grid]
+		new_grid.__line_grid = [element for line in new_grid.__grid for element in line]
+		new_grid.__history = self.__history[:]
+		new_grid.__captured_stones = self.__captured_stones.copy()
+		return new_grid
 
 	def __str__(self):
 		"""Return a string representation of the grid
@@ -54,11 +63,31 @@ class Grid:
 		"""
 		return self.__line_grid
 
-	def get_last_move(self):
-		""" Return the last move played
-		:return: [Player, x, y]
+	def get_last_move(self, player=None, i=1):
+		""" Return the last move played if the player is not specified,
+		otherwise return the player last move.
+		:param player: The player to search
+		:param i: The index of the move (1 for the last, 2 for the last -1, ...)
+		:return: [Player, x, y] | None if no move found
 		"""
-		return self.__last_move
+		cnt = 0
+		if player is None:
+			return self.__history[-1]
+		else:
+			for move in reversed(self.__history):
+				if move[0] == player:
+					cnt += 1
+					if cnt == i:
+						return move
+		return None
+
+	def __add_move(self, player, x, y):
+		"""Add a move to the history.
+		:param player: The player who did the move
+		:param x: The coordinate of the move
+		:param y: The coordinate of the move
+		"""
+		self.__history.append((player, x, y))
 
 	def get_player1(self):
 		""" Return the player1
@@ -91,8 +120,8 @@ class Grid:
 			is allowed otherwise False [rule(row, col, player, grid) -> bool]
 		:return: True if rock was added else False
 		"""
-		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] == 0:
-			grid_cp = copy.deepcopy(self)
+		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] == '0':
+			grid_cp = self.__copy__()
 			grid_cp.force_rock(col, row, player)
 			if rules is not None:
 				for rule in rules:
@@ -113,9 +142,9 @@ class Grid:
 		:param row: y coordinate
 		:return: rule Status
 		"""
-		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] != 0:
-			self.__grid[row][col] = 0
-			self.__line_grid[col + row * self.__size] = 0
+		if 0 <= row < self.__size and 0 <= col < self.__size and self.__line_grid[col + row * self.__size] != '0':
+			self.__grid[row][col] = '0'
+			self.__line_grid[col + row * self.__size] = '0'
 			return RuleStatus.OK
 		return RuleStatus.NO
 
@@ -128,7 +157,7 @@ class Grid:
 		"""
 		self.__grid[row][col] = player
 		self.__line_grid[col + row * self.__size] = player
-		self.__last_move = [player, col, row]
+		self.__add_move(player, col, row)
 		return RuleStatus.OK
 
 	def cnt_capture(self, player, nb_stones: int):
