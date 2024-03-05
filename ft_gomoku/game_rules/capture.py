@@ -21,6 +21,8 @@ def capture(row: int, col: int, player, grid):
     :param grid: the grid
     :return: Rule status (CAPTURE | NO)
     """
+    global point
+    point = []
     status = RuleStatus.OK
     size = grid.get_size()
     grid_line = grid.get_line()
@@ -69,9 +71,9 @@ def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col, row - 1))
@@ -97,9 +99,9 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col, row + 1))
@@ -125,9 +127,9 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        x -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row))
@@ -153,9 +155,9 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        x += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        x = x + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col + 1, row))
@@ -181,10 +183,10 @@ def __check_up_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        x -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y - 1
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row - 1))
@@ -210,10 +212,10 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
 
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        x += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y - 1
+        x = x + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col + 1, row - 1))
@@ -239,10 +241,10 @@ def __check_down_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        x -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y + 1
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row + 1))
@@ -268,10 +270,10 @@ def __check_down_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        x += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y + 1
+        x = x + 1
+        inc = inc + 1
     if line == goal:
         point.append((col + 1, row + 1))
         point.append((col + 2, row + 2))

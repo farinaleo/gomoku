@@ -7,8 +7,6 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-import math
-
 from ft_gomoku import RuleStatus, rule
 
 
@@ -71,22 +69,17 @@ def __check_diagonal1(row: int, col: int, goal, grid) -> RuleStatus:
 	:param grid: grid to analyse
 	:return: Rule status (WIN | NO)
 	"""
-	max_v = max(row, col)
-	y = row - max_v
-	x = col - max_v
+	x = col
+	y = row
 	size = len(grid)
-	diagonal = ''
-	if y < 0:
-		y += int(math.fabs(y))
-		x += int(math.fabs(y))
-	elif x < 0:
-		x += int(math.fabs(x))
-		y += int(math.fabs(x))
+	while 0 <= y < size and 0 <= x < size:
+		y = y - 1
+		x = x - 1
+	y = y + 1
+	x = x + 1
 
-	while y < size and x < size:
-		diagonal += str(grid[y][x])
-		y += 1
-		x += 1
+	diagonal = ''.join([str(grid[y + i][x + i]) for i in range(min(size - y, size - x))])
+
 	if goal in diagonal:
 		return RuleStatus.WIN
 	return RuleStatus.NO
@@ -103,16 +96,14 @@ def __check_diagonal2(row: int, col: int, goal, grid) -> RuleStatus:
 	x = col
 	y = row
 	size = len(grid)
-	diagonal = ''
 	while 0 <= y < size and 0 <= x < size:
-		y += 1
-		x -= 1
-	y -= 1
-	x += 1
-	while 0 <= y < size and 0 <= x < size:
-		diagonal += str(grid[y][x])
-		y -= 1
-		x += 1
+		y = y + 1
+		x = x - 1
+	y = y - 1
+	x = x + 1
+
+	diagonal = ''.join([str(grid[y - i][x + i]) for i in range(min(y + 1, size - x))])
+
 	if goal in diagonal:
 		return RuleStatus.WIN
 	return RuleStatus.NO

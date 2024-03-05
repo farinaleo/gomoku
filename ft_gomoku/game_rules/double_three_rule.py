@@ -8,8 +8,6 @@
 #  Copyright (c) 2024.
 
 
-import math
-
 from ft_gomoku import RuleStatus, rule, capture
 
 extract_size = 6
@@ -37,17 +35,21 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	diag1_l = __extract_diagonal1(col, row, size, grid_tab, player)
 	diag2_l = __extract_diagonal2(col, row, size, grid_tab, player)
 
-	parts.extend(row_l[0:2])
-	parts.extend(col_l[0:2])
-	parts.extend(diag1_l[0:2])
-	parts.extend(diag2_l[0:2])
+	parts.extend(row_l[:2])
+	parts.extend(col_l[:2])
+	parts.extend(diag1_l[:2])
+	parts.extend(diag2_l[:2])
 
 	lines.extend([row_l[2], col_l[2], diag1_l[2], diag2_l[2]])
 
-	for line in parts:
-		cnt += __count_stone_trio_player_start(line, player)
-	for line in lines:
-		cnt += __count_stone_trio_player_mid(line, player)
+	i = 0
+	while i < 8:
+		cnt = cnt + __count_stone_trio_player_start(parts[i], player)
+		i = i + 1
+	i = 0
+	while i < 4:
+		cnt = cnt + __count_stone_trio_player_mid(lines[i], player)
+		i = i + 1
 
 	if cnt >= 2:
 		return RuleStatus.NO
@@ -66,24 +68,26 @@ def __extract_column(col: int, row: int, size: int, grid, player):
 	"""
 	x = col
 	y = row
-	diagonal = ''
+	total = ''
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal = str(grid[x + y * size]) + diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = str(grid[x + y * size]) + total
 		before = str(grid[x + y * size]) + before
-		x -= 1
-		i += 1
-	after += str(player)
+		x = x - 1
+		i = i + 1
+	after = after + str(player)
 	x = col + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal += str(grid[x + y * size])
-		after += str(grid[x + y * size])
-		x += 1
-		i += 1
-	return before, after, diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = total + str(grid[x + y * size])
+		after = after + str(grid[x + y * size])
+		x = x + 1
+		i = i + 1
+	if before.count(player) < 2 or after.count(player) < 2:
+		total = ''
+	return before, after, total
 
 
 def __extract_row(col: int, row: int, size: int, grid, player):
@@ -97,24 +101,26 @@ def __extract_row(col: int, row: int, size: int, grid, player):
 	"""
 	x = col
 	y = row
-	diagonal = ''
+	total = ''
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal = str(grid[x + y * size]) + diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = str(grid[x + y * size]) + total
 		before = str(grid[x + y * size]) + before
-		y -= 1
-		i += 1
-	after += str(player)
+		y = y - 1
+		i = i + 1
+	after = after + str(player)
 	y = row + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal += str(grid[x + y * size])
-		after += str(grid[x + y * size])
-		y += 1
-		i += 1
-	return before, after, diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = total + str(grid[x + y * size])
+		after = after + str(grid[x + y * size])
+		y = y + 1
+		i = i + 1
+	if before.count(player) < 2 or after.count(player) < 2:
+		total = ''
+	return before, after, total
 
 
 def __extract_diagonal1(col: int, row: int, size: int, grid, player):
@@ -128,27 +134,29 @@ def __extract_diagonal1(col: int, row: int, size: int, grid, player):
 	"""
 	x = col
 	y = row
-	diagonal = ''
+	total = ''
 	before = ''
 	after = ''
 	i = 0
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal = str(grid[x + y * size]) + diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = str(grid[x + y * size]) + total
 		before = str(grid[x + y * size]) + before
-		y -= 1
-		x -= 1
-		i += 1
-	after += str(player)
+		y = y - 1
+		x = x - 1
+		i = i + 1
+	after = after + str(player)
 	x = col + 1
 	y = row + 1
 	i = 1
-	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal += str(grid[x + y * size])
-		after += str(grid[x + y * size])
-		y += 1
-		x += 1
-		i += 1
-	return before, after, diagonal
+	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == '0' or grid[x + y * size] == player):
+		total = total + str(grid[x + y * size])
+		after = after + str(grid[x + y * size])
+		y = y + 1
+		x = x + 1
+		i = i + 1
+	if before.count(player) < 2 or after.count(player) < 2:
+		total = ''
+	return before, after, total
 
 
 def __extract_diagonal2(col: int, row: int, size: int, grid, player):
@@ -162,27 +170,29 @@ def __extract_diagonal2(col: int, row: int, size: int, grid, player):
 	"""
 	x = col
 	y = row
-	diagonal = ''
+	total = ''
 	before = ''
 	after = ''
 	i = 0
 	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal = str(grid[x + y * size]) + diagonal
+		total = str(grid[x + y * size]) + total
 		before = str(grid[x + y * size]) + before
-		y += 1
-		x -= 1
-		i += 1
-	after += str(player)
+		y = y + 1
+		x = x - 1
+		i = i + 1
+	after = after + str(player)
 	x = col + 1
 	y = row - 1
 	i = 1
 	while 0 <= y < size and 0 <= x < size and i < extract_size and (grid[x + y * size] == 0 or grid[x + y * size] == player):
-		diagonal += str(grid[x + y * size])
-		after += str(grid[x + y * size])
-		y -= 1
-		x += 1
-		i += 1
-	return before, after, diagonal
+		total = total + str(grid[x + y * size])
+		after = after + str(grid[x + y * size])
+		y = y - 1
+		x = x + 1
+		i = i + 1
+	if before.count(player) < 2 or after.count(player) < 2:
+		total = ''
+	return before, after, total
 
 
 def __count_stone_trio_player_start(line: str, player) -> int:
@@ -192,8 +202,6 @@ def __count_stone_trio_player_start(line: str, player) -> int:
 	:return: the count
 	"""
 	size = len(line)
-
-	print(f'line tested {line}')
 
 	goal_32 = f'{player}{player}{player}00'
 	goal_33 = f'00{player}{player}{player}'
