@@ -108,3 +108,10 @@ def test_3_3():
 	grid.add_rock(11, 11, 'q', [])
 
 	assert grid.add_rock(8, 8, 'q', [gmk.double_three_forbidden]) == gmk.RuleStatus.OK
+
+def test_4_1(): # one three
+	grid = gmk.Grid(19, 'a', 'q')
+	grid.add_rock(8, 5, 'q', [])
+	grid.add_rock(8, 6, 'q', [])
+
+	assert grid.add_rock(8, 8, 'q', [gmk.double_three_forbidden]) == gmk.RuleStatus.OK

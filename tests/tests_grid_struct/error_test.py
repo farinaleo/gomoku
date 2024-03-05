@@ -18,7 +18,7 @@ def test_1():
 
 def test_2():
 	grid = Grid(3, 'a', 'q')
-	res_tab = [['a', 0, 0], [0, 0, 0], [0, 0, 0]]
+	res_tab = [['a', '0', '0'], ['0', '0', '0'], ['0', '0', '0']]
 	grid.add_rock(0, 0, 'a', None)
 	grid.add_rock(0, 0, 'q', None)
 	assert grid.get_grid() == res_tab

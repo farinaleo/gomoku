@@ -20,6 +20,29 @@ def test_col1():
 	assert grid.add_rock(3, 3, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
 
 
+def test_col11():
+	grid = gmk.Grid(19, 'a', 'q')
+	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
+	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
+	grid.add_rock(1, 1, 'q', [gmk.five_to_win])
+	grid.add_rock(2, 2, 'q', [gmk.five_to_win])
+	grid.add_rock(3, 3, 'q', [gmk.five_to_win])
+	grid.add_rock(5, 5, 'q', [gmk.five_to_win])
+	grid.add_rock(6, 6, 'q', [gmk.five_to_win])
+	assert grid.add_rock(4, 4, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
+
+
+def test_col12():
+	grid = gmk.Grid(19, 'a', 'q')
+	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
+	grid.add_rock(0, 0, 'q', [gmk.five_to_win])
+	grid.add_rock(1, 1, 'q', [gmk.five_to_win])
+	grid.add_rock(2, 2, 'q', [gmk.five_to_win])
+	grid.add_rock(3, 3, 'q', [gmk.five_to_win])
+	grid.add_rock(5, 5, 'q', [gmk.five_to_win])
+	assert grid.add_rock(4, 4, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
+
+
 def test_col2():
 	grid = gmk.Grid(19, 'a', 'q')
 	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
@@ -28,6 +51,16 @@ def test_col2():
 	grid.add_rock(2, 2, 'q', [gmk.five_to_win])
 	grid.add_rock(1, 3, 'q', [gmk.five_to_win])
 	assert grid.add_rock(0, 4, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
+
+
+def test_col21():
+	grid = gmk.Grid(19, 'a', 'q')
+	grid.add_rock(8, 0, 'q', [gmk.five_to_win])
+	grid.add_rock(0, 4, 'q', [gmk.five_to_win])
+	grid.add_rock(3, 1, 'q', [gmk.five_to_win])
+	grid.add_rock(2, 2, 'q', [gmk.five_to_win])
+	grid.add_rock(1, 3, 'q', [gmk.five_to_win])
+	assert grid.add_rock(4, 0, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
 
 
 def test_row():
