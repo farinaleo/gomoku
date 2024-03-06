@@ -17,9 +17,12 @@ def play_sound(sound_file: str):
     :param sound_file: sound file name.
     """
     path = os.path.join('ft_gomoku', 'assets', 'music', sound_file)
-    pygame.mixer.Sound(path).play(1)
+    sound = pygame.mixer.Sound(path)
+    sound.set_volume(0.1)
+    sound.play()
+    sound.set_volume(1)
 
 
 def stop_sound():
     """Stop sound file."""
-    pygame.mixer.stop()
+    pygame.mixer.music.stop()
