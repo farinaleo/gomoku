@@ -4,6 +4,7 @@ from ft_gomoku.engine import Engine
 from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
+from ft_gomoku.game.screen.animations import anim_place_rock
 
 
 def draw_board(engine: Engine, game_engine: GameStruct) -> dict:
@@ -76,19 +77,6 @@ def get_rocks_pos(x: int, y: int, square_size: int, g_x: int, g_y: int) -> dict:
 	return coords_dict
 
 
-def draw_transparent_circle(screen: pygame.Surface, color: tuple, pos: tuple, radius: int, alpha: int = 100):
-	"""Draw a transparent circle on the screen
-	:param screen: the pygame screen
-	:param color: the color of the circle
-	:param pos: the position (x, y) of the circle
-	:param radius: the radius of the circle
-	:param alpha: the alpha of the circle (0-255)
-	"""
-	tmp_surface = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
-	pygame.draw.circle(tmp_surface, color + (alpha,), (radius, radius), radius)
-	screen.blit(tmp_surface, (pos[0] - radius, pos[1] - radius))
-
-
 def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int):
 	"""Place the rocks on the screen
 	:param screen: the pygame screen
@@ -100,7 +88,8 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	player_turn = game_engine.get_player_turn()
 	game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
 	game_engine.update_player_turn()
-	# draw_rocks(screen, game_engine, coords, radius, player_turn[1])
+	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
+	# draw_rocks(screen, game_engine, engine, coords, radius, player_turn[1])
 	print(game_engine.grid.get_grid())
 	pygame.display.update()
 

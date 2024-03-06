@@ -2,8 +2,9 @@ from math import sqrt
 from time import sleep
 
 import pygame
+import time
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
-from ft_gomoku.game.screen.components import draw_board, draw_transparent_circle, place_rocks, redraw_board
+from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 
@@ -23,41 +24,6 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 	return True
 
 
-def game_screen(engine: Engine):
-
-	# Set the title screen
-	set_titlescreen('Gomoku - Game')
-
-	# Set the game engine
-	game_engine = GameStruct(18, "Nolan", "Leo")
-
-	# Main loop
-	while True:
-		events_list = []
-		engine.screen.fill((8, 26, 43))
-
-		# Draw the board and get the possible rocks coordinates
-		rocks_coord = draw_board(engine, game_engine)
-		redraw_board(engine, game_engine, rocks_coord)
-		running = True
-		while running:
-			result = handle_events(engine, events_list, rocks_coord, game_engine)
-			if result == 'quit':
-				return
-			# font = pygame.font.Font(None, 36)
-			# elapsed_time = pygame.time.get_ticks() - start_time
-			# seconds = elapsed_time / 1000.0
-			# text = font.render(f"Temps écoulé : {seconds:.2f} secondes", True, (0, 0, 0))
-			# engine.screen.blit(text, (10, 10))
-			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
-				game_engine.set_last_move(game_engine.grid.get_last_move())
-				redraw_board(engine, game_engine, rocks_coord)
-			engine.clock.tick(engine.settings.get_fps())
-			pygame.display.update()
-			# redraw_board(engine, game_engine)
-			# game_engine.update_time(1)
-
-
 def check_rocks_pos(rocks_coord: dict, mouse_pos: tuple, radius=15) -> tuple | None:
 	"""Check if the mouse is on a rock
 	:param rocks_coord: the rocks coordinates
@@ -71,3 +37,56 @@ def check_rocks_pos(rocks_coord: dict, mouse_pos: tuple, radius=15) -> tuple | N
 		if dx <= radius and dy <= radius:
 			return _coords, _board_coords
 	return None
+
+
+def show_timer(engine: Engine, game_engine: GameStruct):
+	"""Show the timer
+	:param engine: the game engine
+	:param game_engine: the game engine
+	"""
+	elapsed_time = int(time.time() - game_engine.get_time())
+
+	# Create the text
+	font = pygame.font.Font(None, 36)
+	text = font.render(f"Time : {elapsed_time} seconds", True, (255, 255, 255))
+	text_rect = text.get_rect(topleft=(10, 10))
+
+	# Fill a rectangle with the background color to clean screen
+	pygame.draw.rect(engine.screen, (8, 26, 43), text_rect)
+
+	engine.screen.blit(text, (10, 10))
+
+
+def game_screen(engine: Engine):
+
+	# Stop music
+	stop_sound()
+
+	# Set the title screen
+	set_titlescreen('Gomoku - Game')
+
+	# Set the game engine
+	game_engine = GameStruct(18, "Nolan", "Leo")
+
+	# Set timer
+	game_engine.set_time(time.time())
+
+	# Main loop
+	while True:
+		events_list = []
+		engine.screen.fill((8, 26, 43))
+
+		# Draw the board and get the possible rocks coordinates
+		rocks_coord = draw_board(engine, game_engine)
+		redraw_board(engine, game_engine, rocks_coord)
+		running = True
+		while running:
+			show_timer(engine, game_engine)
+			result = handle_events(engine, events_list, rocks_coord, game_engine)
+			if result == 'quit':
+				return
+			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
+				game_engine.set_last_move(game_engine.grid.get_last_move())
+				redraw_board(engine, game_engine, rocks_coord)
+			engine.clock.tick(engine.settings.get_fps())
+			pygame.display.update()
