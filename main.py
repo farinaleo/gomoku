@@ -1,7 +1,7 @@
 from ft_gomoku import SettingsStruct
 from ft_gomoku import Engine
 import pygame
-from ft_gomoku import main_menu, game_screen
+from ft_gomoku import main_menu, game_screen, tutorial_screen
 
 
 def main():
@@ -12,6 +12,8 @@ def main():
 			main_menu(engine)
 		if engine.get_current_screen() == 'game':
 			game_screen(engine)
+		if engine.get_current_screen() == 'tutorial':
+			tutorial_screen(engine)
 		if engine.get_current_screen() is None:
 			break
 	print('Exiting')

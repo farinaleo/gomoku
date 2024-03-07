@@ -85,7 +85,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param coords: the coordinates of the rocks
 	:param radius: the radius of the rocks
 	"""
-	print(coords[0])
+	print('ADSA', coords)
 	player_turn = game_engine.get_player_turn()
 	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], None)
 	print(result)
@@ -98,6 +98,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 		pygame.time.wait(500)
 		return
 	game_engine.update_player_turn()
+
 	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 	# draw_rocks(screen, game_engine, engine, coords, radius, player_turn[1])
 	# print(game_engine.grid.get_grid())

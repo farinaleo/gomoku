@@ -17,5 +17,6 @@ from .data_structure import SettingsStruct
 from .engine import Engine
 from .game import main_menu
 from .game import game_screen
+from .game import tutorial_screen
 from .grid.grid import Grid
 from .AI.next_generation import next_generation
