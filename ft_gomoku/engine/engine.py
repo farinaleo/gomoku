@@ -42,7 +42,7 @@ class Engine:
 
     def update_settings(self): # a voir
         self.screen = pygame.display.set_mode(self.get_window_size(),
-                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else pygame.RESIZABLE)
+                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
 
     def save_settings(self):
         if self.settings is not None:
@@ -65,7 +65,7 @@ class Engine:
         self.settings.set_fullscreen(not self.settings.get_fullscreen())
         self.window_size = self.settings.get_window_size()
         self.screen = pygame.display.set_mode(self.settings.get_window_size(),
-                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else pygame.RESIZABLE)
+                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
 
     def get_music(self):
         return self.settings.get_music()
