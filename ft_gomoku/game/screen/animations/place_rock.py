@@ -14,10 +14,10 @@ def anim_place_rock(screen: pygame.Surface, game_engine: GameStruct, coords: tup
 
 	sound = ('explode' + str(randint(1, 5)) + '.mp3')
 	play_sound(sound)
-	for i in range(1, 10):
+	for i in range(1, 16):
+		rock_img.set_alpha(i * 17)
 		screen.blit(rock_img, (coords[0] - radius // 2, coords[1] - radius // 2))
 		pygame.display.update()
-		rock_img.set_alpha(i * 25)
-		pygame.time.wait(30)
+		pygame.time.wait(20)
 	pygame.display.update()
 
