@@ -49,6 +49,10 @@ class SettingsStruct:
         return self.__window_size[1]
 
     def set_window_size(self, width: int, height: int):
+        """set window size in the settings
+        :param width: width of the window
+        :param height: height of the window
+        """
         self.__window_size = [width, height]
 
     def save(self) -> bool:
@@ -75,10 +79,10 @@ class SettingsStruct:
 
     def load_default_settings(self):
         """load default settings."""
-        self.set_fps(30)
+        self.set_fps(60)
         self.set_music(True)
         self.set_fullscreen(False)
-        self.set_window_size(1280, 720)
+        self.set_window_size(1920, 1080)
         print('default settings loaded')
 
     def load(self):

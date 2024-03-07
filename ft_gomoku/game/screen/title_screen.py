@@ -6,11 +6,7 @@ from ft_gomoku.game.screen.components import mute_button, mute_action, maximize_
 
 def handle_events(engine, events_list) -> str | bool:
     for event in pygame.event.get():
-        if event.type in [pygame.VIDEORESIZE]:
-            if not engine.settings.get_fullscreen():
-                engine.update_screen_size()
-                return 'restart'
-        elif event.type in [pygame.KEYDOWN, pygame.QUIT]:
+        if event.type in [pygame.KEYDOWN, pygame.QUIT]:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
                 engine.set_running(False)
                 return 'quit'

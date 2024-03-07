@@ -20,7 +20,7 @@ class Engine:
         self.font = None
         self.favicon = None
         self.window_size = None
-        self.player_turn = 1
+        self.player_turn = None
 
     def init_engine(self):
         pygame.init()
@@ -35,51 +35,42 @@ class Engine:
         self.settings = SettingsStruct()
         self.settings.load()
         self.window_size = self.settings.get_window_size()
-        self.update_settings()
+        self.screen = pygame.display.set_mode(self.get_window_size(), pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
         if not self.settings.get_music():
             pygame.mixer.music.set_volume(0)
-        self.settings.print() # Debug only
-
-    def update_settings(self): # a voir
-        self.screen = pygame.display.set_mode(self.get_window_size(),
-                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
-
-    def save_settings(self):
-        if self.settings is not None:
-            self.settings.save()
+        self.settings.print() # TODO: remove this line
 
     def change_screen(self, screen):
+        """Change the current screen to the one passed as argument.
+        :param screen: str
+        """
         self.current_screen = screen
 
-    def get_current_screen(self):
-        return self.current_screen
-
-    def get_ticks(self):
-        return pygame.time.get_ticks()# a verifi
-
     def mute(self):
+        """mute the music. If the music is already muted, it will be unmuted."""
         self.settings.set_music(not self.settings.get_music())
         pygame.mixer.music.set_volume(int(self.settings.get_music()))
 
     def maximize(self):
+        """maximize the window. If the window is already maximized, it will be minimized."""
         self.settings.set_fullscreen(not self.settings.get_fullscreen())
         self.window_size = self.settings.get_window_size()
         self.screen = pygame.display.set_mode(self.settings.get_window_size(),
                                               pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
 
-    def get_music(self):
-        return self.settings.get_music()
-
     def init_font(self):
         """Initialize the font"""
         pygame.font.init()
-        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 20)
+        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 20) # TODO: dynamic size
 
     def init_icon(self):
         """Initialize the icon of the window"""
         image_path = os.path.join('ft_gomoku', 'assets', 'img', 'logo_favicon.png')
         self.favicon = pygame.image.load(image_path)
         pygame.display.set_icon(self.favicon)
+
+    def get_music(self):
+        return self.settings.get_music()
 
     def set_running(self, running):
         self.running = running
@@ -90,9 +81,9 @@ class Engine:
     def get_window_size(self):
         return self.window_size
 
-    def update_screen_size(self):
-        window_size = pygame.display.get_window_size()
-        size_ratio = window_size[0] / window_size[1]
-        if size_ratio > 1.3 and (window_size[0] > 350 and window_size[1] > 350):
-            self.window_size = (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+    def get_current_screen(self):
+        return self.current_screen
 
+    def save_settings(self):
+        if self.settings is not None:
+            self.settings.save()
