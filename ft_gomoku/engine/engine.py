@@ -47,7 +47,7 @@ class Engine:
         self.current_screen = screen
 
     def mute(self):
-        """mute the music. If the music is already muted, it will be unmuted."""
+        """mute the music. If the music is already muted, it will be unmute."""
         self.settings.set_music(not self.settings.get_music())
         pygame.mixer.music.set_volume(int(self.settings.get_music()))
 
