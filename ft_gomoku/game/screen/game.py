@@ -66,6 +66,7 @@ def game_screen(engine: Engine):
 
 	# Set the game engine
 	game_engine = GameStruct(18, "Nolan", "Leo")
+	game_engine.init_img(35)
 
 	# Set timer
 	game_engine.set_time(time.time())

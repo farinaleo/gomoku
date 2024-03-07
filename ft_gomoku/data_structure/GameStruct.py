@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass
 from ft_gomoku.grid.grid import Grid
+from ft_gomoku.engine.image_control import get_image
 
 
 @dataclass
@@ -16,7 +17,23 @@ class GameStruct:
 		self.board = []
 		self.last_move = [None, None, None]
 		self.random_player_turn()
+		self.rock_white_img = None
+		self.rock_black_img = None
+		self.rock_white_last_img = None
+		self.rock_black_last_img = None
 		print("Player turn", self.player_turn)
+
+	def init_img(self, radius: int):
+		self.rock_white_img = get_image('rocks_white.png', radius, radius)
+		self.rock_black_img = get_image('rocks_black.png', radius, radius)
+		self.rock_black_last_img = get_image('rocks_black_last.png', radius, radius)
+		self.rock_white_last_img = get_image('rocks_white_last.png', radius, radius)
+
+	def get_rocks_img(self, player: int, last: bool):
+		if player == '1':
+			return self.rock_white_last_img if last else self.rock_white_img
+		else:
+			return self.rock_black_last_img if last else self.rock_black_img
 
 	def get_last_move(self):
 		return self.last_move

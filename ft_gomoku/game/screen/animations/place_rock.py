@@ -8,12 +8,7 @@ from ft_gomoku.data_structure.GameStruct import GameStruct
 def anim_place_rock(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: int):
 	"""Animate the rock placement
 	"""
-	rock_img = None
-	if player == '1':
-		rock_img = get_image('rocks_white.png', radius, radius)
-	else:
-		rock_img = get_image('rocks_black.png', radius, radius)
-
+	rock_img = game_engine.get_rocks_img(player, True)
 	rock_img.convert_alpha()
 	rock_img.set_alpha(0)
 
