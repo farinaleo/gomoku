@@ -81,7 +81,6 @@ def game_screen(engine: Engine):
 		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
-			show_timer(engine, game_engine)
 			result = handle_events(engine, events_list, rocks_coord, game_engine)
 			if result == 'quit':
 				return
@@ -89,4 +88,5 @@ def game_screen(engine: Engine):
 				game_engine.set_last_move(game_engine.grid.get_last_move())
 				redraw_board(engine, game_engine, rocks_coord)
 			engine.clock.tick(engine.settings.get_fps())
+			show_timer(engine, game_engine)
 			pygame.display.update()
