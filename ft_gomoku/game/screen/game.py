@@ -12,8 +12,7 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 	for event in pygame.event.get():
 		if event.type in [pygame.KEYDOWN, pygame.QUIT]:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
-				print('quit')
-				engine.set_running(False)
+				engine.change_screen('main_menu')
 				return 'quit'
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)

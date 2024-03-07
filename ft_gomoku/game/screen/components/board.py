@@ -1,6 +1,7 @@
 import pygame
 from time import sleep
-from ft_gomoku.engine import Engine
+from ft_gomoku import RuleStatus, five_to_win
+from ft_gomoku.engine import Engine, play_sound
 from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
@@ -86,11 +87,20 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	"""
 	print(coords[0])
 	player_turn = game_engine.get_player_turn()
-	game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
+	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], None)
+	print(result)
+	# if result is RuleStatus.WIN:
+	# 	print(f"Player {player_turn[1]} win")
+	# 	sleep(5)
+	# 	return
+	if result is not RuleStatus.OK:
+		play_sound('wrong.mp3')
+		pygame.time.wait(500)
+		return
 	game_engine.update_player_turn()
 	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 	# draw_rocks(screen, game_engine, engine, coords, radius, player_turn[1])
-	print(game_engine.grid.get_grid())
+	# print(game_engine.grid.get_grid())
 	pygame.display.update()
 
 
