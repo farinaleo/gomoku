@@ -17,6 +17,7 @@ def test_col1():
 	grid.add_rock(1, 1, 'q', [gmk.five_to_win])
 	grid.add_rock(2, 2, 'q', [gmk.five_to_win])
 	grid.add_rock(4, 4, 'q', [gmk.five_to_win])
+	print(grid.line_grid)
 	assert grid.add_rock(3, 3, 'q', [gmk.five_to_win]) == gmk.RuleStatus.WIN
 
 
