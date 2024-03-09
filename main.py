@@ -1,10 +1,10 @@
-# # from ft_gomoku import SettingsStruct
-# #
-# # settings = SettingsStruct()
-# # settings.load()
-# # settings.print()
-# # settings.set_fps(20)
-# # settings.save()
+# # # # from ft_gomoku import SettingsStruct
+# # # #
+# # # # settings = SettingsStruct()
+# # # # settings.load()
+# # # # settings.print()
+# # # # settings.set_fps(20)
+# # # # settings.save()
 import heapq
 import profile
 import time
@@ -12,67 +12,469 @@ import time
 from colorama import Fore
 
 import ft_gomoku as gmk
+#
+pos = [(0, 0),
+		(1, 0),
+		(2, 0),
+		(3, 0),
+		(4, 0),
+		(5, 0),
+		(6, 0),
+		(6, 13),
+		(7, 13),
+		(8, 13),
+		(9, 13),
+		(10, 13),
+		(11, 13),
+		(12, 13),
+		(13, 13),
+		(14, 13),
+		(0, 1),
+		(1, 1),
+		(2, 1),
+		(3, 1),
+		(4, 1),
+		(5, 1),
+		(6, 1),
+		(7, 1),
+		(8, 1),
+		(9, 1),
+		(10, 1),
+		(11, 1),
+		(12, 1),
+		(13, 1),
+		(14, 1),
+		(15, 1),
+		(7, 0),
+		(8, 0),
+		(9, 0),
+		(10, 0),
+		(11, 0),
+		(12, 0),
+		(13, 0),
+		(14, 0),
+		(15, 0),
+		(16, 0),
+		(17, 0),
+		(18, 0),
+		(16, 1),
+		(17, 1),
+		(18, 1),
+		(0, 2),
+		(1, 2),
+		(2, 2),
+		(3, 2),
+		(4, 2),
+		(5, 2),
+		(6, 2),
+		(7, 2),
+		(8, 2),
+		(9, 2),
+		(10, 2),
+		(11, 2),
+		(12, 2),
+		(13, 2),
+		(14, 2),
+		(15, 2),
+		(16, 2),
+		(17, 2),
+		(18, 2),
+		(0, 3),
+		(1, 3),
+		(2, 3),
+		(3, 3),
+		(4, 3),
+		(5, 3),
+		(6, 3),
+		(7, 3),
+		(8, 3),
+		(9, 3),
+		(10, 3),
+		(11, 3),
+		(12, 3),
+		(13, 3),
+		(14, 3),
+		(15, 3),
+		(16, 3),
+		(17, 3),
+		(18, 3),
+		(0, 4),
+		(1, 4),
+		(2, 4),
+		(3, 4),
+		(4, 4),
+		(5, 4),
+		(6, 4),
+		(7, 4),
+		(8, 4),
+		(9, 4),
+		(10, 4),
+		(11, 4),
+		(12, 4),
+		(13, 4),
+		(14, 4),
+		(15, 4),
+		(16, 4),
+		(17, 4),
+		(18, 4),
+		(0, 5),
+		(1, 5),
+		(2, 5),
+		(3, 5),
+		(4, 5),
+		(5, 5),
+		(6, 5),
+		(7, 5),
+		(8, 5),
+		(9, 5),
+		(10, 5),
+		(11, 5),
+		(12, 5),
+		(13, 5),
+		(14, 5),
+		(15, 5),
+		(16, 5),
+		(17, 5),
+		(18, 5),
+		(0, 6),
+		(1, 6),
+		(2, 6),
+		(3, 6),
+		(4, 6),
+		(5, 6),
+		(6, 6),
+		(7, 6),
+		(8, 6),
+		(9, 6),
+		(10, 6),
+		(11, 6),
+		(12, 6),
+		(13, 6),
+		(14, 6),
+		(15, 6),
+		(16, 6),
+		(17, 6),
+		(18, 6),
+		(0, 7),
+		(1, 7),
+		(2, 7),
+		(3, 7),
+		(4, 7),
+		(5, 7),
+		(6, 7),
+		(7, 7),
+		(8, 7),
+		(9, 7),
+		(10, 7),
+		(11, 7),
+		(12, 7),
+		(13, 7),
+		(14, 7),
+		(15, 7),
+		(16, 7),
+		(17, 7),
+		(18, 7),
+		(0, 8),
+		(1, 8),
+		(2, 8),
+		(3, 8),
+		(4, 8),
+		(5, 8),
+		(6, 8),
+		(7, 8),
+		(8, 8),
+		(9, 8),
+		(10, 8),
+		(11, 8),
+		(12, 8),
+		(13, 8),
+		(14, 8),
+		(15, 8),
+		(16, 8),
+		(17, 8),
+		(18, 8),
+		(0, 9),
+		(1, 9),
+		(2, 9),
+		(3, 9),
+		(4, 9),
+		(5, 9),
+		(6, 9),
+		(7, 9),
+		(8, 9),
+		(9, 9),
+		(10, 9),
+		(11, 9),
+		(12, 9),
+		(13, 9),
+		(14, 9),
+		(15, 9),
+		(16, 9),
+		(17, 9),
+		(18, 9),
+		(0, 10),
+		(1, 10),
+		(2, 10),
+		(3, 10),
+		(4, 10),
+		(5, 10),
+		(6, 10),
+		(7, 10),
+		(8, 10),
+		(9, 10),
+		(10, 10),
+		(11, 10),
+		(12, 10),
+		(13, 10),
+		(14, 10),
+		(15, 10),
+		(16, 10),
+		(17, 10),
+		(18, 10),
+		(0, 11),
+		(1, 11),
+		(2, 11),
+		(3, 11),
+		(4, 11),
+		(5, 11),
+		(6, 11),
+		(7, 11),
+		(8, 11),
+		(9, 11),
+		(10, 11),
+		(11, 11),
+		(12, 11),
+		(13, 11),
+		(14, 11),
+		(15, 11),
+		(16, 11),
+		(17, 11),
+		(18, 11),
+		(0, 12),
+		(1, 12),
+		(2, 12),
+		(3, 12),
+		(4, 12),
+		(5, 12),
+		(6, 12),
+		(7, 12),
+		(8, 12),
+		(9, 12),
+		(10, 12),
+		(11, 12),
+		(12, 12),
+		(13, 12),
+		(14, 12),
+		(15, 12),
+		(16, 12),
+		(17, 12),
+		(18, 12),
+		(0, 13),
+		(1, 13),
+		(2, 13),
+		(3, 13),
+		(4, 13),
+		(5, 13),
+		(15, 13),
+		(16, 13),
+		(17, 13),
+		(18, 13),
+		(0, 14),
+		(1, 14),
+		(2, 14),
+		(3, 14),
+		(4, 14),
+		(5, 14),
+		(6, 14),
+		(7, 14),
+		(8, 14),
+		(9, 14),
+		(10, 14),
+		(11, 14),
+		(12, 14),
+		(13, 14),
+		(14, 14),
+		(15, 14),
+		(16, 14),
+		(17, 14),
+		(18, 14),
+		(0, 15),
+		(1, 15),
+		(2, 15),
+		(3, 15),
+		(4, 15),
+		(5, 15),
+		(6, 15),
+		(7, 15),
+		(8, 15),
+		(9, 15),
+		(10, 15),
+		(11, 15),
+		(12, 15),
+		(13, 15),
+		(14, 15),
+		(15, 15),
+		(16, 15),
+		(17, 15),
+		(18, 15),
+		(0, 16),
+		(1, 16),
+		(2, 16),
+		(3, 16),
+		(4, 16),
+		(5, 16),
+		(6, 16),
+		(7, 16),
+		(8, 16),
+		(9, 16),
+		(10, 16),
+		(11, 16),
+		(12, 16),
+		(13, 16),
+		(14, 16),
+		(15, 16),
+		(16, 16),
+		(17, 16),
+		(18, 16),
+		(0, 17),
+		(1, 17),
+		(2, 17),
+		(3, 17),
+		(4, 17),
+		(5, 17),
+		(6, 17),
+		(7, 17),
+		(8, 17),
+		(9, 17),
+		(10, 17),
+		(11, 17),
+		(12, 17),
+		(13, 17),
+		(14, 17),
+		(15, 17),
+		(16, 17),
+		(17, 17),
+		(18, 17),
+		(0, 18),
+		(1, 18),
+		(2, 18),
+		(3, 18),
+		(4, 18),
+		(5, 18),
+		(6, 18),
+		(7, 18),
+		(8, 18),
+		(9, 18),
+		(10, 18),
+		(11, 18),
+		(12, 18),
+		(13, 18),
+		(14, 18),
+		(15, 18),
+		(16, 18),
+		(17, 18),
+		(18, 18)]
 
 
 def get_pos():
-	try:
-		x = int(input("choose x : "))
-		y = int(input("choose y : "))
-		return x, y
-	except Exception:
-		return get_pos()
+	global pos
+	# try:
+	# 	x = int(input("choose x : "))
+	# 	y = int(input("choose y : "))
+	# 	return x, y
+	# except Exception:
+	# 	return get_pos()
+	_p = pos.pop(0)
+	return _p[0], _p[1]
 
 
 def print_grid(grid):
 	print()
-	for line in grid.get_grid():
-		for char in line:
-			if char == '1':
-				print(Fore.RED + str(char), end='\t')
-			elif char == '2':
-				print(Fore.BLUE + str(char), end='\t')
-			else:
-				print(Fore.WHITE + str(char), end='\t')
-		print(Fore.WHITE)  # Saut de ligne après chaque ligne de la grille
-
-
-def is_win(grid, rules):
-	last_play = grid.get_last_move()
-	for rule in rules:
-		if rule == gmk.five_to_win or rule == gmk.ten_capture_to_win:
-			if rule(last_play[2], last_play[1], last_play[0], grid) == gmk.RuleStatus.WIN:
-				return True
-	return False
+	i = 0
+	for char in grid.line_grid:
+		if char == '1':
+			print(Fore.RED + str(char), end='\t')
+		elif char == '2':
+			print(Fore.BLUE + str(char), end='\t')
+		else:
+			print(Fore.WHITE + str(char), end='\t')
+		i = i + 1
+		if i >= grid.size:
+			i = 0
+			print(Fore.WHITE)  # Saut de ligne après chaque ligne de la grille
 
 
 def minmax(grid, depth, rules, alpha, beta, player1=True):
-	saved_pos = grid.get_last_move()[-2:]  # pas sur du tout
-	max_v = 0
-	if depth == 0 or is_win(grid, rules):
+	saved_pos = grid.get_last_move()  # pas sur du tout
+	if not saved_pos:
+		saved_pos = ('1' if player1 else '2', grid.size // 2, grid.size // 2)
+	saved_pos = saved_pos[-2:]
+	if depth == 0 or grid.winning is True:
 		return grid, gmk.evaluate(grid)
 	_sol = gmk.next_generation(grid, rules, player1)
 	if not player1:
 		max_v = float('-inf')
 		for elem in _sol:
-			_val = minmax(elem[0], depth - 1, rules, alpha, beta, True)[-1]
+			saved_pos = elem.get_last_move()[-2:]
+			_val = minmax(elem, depth - 1, rules, alpha, beta, True)[-1]
 			if _val > max_v:
 				max_v = _val
-				saved_pos = elem[0].get_last_move()[-2:]
-			if max_v > beta:
-				break
 			alpha = max(alpha, max_v)
+			if max_v >= beta:
+				break
 	else:
 		max_v = float('+inf')
 		for elem in _sol:
-			_val = minmax(elem[0], depth - 1, rules, alpha, beta, False)[-1]
+			saved_pos = elem.get_last_move()[-2:]
+			_val = minmax(elem, depth - 1, rules, alpha, beta, False)[-1]
 			if _val < max_v:
 				max_v = _val
-				saved_pos = elem[0].get_last_move()[-2:]
-			if max_v < alpha:
-				break
 			beta = min(beta, max_v)
+			if max_v <= alpha:
+				break
 
 	return saved_pos[0], saved_pos[1], max_v
+
+
+def run_minmax(grid, depth, rules, alpha, beta, player1=True):
+	possible_moves = gmk.next_generation(grid, rules, player1)
+	move_rate = float('-inf')
+	move_pos = possible_moves[0].get_last_move()[-2:]
+	for move in possible_moves:
+		_move_rate = minmax(move, depth - 1, rules, alpha, beta, player1)[-1]
+		if _move_rate > move_rate:
+			move_pos = move.get_last_move()[-2:]
+			move_rate = _move_rate
+	return move_pos[0], move_pos[1], move_rate
+
+
+def pvs(grid, depth, alpha, beta, ia, rules):
+	saved_pos = grid.get_last_move('1' if ia > 0 else '2')
+	if not saved_pos:
+		saved_pos = ('1' if ia > 0 else '2', grid.size // 2, grid.size // 2)
+	if depth == 0 or grid.winning:
+		return ia * gmk.evaluate(grid), saved_pos
+	next_gen = gmk.next_generation(grid, rules, True if ia > 0 else False)
+	i = 0
+	while i < len(next_gen):
+		if i == 0:
+			res = pvs(next_gen[i], depth - 1, - beta, - alpha, - ia, rules)
+			score = - res[0]
+			saved_pos = next_gen[i].get_last_move()
+		else:
+			res = pvs(next_gen[i], depth - 1,  (- alpha) - 1, - alpha, - ia, rules)
+			score = - res[0]
+			# saved_pos = next_gen[i].get_last_move()
+			if alpha < score < beta:
+				res = pvs(next_gen[i], depth - 1, - beta, - alpha, - ia, rules)
+				score = - res[0]
+				# saved_pos = next_gen[i].get_last_move()
+		alpha = max(alpha, score)
+		if alpha >= beta:
+			saved_pos = next_gen[i].get_last_move()
+			break
+		i = i + 1
+	return alpha, saved_pos
 
 
 def main():
@@ -99,7 +501,10 @@ def main():
 				END = True
 		else:
 			start = time.time()
-			x, y, val = minmax(grid, 3, rules, float('-inf'), float('+inf'), AI)
+			# x, y, val = minmax(grid, 1, rules, float('-1'), float('1'), AI)
+			x, y, val = run_minmax(grid, 1, rules, float('-inf'), float('inf'), AI)
+			# val, p = pvs(grid, 4, float('-inf'), float('inf'), 1, [])
+			# x, y = p[1], p[2]
 			end = time.time()
 			return_value = grid.add_rock(y, x, '1', rules)
 			if return_value == gmk.RuleStatus.WIN:
@@ -114,4 +519,71 @@ def main():
 		print_grid(grid)
 
 
-profile.run('main()')
+profile.run('main()', sort='ncalls')
+# # main()
+# # import ctypes
+# #
+# # import ft_gomoku as gmk
+# #
+# # class Point(ctypes.Structure):
+# #     _fields_ = [("x", ctypes.c_int),
+# #                 ("y", ctypes.c_int)]
+# #
+# #
+# # grid = gmk.Grid(19, '1', '2')
+# # grid.add_rock(2, 2, '1', [])
+# # grid.add_rock(19, 19, '1', [])
+# # grid.add_rock(12, 12, '1', [])
+# # grid.add_rock(2, 2, '1', [])
+# # grid.add_rock(2, 14, '1', [])
+# # grid.add_rock(17, 2, '1', [])
+# # grid.add_rock(0, 2, '1', [])
+# #
+# # lib = ctypes.CDLL('./ft_gomoku/AI/ft_gomoku.so')
+# # lib.possible_mvt.restype = ctypes.POINTER(Point)
+# #
+# #
+# # line_c = ctypes.c_char_p(''.join(grid.line_grid).encode('utf-8'))
+# # size_c = ctypes.c_int(grid.size)
+# # i_c = ctypes.c_int(0)
+# # end_c = ctypes.c_int(19*19-1)
+# # p = lib.possible_mvt(line_c, size_c, i_c, end_c)
+# # for i in range(361):
+# # 	point = p[i]
+# # 	print(f'x: {point.x}, y: {point.y}')
+# # 	# print(f'{p[i].x} {p[i].y}')
+
+# import ft_gomoku as gmk
+# from colorama import Fore
+#
+#
+# def print_grid(line, cluster):
+#     print()
+#     x = 0
+#     for char in line:
+#         if (x % 19, x // 19) in cluster:
+#             print("\033[33;5m", end='')
+#         if char == '1':
+#             print(Fore.RED + str(char), end='\t')
+#         elif char == '2':
+#             print(Fore.BLUE + str(char), end='\t')
+#         else:
+#             print(Fore.WHITE + str(char), end='\t')
+#         print("\033[0m", end='')
+#         x = x + 1
+#         if x % 19 == 0:
+# 	        print()
+#     print(Fore.WHITE)  # Saut de ligne après chaque ligne de la grille
+#     return 1
+#
+# from ft_gomoku.AI.next_generation import __cluster
+#
+# grid = gmk.Grid(19, '1', '2')
+#
+# T = False
+# while 1:
+#     x, y = get_pos()
+#     grid.add_rock(y, x, '1' if T else '2', [])
+#     T = False if T else True
+#     cluster = __cluster(grid.line_grid, 19,19*19, '1', '2')
+#     print_grid(grid.line_grid, cluster)
