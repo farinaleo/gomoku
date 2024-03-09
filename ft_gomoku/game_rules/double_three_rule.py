@@ -11,6 +11,16 @@
 from ft_gomoku import RuleStatus, rule, capture
 
 extract_size = 6
+goal_32 = ''
+goal_33 = ''
+goal_211 = ''
+goal_212 = ''
+goal_121 = ''
+goal_122 = ''
+skip = ''
+goal_31 = ''
+goal_213 = ''
+goal_123 = ''
 
 
 @rule()
@@ -25,8 +35,8 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	cnt = 0
 	lines = []
 	parts = []
-	size = grid.get_size()
-	grid_tab = grid.get_line()
+	size = grid.size
+	grid_tab = grid.line_grid
 	if capture(row, col, player, grid) == RuleStatus.CAPTURE:
 		return RuleStatus.OK
 
@@ -44,11 +54,11 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 
 	i = 0
 	while i < 8:
-		cnt = cnt + __count_stone_trio_player_start(parts[i], player)
+		cnt = cnt + __count_stone_trio_player_start(parts[i], player, True if i == 0 else False)
 		i = i + 1
 	i = 0
 	while i < 4:
-		cnt = cnt + __count_stone_trio_player_mid(lines[i], player)
+		cnt = cnt + __count_stone_trio_player_mid(lines[i], player, True if i == 0 else False)
 		i = i + 1
 
 	if cnt >= 2:
@@ -195,21 +205,23 @@ def __extract_diagonal2(col: int, row: int, size: int, grid, player):
 	return before, after, total
 
 
-def __count_stone_trio_player_start(line: str, player) -> int:
+def __count_stone_trio_player_start(line: str, player, first_call=False) -> int:
 	"""count the number of trio on the line.
 	:param line: the line to explore
 	:param player: the player
 	:return: the count
 	"""
+	global goal_32, goal_33, goal_212, goal_211, goal_121, goal_122, skip
 	size = len(line)
 
-	goal_32 = f'{player}{player}{player}00'
-	goal_33 = f'00{player}{player}{player}'
-	goal_211 = f'{player}{player}0{player}0'
-	goal_212 = f'0{player}{player}0{player}'
-	goal_121 = f'{player}0{player}{player}0'
-	goal_122 = f'0{player}0{player}{player}'
-	skip = f'{player}{player}{player}{player}'
+	if first_call:
+		goal_32 = f'{player}{player}{player}00'
+		goal_33 = f'00{player}{player}{player}'
+		goal_211 = f'{player}{player}0{player}0'
+		goal_212 = f'0{player}{player}0{player}'
+		goal_121 = f'{player}0{player}{player}0'
+		goal_122 = f'0{player}0{player}{player}'
+		skip = f'{player}{player}{player}{player}'
 
 	if size <= 3:
 		return 0
@@ -225,18 +237,20 @@ def __count_stone_trio_player_start(line: str, player) -> int:
 	return 0
 
 
-def __count_stone_trio_player_mid(line: str, player) -> int:
+def __count_stone_trio_player_mid(line: str, player, first_call=True) -> int:
 	"""count the number of trio on the line.
 	:param line: the line to explore
 	:param player: the player
 	:return: the count
 	"""
+	global goal_31, goal_213, goal_123, skip
 	size = len(line)
 
-	goal_31 = f'0{player}{player}{player}0'
-	goal_213 = f'0{player}{player}0{player}0'
-	goal_123 = f'0{player}0{player}{player}0'
-	skip = f'{player}{player}{player}{player}'
+	if first_call:
+		goal_31 = f'0{player}{player}{player}0'
+		goal_213 = f'0{player}{player}0{player}0'
+		goal_123 = f'0{player}0{player}{player}0'
+		skip = f'{player}{player}{player}{player}'
 
 	if size <= 3:
 		return 0

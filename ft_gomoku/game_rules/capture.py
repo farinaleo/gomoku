@@ -24,9 +24,9 @@ def capture(row: int, col: int, player, grid):
     global point
     point = []
     status = RuleStatus.OK
-    size = grid.get_size()
-    grid_line = grid.get_line()
-    p1, p2 = grid.get_player1(), grid.get_player2()
+    size = grid.size
+    grid_line = grid.line_grid
+    p1, p2 = grid.player1, grid.player2
     goal = str(p1+p2+p2+p1) if player == p1 else str(p2+p1+p1+p2)
 
     up = __check_up(row, col, goal, grid_line, size)
@@ -68,10 +68,10 @@ def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    y = row
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line = line + str(grid[x + y * size])
+    while 0 <= col < size and 0 <= y < size and inc < 4:
+        line = line + str(grid[col + y * size])
         y = y - 1
         inc = inc + 1
 
@@ -96,10 +96,10 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    y = row
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line = line + str(grid[x + y * size])
+    while 0 <= col < size and 0 <= y < size and inc < 4:
+        line = line + str(grid[col + y * size])
         y = y + 1
         inc = inc + 1
 
@@ -124,10 +124,10 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    x = col
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line = line + str(grid[x + y * size])
+    while 0 <= x < size and 0 <= row < size and inc < 4:
+        line = line + str(grid[x + row * size])
         x = x - 1
         inc = inc + 1
 
@@ -152,10 +152,10 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    x = col
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line = line + str(grid[x + y * size])
+    while 0 <= x < size and 0 <= row < size and inc < 4:
+        line = line + str(grid[x + row * size])
         x = x + 1
         inc = inc + 1
 

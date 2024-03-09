@@ -34,11 +34,10 @@ def rule():
                     grid.cnt_capture(player, 1)
                 return RuleStatus.OK
             elif type(result) == RuleStatus and result == RuleStatus.WIN:
-                game.force_rock(col, row, player)
+                game.line_grid[col + row * game.size] = player
+                game.history.append((player, col, row))
             elif type(result) == RuleStatus and result == RuleStatus.NO:
                 game.remove_rock(col, row)
             return result
-
         return wrapper
-
     return decorator
