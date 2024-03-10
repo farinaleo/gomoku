@@ -37,8 +37,6 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 	parts = []
 	size = grid.size
 	grid_tab = grid.line_grid
-	if capture(row, col, player, grid) == RuleStatus.CAPTURE:
-		return RuleStatus.OK
 
 	row_l = __extract_row(col, row, size, grid_tab, player)
 	col_l = __extract_column(col, row, size, grid_tab, player)
@@ -61,6 +59,8 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 		cnt = cnt + __count_stone_trio_player_mid(lines[i], player, True if i == 0 else False)
 		i = i + 1
 
+	if capture(row, col, player, grid) == RuleStatus.CAPTURE:
+		return RuleStatus.OK
 	if cnt >= 2:
 		return RuleStatus.NO
 	else:
