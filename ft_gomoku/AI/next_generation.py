@@ -90,6 +90,18 @@ def __cluster(line, size, line_size, p1, p2):
 			_down = y + 1
 			_left = x - 1
 			_right = x + 1
+			if line[i] == p2:
+				if (line[_left + _up * size] != p2
+					and line[x + _up * size] != p2
+					and line[_right + _up * size] != p2
+					and line[_left + y * size] != p2
+					and line[_right + y * size] != p2
+					and line[_left + _down * size] != p2
+					and line[x + _down * size] != p2
+					and line[_right + _down * size] != p2):
+					i = i + 1
+					continue
+
 			# up left
 			if 0 <= _left < size and 0 <= _up < size and line[_left + _up * size] == '0':
 				cluster.append((_left, _up))
