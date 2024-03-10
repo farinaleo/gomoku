@@ -69,25 +69,18 @@ def evaluate(grid: Grid) -> float:
     opponent = grid.player1 if player != grid.player1 else grid.player2
     line = grid.line_grid
     size = grid.size
-    # mid = (size // 2, size // 2)
 
     if grid.winning:
         return 100
 
-    # score = score - __allies_captured(grid.get_captured_stones(player))
-    # score = score + __opponents_captured(grid.get_captured_stones(opponent))
     score = score - grid.get_captured_stones(player)
     score = score + grid.get_captured_stones(opponent)
-    # score = score + (10 / grid.get_captured_stones(opponent)) if grid.get_captured_stones(opponent) else 0
+    score = score - free_deg(line, x, y, opponent, size)
     score = score + __align_n(line, [2, 3, 4], player, y, x, size)
-    # score = score + free_deg(line, x, y, player, size)
-
-    # score = score - __far_from_allies_last_moves(player, x, y, grid, 3)
-    # score = score + __far_from_opponent_last_moves(opponent, x, y, grid, 3)
     op_last_move = grid.get_last_move(opponent)
     if op_last_move is not None:
         score = score - __align_n(line, [2, 3, 4], opponent, op_last_move[2], op_last_move[1], size, True)
-        score = score - free_deg(line, op_last_move[1], op_last_move[2], player, size)
+        score = score + free_deg(line, op_last_move[1], op_last_move[2], player, size)
 
     # print(f"Score: {score} for {x} {y}")
     return score
@@ -97,67 +90,28 @@ def evaluate(grid: Grid) -> float:
 # the more the rate is near to 1 to more the rule is interesting.
 
 
-def __allies_captured(captured) -> float:
-    """Count the number of allies captured during the game.
-    :param captured: the number of allies captured.
-    :return: (10 - (allies captured)) / 10
-    """
-    return 10 ** float(-1 * (10 - captured))
-
-
-def __opponents_captured(captured) -> float:
-    """Count the number of opponents captured during the game.
-    :param captured: the number of opponents captured.
-    return: (opponents captured) / 10
-    """
-    if captured == 10:
-        return rules_nb
-    return 10 ** float(-1 * captured)
+# def free_deg(line, x, y, opponent, size):
+#     global free_deg_c
+#
+#     line_c = ctypes.c_char_p(''.join(line).encode('utf-8'))
+#     x_c = ctypes.c_int(x)
+#     y_c = ctypes.c_int(y)
+#     opponent_c = ctypes.c_int(ord(opponent))
+#     size_c = ctypes.c_int(size)
+#     return free_deg_c(line_c, x_c, y_c, opponent_c, size_c)
 
 
 def free_deg(line, x, y, opponent, size):
-    global free_deg_c
-
-    line_c = ctypes.c_char_p(''.join(line).encode('utf-8'))
-    x_c = ctypes.c_int(x)
-    y_c = ctypes.c_int(y)
-    opponent_c = ctypes.c_int(ord(opponent))
-    size_c = ctypes.c_int(size)
-    return free_deg_c(line_c, x_c, y_c, opponent_c, size_c)
-
-# def free_deg(line, x, y, opponent, size):
-# 	cnt = 0
-#
-# 	_up = y - 1
-# 	_down = y + 1
-# 	_left = x - 1
-# 	_right = x + 1
-# 	#up left
-# 	if 0 <= _left < size and 0 <= _up < size and line[_left + _up * size] != opponent:
-# 		cnt = cnt + 1
-# 	# up mid
-# 	if 0 <= x < size and 0 <= _up < size and line[x + _up * size] != opponent:
-# 		cnt = cnt + 1
-# 	# up right
-# 	if 0 <= _right < size and 0 <= _up < size and line[_right + _up * size] != opponent:
-# 		cnt = cnt + 1
-# 	# mid left
-# 	if 0 <= _left < size and 0 <= y < size and line[_left + y * size] != opponent:
-# 		cnt = cnt + 1
-# 	# mid right
-# 	if 0 <= _right < size and 0 <= y < size and line[_right + y * size] != opponent:
-# 		cnt = cnt + 1
-# 	# down left
-# 	if 0 <= _left < size and 0 <= _down < size and line[_left + _down * size] != opponent:
-# 		cnt = cnt + 1
-# 	# down mid
-# 	if 0 <= x < size and 0 <= _down < size and line[x + _down * size] != opponent:
-# 		cnt = cnt + 1
-# 	# down right
-# 	if 0 <= _right < size and 0 <= _down < size and line[_right + _down * size] != opponent:
-# 		cnt = cnt + 1
-#
-# 	return cnt
+    count = 0
+    if x < 5:
+        count = count + (5 - x)
+    if y < 5:
+        count = count + (5 - y)
+    if x > size - 5:
+        count = count + (5 - size - x)
+    if y > size - 5:
+        count = count + (5 - size - y)
+    return count
 
 
 def __far_from_opponent_last_moves(opponent, x, y, grid, n=1):
@@ -214,27 +168,6 @@ def __far_from_allies_last_moves(allie, x, y, grid, n=1):
     if sum_dist == 0:
         return 0
     return sum_dist
-#
-#
-
-# def __align_n(line, n, player, row, col, size, first_call=False):
-# 	nb = 0
-# 	x = 0
-# 	cnt = 0
-#
-# 	goal = str([player] * n)
-#
-# 	for stone in reversed(line):
-# 		if x >= size:
-# 			x = 0
-# 			binary_str = bin(nb)[2:]
-# 			cnt = cnt + (goal in binary_str)
-# 			nb = 0
-# 		if stone == player:
-# 			nb = nb | (1 << x)
-# 		x = x + 1
-#
-# 	return cnt
 
 
 def __align_n(line, lens, player, row, col, size, first_call=False):
