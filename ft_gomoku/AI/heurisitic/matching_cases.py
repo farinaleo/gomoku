@@ -10,8 +10,6 @@
 from ft_gomoku import Grid
 
 
-lens = [2, 3, 4]
-
 goal2_4 = [('22220', 0.4), ('22202', 0.4), ('22022', 0.4), ('20222', 0.4), ('02222', 0.4)]
 goal2_3 = [('22200', 0.3), ('22020', 0.3), ('22002', 0.3), ('20220', 0.3), ('20202', 0.3),
            ('20022', 0.3), ('02220', 0.3), ('02202', 0.3), ('02022', 0.3), ('00222', 0.3)]
@@ -49,7 +47,7 @@ block1_2 = [('11002', 0.4), ('10102', 0.4), ('10012', 0.4), ('10021', 0.4), ('01
             ('21010', 0.4), ('21001', 0.4), ('20110', 0.4), ('20101', 0.4), ('20011', 0.4)]
 
 
-def matching_cases(line, grid, x, y, player, opponent, size, line_size) -> float:
+def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=None, block=True) -> float:
     """find the number of matching cases can be done with the movement.
     :param line: the game as list.
     :param grid: the node.
@@ -59,33 +57,41 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size) -> float
     :param opponent: the opponent.
     :param size: the grid size.
     :param line_size: the total lien size.
+    :param lens: combinations to evaluate between 2, 3, and 4, by default [2, 3, 4].
+    :param block: test the bocking combinations.
     :return: the evaluated rate of the move.
     """
+    if lens is None:
+        lens = [2, 3, 4]
     count = 0
     goals = []
     for n in lens:
         if n == 2:
             if player == '2':
                 goals.extend(goal2_2)
-                goals.extend(block1_2)
+                if block:
+                    goals.extend(block1_2)
             else:
                 goals.extend(goal1_2)
                 goals.extend(block2_2)
         if n == 3:
             if player == '2':
                 goals.extend(goal2_3)
-                goals.extend(block1_3)
-
+                if block:
+                    goals.extend(block1_3)
             else:
                 goals.extend(goal1_3)
-                goals.extend(block2_3)
+                if block:
+                    goals.extend(block2_3)
         if n == 4:
             if player == '2':
                 goals.extend(goal2_4)
-                goals.extend(block1_4)
+                if block:
+                    goals.extend(block1_4)
             else:
                 goals.extend(goal1_4)
-                goals.extend(block2_4)
+                if block:
+                    goals.extend(block2_4)
 
     count = count + __check_row(y, x, goals, line, size)
     count = count + __check_column(y, x, goals, line, size)
