@@ -21,10 +21,12 @@ def capture(row: int, col: int, player, grid):
     :param grid: the grid
     :return: Rule status (CAPTURE | NO)
     """
+    global point
+    point = []
     status = RuleStatus.OK
-    size = grid.get_size()
-    grid_line = grid.get_line()
-    p1, p2 = grid.get_player1(), grid.get_player2()
+    size = grid.size
+    grid_line = grid.line_grid
+    p1, p2 = grid.player1, grid.player2
     goal = str(p1+p2+p2+p1) if player == p1 else str(p2+p1+p1+p2)
 
     up = __check_up(row, col, goal, grid_line, size)
@@ -66,12 +68,12 @@ def __check_up(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    y = row
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        inc += 1
+    while 0 <= col < size and 0 <= y < size and inc < 4:
+        line = line + str(grid[col + y * size])
+        y = y - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col, row - 1))
@@ -94,12 +96,12 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    y = row
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        inc += 1
+    while 0 <= col < size and 0 <= y < size and inc < 4:
+        line = line + str(grid[col + y * size])
+        y = y + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col, row + 1))
@@ -122,12 +124,12 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    x = col
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        x -= 1
-        inc += 1
+    while 0 <= x < size and 0 <= row < size and inc < 4:
+        line = line + str(grid[x + row * size])
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row))
@@ -150,12 +152,12 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     global point
     inc = 0
     line = ''
-    x, y = col, row
+    x = col
     
-    while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        x += 1
-        inc += 1
+    while 0 <= x < size and 0 <= row < size and inc < 4:
+        line = line + str(grid[x + row * size])
+        x = x + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col + 1, row))
@@ -181,10 +183,10 @@ def __check_up_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        x -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y - 1
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row - 1))
@@ -210,10 +212,10 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
 
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y -= 1
-        x += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y - 1
+        x = x + 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col + 1, row - 1))
@@ -239,10 +241,10 @@ def __check_down_left(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        x -= 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y + 1
+        x = x - 1
+        inc = inc + 1
 
     if line == goal:
         point.append((col - 1, row + 1))
@@ -268,10 +270,10 @@ def __check_down_right(row: int, col: int, goal, grid, size) -> CAPTURE:
     x, y = col, row
     
     while 0 <= x < size and 0 <= y < size and inc < 4:
-        line += str(grid[x + y * size])
-        y += 1
-        x += 1
-        inc += 1
+        line = line + str(grid[x + y * size])
+        y = y + 1
+        x = x + 1
+        inc = inc + 1
     if line == goal:
         point.append((col + 1, row + 1))
         point.append((col + 2, row + 2))
