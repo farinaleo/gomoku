@@ -8,7 +8,7 @@
 #  Copyright (c) 2024.
 import ctypes
 
-from ft_gomoku import Grid, RuleStatus, evaluate
+from ft_gomoku import Grid, RuleStatus
 
 class Point(ctypes.Structure):
     _fields_ = [("x", ctypes.c_int),
@@ -90,7 +90,7 @@ def __cluster(line, size, line_size, p1, p2):
 			_down = y + 1
 			_left = x - 1
 			_right = x + 1
-			if line[i] == p2:
+			if line[i] == p2 and x != size // 2 and y != size // 2:
 				if (line[_left + _up * size] != p2
 					and line[x + _up * size] != p2
 					and line[_right + _up * size] != p2
