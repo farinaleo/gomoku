@@ -28,7 +28,7 @@ def run_ia(grid: Grid, rules) -> tuple | None:
 	#   return algo(depth 1) // win
 	# else :
 	#   return algo(depth > 1) // attack
-	depth = 2
+	depth = 3
 	priority = get_priority(grid)
 	if priority != 0:
 		depth = 1
