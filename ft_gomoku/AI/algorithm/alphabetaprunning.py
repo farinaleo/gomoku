@@ -7,8 +7,8 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid, next_generation
-from ft_gomoku.AI.heurisitic.evaluate_node import heuristic
+from ft_gomoku import Grid
+from ft_gomoku.AI import heuristic, next_generation
 
 
 def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, is_max=True) -> float | None:
@@ -58,9 +58,11 @@ def launch_alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, 
 	:param is_max: True if the turn is for the IA otherwise False.
 	:return: the move (x, y) as tuple or None in case of error.
 	"""
+	if depth <= 0:
+		return None
 	next_gen = next_generation(grid, rules, grid.player1 if is_max else grid.player2)
 	max_val = float('-inf')
-	move_selected = None
+	move_selected = next_gen[0].get_last_move()[-2:]
 	for node in next_gen:
 		_val = alpha_beta(node, depth - 1, alpha, beta, rules, is_max)
 		if _val > max_val:
