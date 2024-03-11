@@ -19,7 +19,8 @@ def log(to_log=True):
                 return result
             else:
                 if first_turn:
-                    if os.getenv('GOMOKU_LOG') is not None:
+                    env_var = os.getenv('GOMOKU_LOG')
+                    if env_var == 'True':
                         log_file = 'logs/[' + str(time.time()) + '].txt'
                         folder = os.path.dirname(log_file)
                         if folder:
