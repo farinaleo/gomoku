@@ -8,15 +8,15 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
+from ft_gomoku.AI import get_priority, launch_alpha_beta
 
 
-def run_ia(grid: Grid, ia, opponent) -> tuple | None:
+def run_ia(grid: Grid, rules) -> tuple | None:
 	"""
 	Main function for the IA.
 	It runs the proper algorithm according to the situation.
 	:param grid: The game.
-	:param ia: The ia value form the grid.
-	:param opponent: The opponent value from the grid.
+	:param rules: The game rules set.
 	:return: a tuple as (x, y) for the move to player or None in case of error.
 	"""
 	# get the opponent last move mvOp
@@ -28,3 +28,8 @@ def run_ia(grid: Grid, ia, opponent) -> tuple | None:
 	#   return algo(depth 1) // win
 	# else :
 	#   return algo(depth > 1) // attack
+	depth = 2
+	priority = get_priority(grid)
+	if priority != 0:
+		depth = 1
+	return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules)
