@@ -13,7 +13,7 @@ from colorama import Fore
 
 import ft_gomoku as gmk
 
-from ft_gomoku.AI.algorithm.alphabetaprunning import launch_alpha_beta
+from ft_gomoku.AI import run_ia
 #
 pos = [(0, 0),
         (0, 1),
@@ -381,14 +381,14 @@ pos = [(0, 0),
 
 def get_pos():
 	global pos
-	# try:
-	# 	x = int(input("choose x : "))
-	# 	y = int(input("choose y : "))
-	# 	return x, y
-	# except Exception:
-	# 	return get_pos()
-	_p = pos.pop(0)
-	return _p[0], _p[1]
+	try:
+		x = int(input("choose x : "))
+		y = int(input("choose y : "))
+		return x, y
+	except Exception:
+		return get_pos()
+	# _p = pos.pop(0)
+	# return _p[0], _p[1]
 
 
 def print_grid(grid):
@@ -405,75 +405,6 @@ def print_grid(grid):
 		if i >= grid.size:
 			i = 0
 			print(Fore.WHITE)  # Saut de ligne après chaque ligne de la grille
-
-
-# def minmax(grid, depth, rules, alpha, beta, player1=True):
-# 	if depth == 0 or grid.winning is True:
-# 		return gmk.evaluate(grid)
-# 	_sol = gmk.next_generation(grid, rules, player1)
-# 	if not player1:
-# 		max_v = float('-inf')
-# 		for elem in _sol:
-# 			_val = minmax(elem, depth - 1, rules, alpha, beta, True)
-# 			if _val > max_v:
-# 				max_v = _val
-# 			alpha = max(alpha, max_v)
-# 			if max_v >= beta:
-# 				break
-# 	else:
-# 		max_v = float('+inf')
-# 		for elem in _sol:
-# 			_val = minmax(elem, depth - 1, rules, alpha, beta, False)
-# 			if _val < max_v:
-# 				max_v = _val
-# 			beta = min(beta, max_v)
-# 			if max_v <= alpha:
-# 				break
-#
-# 	return max_v
-#
-#
-# def pvs(grid, depth, alpha, beta, ia, rules):
-# 	if depth == 0 or grid.winning:
-# 		return ia * gmk.evaluate(grid)
-# 	next_gen = gmk.next_generation(grid, rules, True if ia > 0 else False)
-# 	i = 0
-# 	while i < len(next_gen):
-# 		if i == 0:
-# 			score = pvs(next_gen[i], depth - 1, - beta, - alpha, - ia, rules)
-# 		else:
-# 			score = pvs(next_gen[i], depth - 1,  (- alpha) - 1, - alpha, - ia, rules)
-# 			if alpha < score < beta:
-# 				score = pvs(next_gen[i], depth - 1, - beta, - alpha, - ia, rules)
-# 		alpha = max(alpha, score)
-# 		if alpha >= beta:
-# 			break
-# 		i = i + 1
-# 	return alpha
-#
-#
-# def run_minmax(grid, depth, rules, alpha, beta, player1=True):
-# 	possible_moves = gmk.next_generation(grid, rules, player1)
-# 	move_rate = float('-inf')
-# 	move_pos = possible_moves[0].get_last_move()[-2:]
-# 	for move in possible_moves:
-# 		_move_rate = minmax(move, depth - 1, rules, alpha, beta, player1)
-# 		if _move_rate > move_rate:
-# 			move_pos = move.get_last_move()[-2:]
-# 			move_rate = _move_rate
-# 	return move_pos[0], move_pos[1], move_rate
-#
-#
-# def run_pvs(grid, depth, alpha, beta, ia, rules):
-# 	possible_moves = gmk.next_generation(grid, rules, True if ia > 0 else False)
-# 	move_rate = float('-inf')
-# 	move_pos = possible_moves[0].get_last_move()[-2:]
-# 	for move in possible_moves:
-# 		_move_rate = pvs(move, depth - 1, alpha, beta, True if ia > 0 else False, rules)
-# 		if _move_rate > move_rate:
-# 			move_pos = move.get_last_move()[-2:]
-# 			move_rate = _move_rate
-# 	return move_pos[0], move_pos[1], move_rate
 
 
 def main():
@@ -501,7 +432,8 @@ def main():
 		else:
 			start = time.time()
 			# x, y, val = minmax(grid, 1, rules, float('-1'), float('1'), AI)
-			x, y = launch_alpha_beta(grid, 1, float('-inf'), float('inf'), rules, AI)
+			# x, y = launch_alpha_beta(grid, 1, float('-inf'), float('inf'), rules, AI)
+			x, y = run_ia(grid, rules)
 			val = 'no val'
 			# x, y, val = run_minmax(grid, 1, rules, float('-inf'), float('inf'), AI)
 			# val, p = pvs(grid, 4, float('-inf'), float('inf'), 1, rules)
