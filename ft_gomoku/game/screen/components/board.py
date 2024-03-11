@@ -1,5 +1,8 @@
 import pygame
 from time import sleep
+
+from numpy import sqrt
+
 from ft_gomoku import RuleStatus, five_to_win
 from ft_gomoku.engine import Engine, play_sound
 from ft_gomoku.game.screen.square import Square
@@ -128,14 +131,15 @@ def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
 	engine.screen.fill((8, 26, 43))
 	for square in game_engine.board:
 		square.draw(engine.screen)
-	grid = game_engine.grid.get_grid()
-	for i in range(len(grid)):
-		for j in range(len(grid[i])):
-			value = grid[i][j]
-			if value is not 0:
-				coords = coords_dict[(j, i)]
-				if last_move[1] == j and last_move[2] == i:
-					draw_rocks(engine.screen, game_engine, coords, 35, value, True)
-				else:
-					draw_rocks(engine.screen, game_engine, coords, 35, value, False)
+	grid = game_engine.grid.get_line()
+	size_grid = game_engine.grid.get_size()
+	for i in range(size_grid * size_grid):
+		x = i % size_grid
+		y = i // size_grid
+		if grid[i] is not 0:
+			coords = coords_dict[(x, y)]
+			if last_move[1] == x and last_move[2] == y:
+				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], True)
+			else:
+				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], False)
 
