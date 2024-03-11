@@ -7,19 +7,21 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
+import numpy as np
 from ft_gomoku import Grid, RuleStatus
 
 
 def test_1():
 	grid = Grid(3, 'a', 'q')
-	res_tab = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-	assert grid.get_grid() == res_tab
+	res_tab = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
+	assert grid.line_grid == res_tab
 
 
 def test_2():
 	grid = Grid(3, 'a', 'q')
-	res_line = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-	assert grid.get_line() == res_line
+	res_line = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
+	res_line = np.array(res_line)
+	assert np.array_equal(grid.line_grid, res_line)
 
 
 def test_3():
@@ -35,29 +37,29 @@ def test_4():
 
 def test_5():
 	grid = Grid(3, 'a', 'q')
-	res_line = ['a', 0, 0, 0, 0, 0, 0, 0, 0]
+	res_line = np.array(['a', '0', '0', '0', '0', '0', '0', '0', '0'])
 	grid.add_rock(0, 0, 'a', None)
-	assert grid.get_line() == res_line
+	assert np.array_equal(grid.line_grid, res_line)
 
 
 def test_6():
 	grid = Grid(3, 'a', 'q')
-	res_tab = [['a', 0, 0], [0, 0, 0], [0, 0, 0]]
+	res_tab = ['a', '0', '0', '0', '0', '0', '0', '0', '0']
 	grid.add_rock(0, 0, 'a', None)
-	assert grid.get_grid() == res_tab
+	assert grid.line_grid == res_tab
 
 
 def test_7():
 	grid = Grid(3, 'a', 'q')
-	res_line = ['a', 0, 0, 0, 0, 0, 0, 0, 'q']
+	res_line = np.array(['a', '0', '0', '0', '0', '0', '0', '0', 'q'])
 	grid.add_rock(0, 0, 'a', None)
 	grid.add_rock(2, 2, 'q', None)
-	assert grid.get_line() == res_line
+	assert np.array_equal(grid.line_grid, res_line)
 
 
 def test_8():
 	grid = Grid(3, 'a', 'q')
-	res_tab = [['a', 0, 0], [0, 0, 0], [0, 0, 'q']]
+	res_tab = ['a', '0', '0', '0', '0', '0', '0', '0', 'q']
 	grid.add_rock(0, 0, 'a', None)
 	grid.add_rock(2, 2, 'q', None)
-	assert grid.get_grid() == res_tab
+	assert grid.line_grid == res_tab

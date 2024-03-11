@@ -19,4 +19,6 @@ from .game import main_menu
 from .game import game_screen
 from .game import tutorial_screen
 from .grid.grid import Grid
+from .AI.node_evaluation import evaluate
 from .AI.next_generation import next_generation
+
