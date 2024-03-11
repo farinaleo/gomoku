@@ -17,7 +17,7 @@ def handle_events(engine, events_list) -> str | bool:
                 maximize_action(engine)
                 return 'restart'
             elif events_list[2][1].collidepoint(event.pos):
-                engine.change_screen('tutorial')
+                engine.change_screen('game')
                 return 'quit'
     return True
 
