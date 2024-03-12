@@ -1,10 +1,10 @@
-from ft_gomoku import SettingsStruct
-
-settings = SettingsStruct()
-settings.load()
-settings.print()
-settings.set_fps(20)
-settings.save()
+# from ft_gomoku import SettingsStruct
+#
+# settings = SettingsStruct()
+# settings.load()
+# settings.print()
+# settings.set_fps(20)
+# settings.save()
 import heapq
 import profile
 import time
