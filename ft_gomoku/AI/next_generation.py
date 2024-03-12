@@ -145,6 +145,11 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 	:return: True if the expansion is allowed, otherwise False.
 	"""
 	if line[i] == player:
+		if have_friends(line, x, y, size, player):
+			prev_x = x - (x_exp - x)
+			prev_y = y - (y_exp - y)
+			if not (0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == player):
+				return False
 		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
 			return True
 	else:
@@ -155,4 +160,32 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 			prev_y = y - (y_exp - y)
 			if 0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == opponent:
 				return True
+	return False
+
+
+def have_friends(line, x, y, size, player) -> bool:
+	""" Check if the player has friends around him.
+	:param line: the game as line.
+	:param x: the starting x coordinate.
+	:param y: the starting y coordinate.
+	:param size: the grid size.
+	:param player: the player value.
+	:return: True if the player has friends, otherwise False.
+	"""
+	if 0 <= x - 1 < size and 0 <= y - 1 < size and line[(x - 1) + (y - 1) * size] == player:
+		return True
+	if 0 <= x < size and 0 <= y - 1 < size and line[x + (y - 1) * size] == player:
+		return True
+	if 0 <= x + 1 < size and 0 <= y - 1 < size and line[(x + 1) + (y - 1) * size] == player:
+		return True
+	if 0 <= x - 1 < size and 0 <= y < size and line[(x - 1) + y * size] == player:
+		return True
+	if 0 <= x + 1 < size and 0 <= y < size and line[(x + 1) + y * size] == player:
+		return True
+	if 0 <= x - 1 < size and 0 <= y + 1 < size and line[(x - 1) + (y + 1) * size] == player:
+		return True
+	if 0 <= x < size and 0 <= y + 1 < size and line[x + (y + 1) * size] == player:
+		return True
+	if 0 <= x + 1 < size and 0 <= y + 1 < size and line[(x + 1) + (y + 1) * size] == player:
+		return True
 	return False
