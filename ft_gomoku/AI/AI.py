@@ -31,5 +31,5 @@ def run_ia(grid: Grid, rules) -> tuple | None:
 	depth = 3   # %2=1 to target IA
 	priority = get_priority(grid)
 	if priority != 0:
-		depth = 2
-	return launch_alpha_beta(grid, depth, float('inf'), float('+inf'), rules)
+		depth = 1
+	return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules)
