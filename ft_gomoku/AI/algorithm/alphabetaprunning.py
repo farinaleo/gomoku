@@ -7,10 +7,10 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid
+from ft_gomoku import Grid,log
 from ft_gomoku.AI import heuristic, next_generation
 
-
+@log()
 def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, is_max=True) -> float | None:
 	"""
 	Alpha Beta pruning algorithm. Uses it to find the best move to play

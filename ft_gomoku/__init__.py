@@ -7,6 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
+from .logger.logger import log
 from .game_rules.rule_status import CAPTURE, RuleStatus
 from .game_rules.rules_decorator import rule
 from .game_rules.five_to_win_rule import five_to_win
@@ -21,4 +22,3 @@ from .game import tutorial_screen
 from .grid.grid import Grid
 from .AI.node_evaluation import evaluate
 from .AI.next_generation import next_generation
-
