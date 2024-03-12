@@ -6,7 +6,7 @@ import time
 
 from ft_gomoku.AI.AI import run_ia
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
-from ft_gomoku.game.screen.components import draw_board, place_rocks, place_rocks_ai, redraw_board
+from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 
