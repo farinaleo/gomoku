@@ -22,7 +22,6 @@ def get_priority(grid: Grid) -> int:
 	# is in a four alignment (or three)
 	# has captured 8 opponent stones and can capture 2 more.
 	priority = max(ia_priority(grid), opponent_priority(grid))
-	print(f'priority: {priority}')
 	return priority
 
 
@@ -31,7 +30,7 @@ def ia_priority(grid: Grid) -> int:
 	:param grid: the game.
 	:return: the priority rate.
 	"""
-	ia_last_move = grid.get_last_move()
+	ia_last_move = grid.get_last_move(grid.player1)
 	if not ia_last_move:
 		return 0
 	p_4 = matching_cases(grid.line_grid, grid, ia_last_move[1],
@@ -47,7 +46,7 @@ def opponent_priority(grid: Grid) -> int:
 	:param grid: the game.
 	:return: the priority rate.
 	"""
-	opponent_last_move = grid.get_last_move()
+	opponent_last_move = grid.get_last_move(grid.player2)
 	if not opponent_last_move:
 		return 0
 	p_4 = matching_cases(grid.line_grid, grid, opponent_last_move[1],
