@@ -101,10 +101,27 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 		pygame.time.wait(500)
 		return
 	game_engine.update_player_turn()
-
 	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 	# draw_rocks(screen, game_engine, engine, coords, radius, player_turn[1])
 	# print(game_engine.grid.get_grid())
+	pygame.display.update()
+
+
+def place_rocks_ai(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int):
+	"""Place the AI rocks on the screen
+	:param screen: the pygame screen
+	:param game_engine: the game engine
+	:param coords: the coordinates of the rocks
+	:param radius: the radius of the rocks
+	"""
+	player_turn = game_engine.get_player_turn()
+	result = game_engine.grid.add_rock(coords[1], coords[0], player_turn[1], None)
+	if result is not RuleStatus.OK:
+		play_sound('wrong.mp3')
+		pygame.time.wait(500)
+		print('ERROR: AI rocks cannot be placed here', coords)
+		return
+	game_engine.update_player_turn()
 	pygame.display.update()
 
 
@@ -131,14 +148,14 @@ def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
 	engine.screen.fill((8, 26, 43))
 	for square in game_engine.board:
 		square.draw(engine.screen)
-	grid = game_engine.grid.get_line()
-	size_grid = game_engine.grid.get_size()
+	grid = game_engine.grid.line_grid
+	size_grid = game_engine.grid.size
 	for i in range(size_grid * size_grid):
 		x = i % size_grid
 		y = i // size_grid
-		if grid[i] is not 0:
+		if grid[i] != '0':
 			coords = coords_dict[(x, y)]
-			if last_move[1] == x and last_move[2] == y:
+			if last_move is not None and last_move[1] == x and last_move[2] == y:
 				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], True)
 			else:
 				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], False)

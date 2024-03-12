@@ -8,7 +8,8 @@
 #  Copyright (c) 2024.
 import ctypes
 
-from ft_gomoku import Grid, RuleStatus
+from ft_gomoku.grid.grid import Grid
+from ft_gomoku import RuleStatus
 
 class Point(ctypes.Structure):
     _fields_ = [("x", ctypes.c_int),
@@ -26,7 +27,6 @@ def next_generation(grid: Grid, rules, player1=True):
 	size = grid.size
 	line_size = len(line)
 	player, opponent = (grid.player1, grid.player2) if player1 else (grid.player2, grid.player1)
-
 	cluster = __cluster(line, size, line_size, player, opponent)
 	for cell in cluster:
 		if (line[cell[0] + cell[1] * size] == '0'

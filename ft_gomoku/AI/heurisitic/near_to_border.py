@@ -7,7 +7,6 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid
 
 
 def near_to_border(line, grid, x, y, player, opponent, size, line_size) -> float:

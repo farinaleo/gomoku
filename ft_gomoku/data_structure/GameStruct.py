@@ -7,16 +7,16 @@ from ft_gomoku.engine.image_control import get_image
 @dataclass
 class GameStruct:
 	def __init__(self, size: int, player1, player2):
-		self.grid = Grid(size + 1, player1[0], player2[1])
+		self.grid = Grid(size + 1, player1, player2)
 		self.player_1 = (player1, '1')
 		self.player_2 = (player2, '2')
 		self.grid_size = size
 		self.game_mode = None
-		self.player_turn = None
+		self.player_turn = self.player_1
 		self.time = 0
 		self.board = []
 		self.last_move = [None, None, None]
-		self.random_player_turn()
+		# self.random_player_turn()
 		self.rock_white_img = None
 		self.rock_black_img = None
 		self.rock_white_last_img = None

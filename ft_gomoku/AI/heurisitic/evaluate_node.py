@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid
+from ft_gomoku.grid.grid import Grid
 from ft_gomoku.AI import matching_cases
 from ft_gomoku.AI import near_to_border
 

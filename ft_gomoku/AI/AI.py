@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid
+from ft_gomoku.grid.grid import Grid
 from ft_gomoku.AI import get_priority, launch_alpha_beta
 
 

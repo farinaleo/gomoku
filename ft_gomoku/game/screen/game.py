@@ -3,8 +3,10 @@ from time import sleep
 
 import pygame
 import time
+
+from ft_gomoku.AI.AI import run_ia
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
-from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board
+from ft_gomoku.game.screen.components import draw_board, place_rocks, place_rocks_ai, redraw_board
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 
@@ -17,8 +19,8 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
-				print('OK !')
 				place_rocks(engine.screen, game_engine, result, 35)
+
 				return 'play'
 	return True
 
@@ -65,7 +67,7 @@ def game_screen(engine: Engine):
 	set_titlescreen('Gomoku - Game')
 
 	# Set the game engine
-	game_engine = GameStruct(18, "Nolan", "Leo")
+	game_engine = GameStruct(18, '1', '2')
 	game_engine.init_img(35)
 
 	# Set timer
@@ -81,9 +83,16 @@ def game_screen(engine: Engine):
 		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
-			result = handle_events(engine, events_list, rocks_coord, game_engine)
-			if result == 'quit':
-				return
+			player_turn = game_engine.get_player_turn()
+			if player_turn[1] == '1':
+				result = handle_events(engine, events_list, rocks_coord, game_engine)
+				if result == 'quit':
+					return
+			else:
+				# AI turn
+				rocks_ia = run_ia(game_engine.grid, None)
+				place_rocks_ai(engine.screen, game_engine, rocks_ia, 35)
+				pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
 				game_engine.set_last_move(game_engine.grid.get_last_move())
 				redraw_board(engine, game_engine, rocks_coord)
