@@ -3,7 +3,7 @@ from time import sleep
 
 from numpy import sqrt
 
-from ft_gomoku import RuleStatus, five_to_win
+from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
 from ft_gomoku.engine import Engine, play_sound
 from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
@@ -88,40 +88,18 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param coords: the coordinates of the rocks
 	:param radius: the radius of the rocks
 	"""
-	print('ADSA', coords)
 	player_turn = game_engine.get_player_turn()
-	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], None)
-	print(result)
-	# if result is RuleStatus.WIN:
-	# 	print(f"Player {player_turn[1]} win")
-	# 	sleep(5)
-	# 	return
-	if result is not RuleStatus.OK:
+	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
+	if result is RuleStatus.NO:
 		play_sound('wrong.mp3')
 		pygame.time.wait(500)
 		return
 	game_engine.update_player_turn()
 	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
-	# draw_rocks(screen, game_engine, engine, coords, radius, player_turn[1])
-	# print(game_engine.grid.get_grid())
-	pygame.display.update()
-
-
-def place_rocks_ai(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int):
-	"""Place the AI rocks on the screen
-	:param screen: the pygame screen
-	:param game_engine: the game engine
-	:param coords: the coordinates of the rocks
-	:param radius: the radius of the rocks
-	"""
-	player_turn = game_engine.get_player_turn()
-	result = game_engine.grid.add_rock(coords[1], coords[0], player_turn[1], None)
-	if result is not RuleStatus.OK:
-		play_sound('wrong.mp3')
-		pygame.time.wait(500)
-		print('ERROR: AI rocks cannot be placed here', coords)
-		return
-	game_engine.update_player_turn()
+	if result is RuleStatus.WIN:
+		print(f"Player {player_turn[1]} win")
+		sleep(5)
+		exit(0)
 	pygame.display.update()
 
 

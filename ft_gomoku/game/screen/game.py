@@ -80,6 +80,7 @@ def game_screen(engine: Engine):
 
 		# Draw the board and get the possible rocks coordinates
 		rocks_coord = draw_board(engine, game_engine)
+		print('ROCKS COORDS:', rocks_coord)
 		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
@@ -91,7 +92,8 @@ def game_screen(engine: Engine):
 			else:
 				# AI turn
 				rocks_ia = run_ia(game_engine.grid, None)
-				place_rocks_ai(engine.screen, game_engine, rocks_ia, 35)
+				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
+				place_rocks(engine.screen, game_engine, coords_to_place, 35)
 				pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
 				game_engine.set_last_move(game_engine.grid.get_last_move())
