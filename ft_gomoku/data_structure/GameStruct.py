@@ -12,7 +12,7 @@ class GameStruct:
 		self.player_2 = (player2, '2')
 		self.grid_size = size
 		self.game_mode = None
-		self.player_turn = self.player_1
+		self.player_turn = self.player_2
 		self.time = 0
 		self.board = []
 		self.last_move = [None, None, None]

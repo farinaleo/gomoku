@@ -72,7 +72,7 @@ def game_screen(engine: Engine):
 
 	# Set timer
 	game_engine.set_time(time.time())
-
+	print(engine.player_turn)
 	# Main loop
 	while True:
 		events_list = []
@@ -85,7 +85,7 @@ def game_screen(engine: Engine):
 		running = True
 		while running:
 			player_turn = game_engine.get_player_turn()
-			if player_turn[1] == '1':
+			if player_turn[1] == '2':
 				result = handle_events(engine, events_list, rocks_coord, game_engine)
 				if result == 'quit':
 					return
