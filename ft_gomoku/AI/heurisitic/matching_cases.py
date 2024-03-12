@@ -110,6 +110,9 @@ def __check_column(row: int, col: int, goals, grid, size) -> int:
     """
     cnt = 0
     col_g = ''.join([str(grid[col + i * size]) for i in range(size)])
+    start = max(0, row - 4)
+    end = min(size, row + 5)
+    col_g = col_g[start:end]
     for goal in goals:
         cnt = cnt + col_g.count(goal[0]) * goal[1]
     return cnt
@@ -124,6 +127,9 @@ def __check_row(row: int, col: int, goals, grid, size) -> int:
     """
     cnt = 0
     row_g = ''.join([str(grid[i + (row * size)]) for i in range(size)])
+    start = max(0, col - 4)
+    end = min(size, col + 5)
+    row_g = row_g[start:end]
     for goal in goals:
         cnt = cnt + row_g.count(goal[0]) * goal[1]
     return cnt
@@ -143,8 +149,10 @@ def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
         col = col - 1
     row = row + 1
     col = col + 1
-
     diag1_g = ''.join([str(grid[(row + i) * size + col + i]) for i in range(min(size - row, size - col))])
+    start = max(0, min(col, row) - 4)
+    end = min(len(diag1_g), min(col, row) + 5)
+    diag1_g = diag1_g[start:end]
     for goal in goals:
         cnt = cnt + diag1_g.count(goal[0]) * goal[1]
     return cnt
@@ -166,6 +174,9 @@ def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
     col = col + 1
 
     diag2_g = ''.join([str(grid[(row - i) * size + col + i]) for i in range(min(row + 1, size - col))])
+    start = max(0, min(col, row) - 4)
+    end = min(len(diag2_g), min(col, row) + 5)
+    diag2_g = diag2_g[start:end]
     for goal in goals:
         cnt = cnt + diag2_g.count(goal[0]) * goal[1]
     return cnt
