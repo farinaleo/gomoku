@@ -10,9 +10,10 @@ import ctypes
 
 from ft_gomoku import Grid, RuleStatus
 
-class Point(ctypes.Structure):
-    _fields_ = [("x", ctypes.c_int),
-                ("y", ctypes.c_int)]
+# class Point(ctypes.Structure):
+#     _fields_ = [("x", ctypes.c_int),
+#                 ("y", ctypes.c_int)]
+
 
 def next_generation(grid: Grid, rules, player1=True):
 	"""Generate the next generation from the given grid by placing the player.
@@ -25,21 +26,30 @@ def next_generation(grid: Grid, rules, player1=True):
 	line = grid.line_grid
 	size = grid.size
 	line_size = len(line)
+	bypass = True if line.count('0') > line_size - 2 else False
 	player, opponent = (grid.player1, grid.player2) if player1 else (grid.player2, grid.player1)
 
-	cluster = __cluster(line, size, line_size, player, opponent)
+	cluster = __cluster(line, size, line_size, player, opponent, bypass)
 	for cell in cluster:
 		if (line[cell[0] + cell[1] * size] == '0'
 				and 0 <= cell[0] < size
 				and 0 <= cell[1] < size):
 			_next = grid.__copy__()
 			if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
-				# _rate = evaluate(_next)
 				new_gen.append(_next)
 	return new_gen
 
 
-def __cluster(line, size, line_size, p1, p2):
+def __cluster(line, size, line_size, p1, p2, bypass):
+	""" determining the search area and return a points cluster.
+	:param line: the game as line.
+	:param size: the grid size.
+	:param line_size: the total line size len(line).
+	:param p1: the player.
+	:param p2: the opponent.
+	:param bypass: allow the middle expansion if the grid contains one stone.
+	:return: a points list.
+	"""
 	cluster = []
 
 	try:
@@ -81,7 +91,6 @@ def __cluster(line, size, line_size, p1, p2):
 	# 		break
 	# 	cluster.append((p[i].x, p[i].y))
 	# lib.free_alloc(p)
-
 	while i < end:
 		x = i % size
 		y = i // size
@@ -90,44 +99,60 @@ def __cluster(line, size, line_size, p1, p2):
 			_down = y + 1
 			_left = x - 1
 			_right = x + 1
-			if line[i] == p2 and x != size // 2 and y != size // 2:
-				if (line[_left + _up * size] != p2
-					and line[x + _up * size] != p2
-					and line[_right + _up * size] != p2
-					and line[_left + y * size] != p2
-					and line[_right + y * size] != p2
-					and line[_left + _down * size] != p2
-					and line[x + _down * size] != p2
-					and line[_right + _down * size] != p2):
-					i = i + 1
-					continue
-
 			# up left
-			if 0 <= _left < size and 0 <= _up < size and line[_left + _up * size] == '0':
+			if can_expend(line, i, x, y, _left, _up, size, p1, p2, bypass):
 				cluster.append((_left, _up))
 			# up mid
-			if 0 <= x < size and 0 <= _up < size and line[x + _up * size] == '0':
+			if can_expend(line, i, x, y, x, _up, size, p1, p2, bypass):
 				cluster.append((x, _up))
 			# up right
-			if 0 <= _right < size and 0 <= _up < size and line[_right + _up * size] == '0':
+			if can_expend(line, i, x, y, _right, _up, size, p1, p2, bypass):
 				cluster.append((_right, _up))
 			# mid left
-			if 0 <= _left < size and 0 <= y < size and line[_left + y * size] == '0':
+			if can_expend(line, i, x, y, _left, y, size, p1, p2, bypass):
 				cluster.append((_left, y))
 			# mid right
-			if 0 <= _right < size and 0 <= y < size and line[_right + y * size] == '0':
+			if can_expend(line, i, x, y, _right, y, size, p1, p2, bypass):
 				cluster.append((_right, y))
 			# down left
-			if 0 <= _left < size and 0 <= _down < size and line[_left + _down * size] == '0':
+			if can_expend(line, i, x, y, _left, _down, size, p1, p2, bypass):
 				cluster.append((_left, _down))
 			# down mid
-			if 0 <= x < size and 0 <= _down < size and line[x + _down * size] == '0':
+			if can_expend(line, i, x, y, x, _down, size, p1, p2, bypass):
 				cluster.append((x, _down))
 			# down right
-			if 0 <= _right < size and 0 <= _down < size and line[_right + _down * size] == '0':
+			if can_expend(line, i, x, y, _right, _down, size, p1, p2, bypass):
 				cluster.append((_right, _down))
 		i = i + 1
 	if len(cluster) == 0:
 		mid = size // 2
 		cluster.append((mid, mid))
 	return cluster
+
+
+def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> bool:
+	"""Allow the expansion for the search.
+	:param line: the game as line.
+	:param i: the starting point index
+	:param x: the starting x coordinate.
+	:param y: the starting y coordinate.
+	:param x_exp: the expansion x coordinate.
+	:param y_exp: the expansion y coordinate.
+	:param size: the grid size.
+	:param player: the player value.
+	:param opponent: the opponent value.
+	:param bypass: allow the middle expansion if the grid contains one stone.
+	:return: True if the expansion is allowed, otherwise False.
+	"""
+	if line[i] == player:
+		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
+			return True
+	else:
+		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
+			if bypass and x == size // 2 and y == size // 2:
+				return True
+			prev_x = x - (x_exp - x)
+			prev_y = y - (y_exp - y)
+			if 0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == opponent:
+				return True
+	return False
