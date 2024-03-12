@@ -36,7 +36,7 @@ def ia_priority(grid: Grid) -> int:
 		return 0
 	p_4 = matching_cases(grid.line_grid, grid, ia_last_move[1],
 							ia_last_move[2], grid.player1, grid.player2,
-							grid.size, grid.size ** 2, [4], False)
+							grid.size, grid.size ** 2, [3, 4], False)
 	if p_4 > 0:
 		return 1
 	return 0
