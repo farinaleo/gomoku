@@ -8,13 +8,12 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
-from ft_gomoku.AI import matching_cases
-from ft_gomoku.AI import near_to_border
+from ft_gomoku.AI import matching_cases, near_to_border, capture_stones
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
-g_func_player = [(matching_cases, 1), (near_to_border, 1)]
-g_func_opponent = [(matching_cases, 0), (near_to_border, 0)]
+g_func_player = [(matching_cases, 1), (near_to_border, 1), (capture_stones, 1)]
+g_func_opponent = [(matching_cases, -1), (near_to_border, -1), (capture_stones, -1)]
 
 
 def heuristic(node: Grid, player) -> float:
