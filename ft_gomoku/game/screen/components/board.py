@@ -89,6 +89,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param radius: the radius of the rocks
 	"""
 	player_turn = game_engine.get_player_turn()
+	game_engine.end_player_timer(player_turn[1])
 	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 	if result is RuleStatus.NO:
 		play_sound('wrong.mp3')
@@ -100,6 +101,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 		print(f"Player {player_turn[1]} win")
 		sleep(5)
 		exit(0)
+	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 	pygame.display.update()
 
 

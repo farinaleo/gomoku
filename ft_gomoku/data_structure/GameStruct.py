@@ -1,4 +1,5 @@
 import random
+import time
 from dataclasses import dataclass
 from ft_gomoku.grid.grid import Grid
 from ft_gomoku.engine.image_control import get_image
@@ -8,8 +9,8 @@ from ft_gomoku.engine.image_control import get_image
 class GameStruct:
 	def __init__(self, size: int, player1, player2):
 		self.grid = Grid(size + 1, player1, player2)
-		self.player_1 = (player1, '1', 0.0)#White rocks
-		self.player_2 = (player2, '2', 0.0)#Black rocks
+		self.player_1 = (player1, '1')#White rocks
+		self.player_2 = (player2, '2')#Black rocks
 		self.grid_size = size
 		self.game_mode = None
 		self.player_turn = self.player_2
@@ -21,8 +22,10 @@ class GameStruct:
 		self.rock_black_img = None
 		self.rock_white_last_img = None
 		self.rock_black_last_img = None
-		self.total_time_player_1 = 0
-		self.total_time_player_2 = 0
+		# (total_time, last_time, start_time)
+		self.total_time_player_1 = (0, 0, 0.0)
+		self.total_time_player_2 = (0, 0, 0.0)
+
 		print("Player turn", self.player_turn)
 
 	def init_img(self, radius: int):
@@ -56,9 +59,20 @@ class GameStruct:
 		self.player_turn = player_turn
 
 	def update_player_turn(self):
-		# black 12
 		self.player_turn = self.player_2 if self.player_turn == self.player_1 else self.player_1
 
+	def start_player_timer(self, player):
+		actual_time = time.time()
+		if player == '1':
+			self.total_time_player_1 = (self.total_time_player_1[0], self.total_time_player_1[1], actual_time)
+		else:
+			self.total_time_player_2 = (self.total_time_player_2[0], self.total_time_player_2[1], actual_time)
+	def end_player_timer(self, player):
+		elapsed_time = time.time() - self.total_time_player_1[2] if player == '1' else time.time() - self.total_time_player_2[2]
+		if player == '1':
+			self.total_time_player_1 = (self.total_time_player_1[0] + elapsed_time, elapsed_time, 0.0)
+		else:
+			self.total_time_player_2 = (self.total_time_player_2[0] + elapsed_time, elapsed_time, 0.0)
 
 	def get_player_turn(self):
 		return self.player_turn

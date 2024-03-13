@@ -20,7 +20,6 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
 				place_rocks(engine.screen, game_engine, result, 35)
-
 				return 'play'
 	return True
 
@@ -46,16 +45,28 @@ def show_timer(engine: Engine, game_engine: GameStruct):
 	:param game_engine: the game engine
 	"""
 	elapsed_time = int(time.time() - game_engine.get_time())
+	player_1_time = round(game_engine.total_time_player_1[1], 2)
+	player_2_time = round(game_engine.total_time_player_2[1], 2)
 
 	# Create the text
 	font = pygame.font.Font(None, 36)
-	text = font.render(f"Time : {elapsed_time} seconds", True, (255, 255, 255))
-	text_rect = text.get_rect(topleft=(10, 10))
+	text_timer = font.render(f"Time : {elapsed_time} seconds", True, (255, 255, 255))
+	text_rect = text_timer.get_rect(topleft=(10, 10))
+
+	text_p1_timer = font.render(f"Player 1 reflection time : {player_1_time} seconds", True, (255, 255, 255))
+	text_p1_rect = text_p1_timer.get_rect(topleft=(10, 40))
+
+	text_p2_timer = font.render(f"Player 2 reflection time : {player_2_time} seconds", True, (255, 255, 255))
+	text_p2_rect = text_p2_timer.get_rect(topleft=(10, 70))
 
 	# Fill a rectangle with the background color to clean screen
 	pygame.draw.rect(engine.screen, (8, 26, 43), text_rect)
+	pygame.draw.rect(engine.screen, (8, 26, 43), text_p1_rect)
+	pygame.draw.rect(engine.screen, (8, 26, 43), text_p2_rect)
 
-	engine.screen.blit(text, (10, 10))
+	engine.screen.blit(text_timer, (10, 10))
+	engine.screen.blit(text_p1_timer, (10, 40))
+	engine.screen.blit(text_p2_timer, (10, 70))
 
 
 def game_screen(engine: Engine, ai: bool = False):
@@ -72,7 +83,7 @@ def game_screen(engine: Engine, ai: bool = False):
 
 	# Set timer
 	game_engine.set_time(time.time())
-	print(engine.player_turn)
+	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 	# Main loop
 	while True:
 		events_list = []
@@ -89,7 +100,6 @@ def game_screen(engine: Engine, ai: bool = False):
 				if result == 'quit':
 					return
 			else:
-				# AI turn
 				rocks_ia = run_ia(game_engine.grid, None)
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 				place_rocks(engine.screen, game_engine, coords_to_place, 35)
