@@ -39,3 +39,7 @@ We based it according the following concepts / checks :
 #### Opponent patterns :
 
 ***
+## How to start your AI correctly
+_These tips are based on our personal progress and do not guarantee you an easy journey. \
+Nevertheless, we think they would have been very useful for us to better understand the \
+subject and be more efficient._
