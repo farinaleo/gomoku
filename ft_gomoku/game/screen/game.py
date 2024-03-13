@@ -17,8 +17,15 @@ from ft_gomoku.game.debug.debug import debug_screen
 # from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 
 
-def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, radius=15) -> str | bool:
-	for event in pygame.event.get():
+def handle_events_debug(engine, game_engine: GameStruct, event):
+	if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+		game_engine.update_player_turn()
+	if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
+		game_engine.set_player_turn(('0', '0'))
+
+
+def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, debug: bool, radius=15) -> str | bool:
+	for event in events_list:
 		if event.type in [pygame.KEYDOWN, pygame.QUIT]:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
 				engine.change_screen('main_menu')
@@ -28,8 +35,10 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
-				place_rocks(engine.screen, game_engine, result, 35)
+				place_rocks(engine.screen, game_engine, result, debug, 35)
 				return 'play'
+		if debug:
+			handle_events_debug(engine, game_engine, event)
 	return True
 
 
@@ -105,18 +114,22 @@ def game_screen(engine: Engine, ai: bool = False):
 		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
+			events_list = pygame.event.get()
 			player_turn = game_engine.get_player_turn()
 			if not ai or (ai and player_turn[1] == '2'):
-				result = handle_events(engine, events_list, rocks_coord, game_engine)
+				result = handle_events(engine, events_list, rocks_coord, game_engine, debug_mode)
 				if result == 'quit':
 					return
 				if result == 'debug':
 					debug_mode = not debug_mode
+					game_engine.update_player_turn()
+					if debug_mode:
+						debug.update_cpu_info()
 					redraw_board(engine, game_engine, rocks_coord)
 			else:
 				rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
-				place_rocks(engine.screen, game_engine, coords_to_place, 35)
+				place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
 				pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
 				game_engine.set_last_move(game_engine.grid.get_last_move())

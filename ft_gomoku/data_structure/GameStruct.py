@@ -59,6 +59,8 @@ class GameStruct:
 		self.player_turn = player_turn
 
 	def update_player_turn(self):
+		if self.player_turn == ('0', '0'):
+			self.player_turn = self.player_2 if self.last_move[0] == '2' else self.player_1
 		self.player_turn = self.player_2 if self.player_turn == self.player_1 else self.player_1
 
 	def start_player_timer(self, player):

@@ -1,3 +1,4 @@
+import time
 from dataclasses import dataclass
 
 import cpuinfo#TODO: add cpuinfo to requirements.txt
@@ -28,6 +29,7 @@ class DebuggerStruct:
 		self.player_2 = game_engine.player_2
 		self.grid_size = game_engine.grid_size
 		self.player_turn = game_engine.player_turn
+		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
 
@@ -39,8 +41,8 @@ class DebuggerStruct:
 		self.cpu_freq = ""
 		self.ram_total = 0
 		self.ram_used = 0
-		self.update_cpu_info()
-		self.update_ram_info()
+		# self.update_cpu_info()
+		# self.update_ram_info()
 
 	def update_settings(self, engine: Engine, game_engine: GameStruct):
 		"""Update the settings in the debugger struct
@@ -59,6 +61,7 @@ class DebuggerStruct:
 		self.player_2 = game_engine.player_2
 		self.grid_size = game_engine.grid_size
 		self.player_turn = game_engine.player_turn
+		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
 
@@ -136,6 +139,7 @@ class DebuggerStruct:
 			"player_2": self.player_2,
 			"grid_size": self.grid_size,
 			"player_turn": self.player_turn,
+			"total_time": time.time() - self.total_time,
 			"total_time_player_1": self.total_time_player_1,
 			"total_time_player_2": self.total_time_player_2,
 			"python_version": self.python_version,

@@ -81,7 +81,7 @@ def get_rocks_pos(x: int, y: int, square_size: int, g_x: int, g_y: int) -> dict:
 	return coords_dict
 
 
-def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int):
+def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, debug: bool, radius: int):
 	"""Place the rocks on the screen
 	:param screen: the pygame screen
 	:param game_engine: the game engine
@@ -90,17 +90,20 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	"""
 	player_turn = game_engine.get_player_turn()
 	game_engine.end_player_timer(player_turn[1])
-	result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
-	if result is RuleStatus.NO:
-		play_sound('wrong.mp3')
-		pygame.time.wait(500)
-		return
-	game_engine.update_player_turn()
-	anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
-	if result is RuleStatus.WIN:
-		print(f"Player {player_turn[1]} win")
-		sleep(5)
-		exit(0)
+	if not debug:
+		result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
+		if result is RuleStatus.NO:
+			play_sound('wrong.mp3')
+			pygame.time.wait(500)
+			return
+		game_engine.update_player_turn()
+		anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
+		if result is RuleStatus.WIN:
+			print(f"Player {player_turn[1]} win")
+			sleep(5)
+			exit(0)
+	else:
+		game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 	pygame.display.update()
 
