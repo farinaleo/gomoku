@@ -23,5 +23,5 @@ def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
 	:return: return 10 if the move is winning otherwise 0.
 	"""
 	if grid.winning:
-		return 10
+		return 100
 	return 0
