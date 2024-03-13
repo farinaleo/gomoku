@@ -17,4 +17,4 @@ from .game_rules.double_three_rule import double_three_forbidden
 from .data_structure import SettingsStruct
 from .grid.grid import Grid
 from .AI.next_generation import next_generation
-from .AI import run_ia
+from .AI import run_ai

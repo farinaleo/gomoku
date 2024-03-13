@@ -11,12 +11,13 @@ from ft_gomoku import Grid
 from ft_gomoku.AI import get_priority, launch_alpha_beta
 
 
-def run_ia(grid: Grid, rules) -> tuple | None:
+def run_ai(grid: Grid, rules, ai_value='1') -> tuple | None:
 	"""
 	Main function for the IA.
 	It runs the proper algorithm according to the situation.
 	:param grid: The game.
 	:param rules: The game rules set.
+	:param ai_value: The value associated with the AI
 	:return: a tuple as (x, y) for the move to player or None in case of error.
 	"""
 	# get the opponent last move mvOp
