@@ -104,7 +104,7 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=Non
 def __check_column(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in column.
     :param col: column to analyse
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
@@ -121,7 +121,7 @@ def __check_column(row: int, col: int, goals, grid, size) -> int:
 def __check_row(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in row.
     :param row:  row to analyse
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
@@ -139,7 +139,7 @@ def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in a diagonal.
     :param row:  y pos
     :param col:  x pos
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
@@ -162,7 +162,7 @@ def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in a diagonal.
     :param row:  y pos
     :param col:  x pos
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
