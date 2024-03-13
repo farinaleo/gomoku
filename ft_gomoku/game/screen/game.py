@@ -116,7 +116,7 @@ def game_screen(engine: Engine, ai: bool = False):
 		while running:
 			events_list = pygame.event.get()
 			player_turn = game_engine.get_player_turn()
-			if not ai or (ai and player_turn[1] == '2'):
+			if not ai or (ai and player_turn[1] == '2') or (ai and debug_mode):
 				result = handle_events(engine, events_list, rocks_coord, game_engine, debug_mode)
 				if result == 'quit':
 					return
@@ -127,10 +127,12 @@ def game_screen(engine: Engine, ai: bool = False):
 						debug.update_cpu_info()
 					redraw_board(engine, game_engine, rocks_coord)
 			else:
-				rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
-				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
-				place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
-				pass
+				if not debug_mode:
+					print('asd')
+					rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
+					coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
+					place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
+					pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
 				game_engine.set_last_move(game_engine.grid.get_last_move())
 				redraw_board(engine, game_engine, rocks_coord)
