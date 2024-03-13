@@ -8,8 +8,8 @@ from ft_gomoku.engine.image_control import get_image
 class GameStruct:
 	def __init__(self, size: int, player1, player2):
 		self.grid = Grid(size + 1, player1, player2)
-		self.player_1 = (player1, '1')
-		self.player_2 = (player2, '2')
+		self.player_1 = (player1, '1', 0.0)#White rocks
+		self.player_2 = (player2, '2', 0.0)#Black rocks
 		self.grid_size = size
 		self.game_mode = None
 		self.player_turn = self.player_2
@@ -21,6 +21,8 @@ class GameStruct:
 		self.rock_black_img = None
 		self.rock_white_last_img = None
 		self.rock_black_last_img = None
+		self.total_time_player_1 = 0
+		self.total_time_player_2 = 0
 		print("Player turn", self.player_turn)
 
 	def init_img(self, radius: int):
@@ -54,7 +56,9 @@ class GameStruct:
 		self.player_turn = player_turn
 
 	def update_player_turn(self):
+		# black 12
 		self.player_turn = self.player_2 if self.player_turn == self.player_1 else self.player_1
+
 
 	def get_player_turn(self):
 		return self.player_turn

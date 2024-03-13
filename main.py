@@ -10,8 +10,10 @@ def main():
 	while engine.get_running():
 		if engine.get_current_screen() == 'main_menu':
 			main_menu(engine)
-		if engine.get_current_screen() == 'game':
-			game_screen(engine)
+		if engine.get_current_screen() == '1vs1':
+			game_screen(engine, False)
+		if engine.get_current_screen() == 'ai':
+			game_screen(engine, True)
 		if engine.get_current_screen() == 'tutorial':
 			tutorial_screen(engine)
 		if engine.get_current_screen() is None:

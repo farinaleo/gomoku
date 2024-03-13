@@ -58,7 +58,7 @@ def show_timer(engine: Engine, game_engine: GameStruct):
 	engine.screen.blit(text, (10, 10))
 
 
-def game_screen(engine: Engine):
+def game_screen(engine: Engine, ai: bool = False):
 
 	# Stop music
 	stop_sound()
@@ -80,12 +80,11 @@ def game_screen(engine: Engine):
 
 		# Draw the board and get the possible rocks coordinates
 		rocks_coord = draw_board(engine, game_engine)
-		print('ROCKS COORDS:', rocks_coord)
 		redraw_board(engine, game_engine, rocks_coord)
 		running = True
 		while running:
 			player_turn = game_engine.get_player_turn()
-			if player_turn[1] == '2':
+			if not ai or (ai and player_turn[1] == '2'):
 				result = handle_events(engine, events_list, rocks_coord, game_engine)
 				if result == 'quit':
 					return
