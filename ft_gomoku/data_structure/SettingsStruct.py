@@ -12,7 +12,7 @@ class SettingsStruct:
     def __init__(self):
         self.__fps = None
         self.__music = None
-        self.__sound = None
+        self.__sound = None#delete
         self.__fullscreen = None
         self.__window_size = None
 

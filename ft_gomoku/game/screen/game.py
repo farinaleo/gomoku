@@ -8,6 +8,10 @@ from ft_gomoku.AI.AI import run_ia
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
 from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board
 from ft_gomoku.data_structure.GameStruct import GameStruct
+from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
+
+
+# from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 
 
 def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, radius=15) -> str | bool:
@@ -84,6 +88,7 @@ def game_screen(engine: Engine, ai: bool = False):
 	# Set timer
 	game_engine.set_time(time.time())
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
+
 	# Main loop
 	while True:
 		events_list = []
@@ -100,7 +105,7 @@ def game_screen(engine: Engine, ai: bool = False):
 				if result == 'quit':
 					return
 			else:
-				rocks_ia = run_ia(game_engine.grid, None)
+				rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 				place_rocks(engine.screen, game_engine, coords_to_place, 35)
 				pass

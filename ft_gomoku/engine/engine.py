@@ -20,7 +20,7 @@ class Engine:
         self.font = None
         self.favicon = None
         self.window_size = None
-        self.player_turn = None
+        self.player_turn = None#delete
 
     def init_engine(self):
         pygame.init()
