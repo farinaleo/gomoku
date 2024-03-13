@@ -7,6 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
+from ft_gomoku.AI.heurisitic.freedom import freedom_rate
 from ft_gomoku.AI.heurisitic.winning_points import winning
 from ft_gomoku.AI.heurisitic.capture_stones import capture_stones
 from ft_gomoku.AI.heurisitic.matching_cases import matching_cases
