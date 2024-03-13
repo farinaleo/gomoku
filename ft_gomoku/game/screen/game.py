@@ -10,6 +10,9 @@ from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_boa
 from ft_gomoku.data_structure.GameStruct import GameStruct
 from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
 
+from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
+
+from ft_gomoku.game.debug.debug import debug_screen
 
 # from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 
@@ -20,6 +23,8 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, rad
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
 				engine.change_screen('main_menu')
 				return 'quit'
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_F3:
+				return 'debug'
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
@@ -89,11 +94,12 @@ def game_screen(engine: Engine, ai: bool = False):
 	game_engine.set_time(time.time())
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 
+	debug_mode = False
+	debug = DebuggerStruct(engine, game_engine)
 	# Main loop
 	while True:
 		events_list = []
 		engine.screen.fill((8, 26, 43))
-
 		# Draw the board and get the possible rocks coordinates
 		rocks_coord = draw_board(engine, game_engine)
 		redraw_board(engine, game_engine, rocks_coord)
@@ -104,6 +110,9 @@ def game_screen(engine: Engine, ai: bool = False):
 				result = handle_events(engine, events_list, rocks_coord, game_engine)
 				if result == 'quit':
 					return
+				if result == 'debug':
+					debug_mode = not debug_mode
+					redraw_board(engine, game_engine, rocks_coord)
 			else:
 				rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
@@ -114,4 +123,7 @@ def game_screen(engine: Engine, ai: bool = False):
 				redraw_board(engine, game_engine, rocks_coord)
 			engine.clock.tick(engine.settings.get_fps())
 			show_timer(engine, game_engine)
+			if debug_mode:
+				redraw_board(engine, game_engine, rocks_coord)
+				debug_screen(engine, game_engine, debug)
 			pygame.display.update()
