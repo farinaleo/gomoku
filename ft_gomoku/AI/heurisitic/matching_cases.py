@@ -21,23 +21,23 @@ goal1_3 = [('11100', 0.3), ('11010', 0.3), ('11001', 0.3), ('10110', 0.3), ('101
 goal1_2 = [('11000', 0.2), ('10100', 0.2), ('10010', 0.2), ('10001', 0.2), ('01100', 0.2),
            ('01010', 0.2), ('01001', 0.2), ('00110', 0.2), ('00101', 0.2), ('00011', 0.2)]
 
-block2_4 = [('22221', 0.8), ('22212', 0.8), ('22122', 0.8), ('21222', 0.8), ('12222', 0.8)]
-block2_3 = [('22201', 0.6), ('22021', 0.6), ('22102', 0.6), ('20221', 0.6), ('20212', 0.6),
-            ('21022', 0.6), ('12220', 0.6), ('12202', 0.6), ('12022', 0.6), ('10222', 0.6),
-            ('22210', 0.6), ('22120', 0.6), ('22012', 0.6), ('21220', 0.6), ('21202', 0.6),
-            ('20122', 0.6), ('02221', 0.6), ('02212', 0.6), ('02122', 0.6), ('01222', 0.6)]
-block2_2 = [('22001', 0.4), ('20201', 0.4), ('20021', 0.4), ('20012', 0.4), ('02201', 0.4),
-            ('02021', 0.4), ('02012', 0.4), ('00221', 0.4), ('00212', 0.4), ('00122', 0.4),
-            ('22010', 0.4), ('20210', 0.4), ('20120', 0.4), ('20102', 0.4), ('02210', 0.4),
-            ('02120', 0.4), ('02102', 0.4), ('01220', 0.4), ('01202', 0.4), ('01022', 0.4),
-            ('22100', 0.4), ('21200', 0.4), ('21020', 0.4), ('21002', 0.4), ('12200', 0.4),
-            ('12020', 0.4), ('12002', 0.4), ('10220', 0.4), ('10202', 0.4), ('10022', 0.4)]
+block2_4 = [('22221', 3.8), ('22212', 3.8), ('22122', 3.8), ('21222', 3.8), ('12222', 3.8)]
+block2_3 = [('22201', 2.6), ('22021', 2.6), ('22102', 2.6), ('20221', 2.6), ('20212', 2.6),
+            ('21022', 2.6), ('12220', 2.6), ('12202', 2.6), ('12022', 2.6), ('10222', 2.6),
+            ('22210', 2.6), ('22120', 2.6), ('22012', 2.6), ('21220', 2.6), ('21202', 2.6),
+            ('20122', 2.6), ('02221', 2.6), ('02212', 2.6), ('02122', 2.6), ('01222', 2.6)]
+block2_2 = [('22001', 1.4), ('20201', 1.4), ('20021', 1.4), ('20012', 1.4), ('02201', 1.4),
+            ('02021', 1.4), ('02012', 1.4), ('00221', 1.4), ('00212', 1.4), ('00122', 1.4),
+            ('22010', 1.4), ('20210', 1.4), ('20120', 1.4), ('20102', 1.4), ('02210', 1.4),
+            ('02120', 1.4), ('02102', 1.4), ('01220', 1.4), ('01202', 1.4), ('01022', 1.4),
+            ('22100', 1.4), ('21200', 1.4), ('21020', 1.4), ('21002', 1.4), ('12200', 1.4),
+            ('12020', 1.4), ('12002', 1.4), ('10220', 1.4), ('10202', 1.4), ('10022', 1.4)]
 
-block1_4 = [('11112', 0.8), ('11121', 0.8), ('11211', 0.8), ('12111', 0.8), ('21111', 0.8)]
-block1_3 = [('11102', 0.6), ('11012', 0.6), ('11021', 0.6), ('10112', 0.6), ('10121', 0.6),
-            ('10211', 0.6), ('01112', 0.6), ('01121', 0.6), ('01211', 0.6), ('02111', 0.6),
-            ('11120', 0.6), ('11210', 0.6), ('11201', 0.6), ('12110', 0.6), ('12101', 0.6),
-            ('12011', 0.6), ('21110', 0.6), ('21101', 0.6), ('21011', 0.6), ('20111', 0.6)]
+block1_4 = [('11112', 1.8), ('11121', 1.8), ('11211', 1.8), ('12111', 1.8), ('21111', 1.8)]
+block1_3 = [('11102', 1.6), ('11012', 1.6), ('11021', 1.6), ('10112', 1.6), ('10121', 1.6),
+            ('10211', 1.6), ('01112', 1.6), ('01121', 1.6), ('01211', 1.6), ('02111', 1.6),
+            ('11120', 1.6), ('11210', 1.6), ('11201', 1.6), ('12110', 1.6), ('12101', 1.6),
+            ('12011', 1.6), ('21110', 1.6), ('21101', 1.6), ('21011', 1.6), ('20111', 1.6)]
 block1_2 = [('11002', 0.4), ('10102', 0.4), ('10012', 0.4), ('10021', 0.4), ('01102', 0.4),
             ('01012', 0.4), ('01021', 0.4), ('00112', 0.4), ('00121', 0.4), ('00211', 0.4),
             ('11020', 0.4), ('10120', 0.4), ('10210', 0.4), ('10201', 0.4), ('01120', 0.4),
@@ -61,7 +61,7 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=Non
     :return: the evaluated rate of the move.
     """
     if lens is None:
-        lens = [2, 3, 4]
+        lens = [3, 4]
     count = 0
     goals = []
     for n in lens:
@@ -103,30 +103,34 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=Non
 def __check_column(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in column.
     :param col: column to analyse
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
     cnt = 0
     col_g = ''.join([str(grid[col + i * size]) for i in range(size)])
+    start = max(0, row - 4)
+    end = min(size, row + 5)
+    col_g = col_g[start:end]
     for goal in goals:
-        if goal[0] in col_g:
-            cnt = cnt + goal[1]
+        cnt = cnt + col_g.count(goal[0]) * goal[1]
     return cnt
 
 
 def __check_row(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in row.
     :param row:  row to analyse
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
     cnt = 0
     row_g = ''.join([str(grid[i + (row * size)]) for i in range(size)])
+    start = max(0, col - 4)
+    end = min(size, col + 5)
+    row_g = row_g[start:end]
     for goal in goals:
-        if goal[0] in row_g:
-            cnt = cnt + goal[1]
+        cnt = cnt + row_g.count(goal[0]) * goal[1]
     return cnt
 
 
@@ -134,7 +138,7 @@ def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in a diagonal.
     :param row:  y pos
     :param col:  x pos
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
@@ -144,11 +148,12 @@ def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
         col = col - 1
     row = row + 1
     col = col + 1
-
     diag1_g = ''.join([str(grid[(row + i) * size + col + i]) for i in range(min(size - row, size - col))])
+    start = max(0, min(col, row) - 4)
+    end = min(len(diag1_g), min(col, row) + 5)
+    diag1_g = diag1_g[start:end]
     for goal in goals:
-        if goal[0] in diag1_g:
-            cnt = cnt + goal[1]
+        cnt = cnt + diag1_g.count(goal[0]) * goal[1]
     return cnt
 
 
@@ -156,7 +161,7 @@ def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
     """Check if the next move is winning by aligning five stones or more in a diagonal.
     :param row:  y pos
     :param col:  x pos
-    :param goal: goal line
+    :param goals: goal line
     :param grid: grid to analyse
     :return: Rule status (WIN | NO)
     """
@@ -168,7 +173,10 @@ def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
     col = col + 1
 
     diag2_g = ''.join([str(grid[(row - i) * size + col + i]) for i in range(min(row + 1, size - col))])
+    len_diag2_g = len(diag2_g)
+    start = max(0, min(col, len_diag2_g - row) - 4)
+    end = min(len_diag2_g, min(len_diag2_g - col, row) + 5)
+    diag2_g = diag2_g[start:end]
     for goal in goals:
-        if goal[0] in diag2_g:
-            cnt = cnt + goal[1]
+        cnt = cnt + diag2_g.count(goal[0]) * goal[1]
     return cnt

@@ -11,6 +11,7 @@ from ft_gomoku import log
 from ft_gomoku.grid.grid import Grid
 from ft_gomoku.AI import heuristic, next_generation
 
+
 @log()
 def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, is_max=True) -> float | None:
 	"""

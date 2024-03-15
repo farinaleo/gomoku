@@ -1,24 +1,27 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #   contact : leo.farina.fr@gmail.com                                                                 ░▄▄▄▄░           |
 #   github : https://github.com/farinaleo                                                             ▀▀▄██►           |
-#   date : 2/25/24, 6:08 PM                                                                           ▀▀███►           |
+#   date : 3/12/24, 8:21 AM                                                                           ▀▀███►           |
 #                                                                                                     ░▀███►░█►        |
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from .logger.logger import log
-from .game_rules.rule_status import CAPTURE, RuleStatus
-from .game_rules.rules_decorator import rule
-from .game_rules.five_to_win_rule import five_to_win
-from .game_rules.capture import capture
-from .game_rules.ten_captures_to_win_rule import ten_capture_to_win
-from .game_rules.double_three_rule import double_three_forbidden
-from .data_structure import SettingsStruct
-from .engine import Engine
-from .game import main_menu
-from .game import game_screen
-from .game import tutorial_screen
-from .grid.grid import Grid
-from .AI.next_generation import next_generation
-from .AI import run_ai
+from ft_gomoku import Grid
+
+
+def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
+	"""Evaluate if the move is winning.
+	:param line: the game as list.
+	:param grid: the node.
+	:param x: last move played.
+	:param y: last move played.
+	:param player: player who played the move to evaluate.
+	:param opponent: the opponent.
+	:param size: the grid size.
+	:param line_size: the total lien size.
+	:return: return 10 if the move is winning otherwise 0.
+	"""
+	if grid.winning:
+		return 100
+	return 0

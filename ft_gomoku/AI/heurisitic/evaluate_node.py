@@ -8,8 +8,9 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku.grid.grid import Grid
-from ft_gomoku.AI import matching_cases
-from ft_gomoku.AI import near_to_border
+from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
+    winning, potential_capture, freedom_rate, expend_to_victory, \
+    freedom_alignment_rate
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.

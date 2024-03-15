@@ -24,10 +24,10 @@ def near_to_border(line, grid, x, y, player, opponent, size, line_size) -> float
 	count = 0
 	if x < 5:
 		count = count + (5 - x)
+	elif x > size - 5:
+		count = count + (x - (size - 6))
 	if y < 5:
 		count = count + (5 - y)
-	if x > size - 5:
-		count = count + (5 - size - x)
-	if y > size - 5:
-		count = count + (5 - size - y)
+	elif y > size - 5:
+		count = count + (y - (size - 6))
 	return count

@@ -1,24 +1,32 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #   contact : leo.farina.fr@gmail.com                                                                 ░▄▄▄▄░           |
 #   github : https://github.com/farinaleo                                                             ▀▀▄██►           |
-#   date : 2/25/24, 6:08 PM                                                                           ▀▀███►           |
+#   date : 3/15/24, 10:30 AM                                                                           ▀▀███►           |
 #                                                                                                     ░▀███►░█►        |
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from .logger.logger import log
-from .game_rules.rule_status import CAPTURE, RuleStatus
-from .game_rules.rules_decorator import rule
-from .game_rules.five_to_win_rule import five_to_win
-from .game_rules.capture import capture
-from .game_rules.ten_captures_to_win_rule import ten_capture_to_win
-from .game_rules.double_three_rule import double_three_forbidden
-from .data_structure import SettingsStruct
-from .engine import Engine
-from .game import main_menu
-from .game import game_screen
-from .game import tutorial_screen
-from .grid.grid import Grid
-from .AI.next_generation import next_generation
-from .AI import run_ai
+import ft_gomoku as gmk
+import ft_gomoku.AI as ai
+
+
+def test_1():
+    grid = gmk.Grid(19, '1', '2')
+    grid.add_rock(9, 9, '1', [])
+    assert ai.near_to_border(grid.line_grid, grid, 9, 9, '1', '2', 19, 361) == 0
+
+
+def test_2():
+    grid = gmk.Grid(19, '1', '2')
+    grid.add_rock(18, 18, '1', [])
+    assert ai.near_to_border(grid.line_grid, grid, 18, 18, '1', '2', 19, 361) == 10
+
+
+def test_3():
+    grid = gmk.Grid(19, '1', '2')
+    grid.add_rock(1, 1, '1', [])
+    assert ai.near_to_border(grid.line_grid, grid, 1, 1, '1', '2', 19, 361) == 8
+
+
+
