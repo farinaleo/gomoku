@@ -1,7 +1,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #   contact : leo.farina.fr@gmail.com                                                                 ░▄▄▄▄░           |
 #   github : https://github.com/farinaleo                                                             ▀▀▄██►           |
-#   date : 3/10/24, 3:17 PM                                                                           ▀▀███►           |
+#   date : 3/12/24, 8:21 AM                                                                           ▀▀███►           |
 #                                                                                                     ░▀███►░█►        |
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
@@ -10,8 +10,8 @@
 from ft_gomoku import Grid
 
 
-def near_to_border(line, grid, x, y, player, opponent, size, line_size) -> float:
-	"""Evaluate if the move is to close to the border.
+def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
+	"""Evaluate if the move is winning.
 	:param line: the game as list.
 	:param grid: the node.
 	:param x: last move played.
@@ -20,15 +20,8 @@ def near_to_border(line, grid, x, y, player, opponent, size, line_size) -> float
 	:param opponent: the opponent.
 	:param size: the grid size.
 	:param line_size: the total lien size.
-	:return: the evaluated rate of the move.
+	:return: return 10 if the move is winning otherwise 0.
 	"""
-	count = 0
-	if x < 5:
-		count = count + (5 - x)
-	elif x > size - 5:
-		count = count + (x - (size - 6))
-	if y < 5:
-		count = count + (5 - y)
-	elif y > size - 5:
-		count = count + (y - (size - 6))
-	return count
+	if grid.winning:
+		return 100
+	return 0

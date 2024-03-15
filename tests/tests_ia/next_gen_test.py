@@ -47,9 +47,9 @@ def test_4():
 	grid = gmk.Grid(5, '1', '2')
 	grid.add_rock(0, 0, '1', [])
 	res = gmk.next_generation(grid, [], False)
-	result = ['1', '2', '0', '0', '0',
+	result = ['1', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
-	          '0', '0', '0', '0', '0',
+	          '0', '0', '2', '0', '0',
 	          '0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0']
 	assert res[0].line_grid == result
