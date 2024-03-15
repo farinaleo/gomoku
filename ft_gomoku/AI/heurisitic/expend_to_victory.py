@@ -125,7 +125,7 @@ def can_win(line, player, opponent):
         if c == player:
             friends = friends + 1
             if friends >= 2:
-                continue
+                break
         if c == opponent:
             friends = 0
     if friends < 2:

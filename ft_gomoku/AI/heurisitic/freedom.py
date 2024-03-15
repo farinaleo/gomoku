@@ -49,11 +49,13 @@ def freedom_dir(line, x, y, size, opponent, dir_x, dir_y) -> float:
 	:param opponent: the opponent value.
 	:param dir_x: the x direction.
 	:param dir_y: the y direction.
-	:return: the number of free steps possible from (x, y) over 5.
+	:return: the number of free steps possible from (x, y) [0,4].
 	"""
 	count = 0
 	while count < 5 and 0 <= x <= size and 0 <= y <= size and line[x + y * size] != opponent:
 		x = x + dir_x
 		y = y + dir_y
 		count = count + 1
-	return count / 1
+	if count > 0:
+		count = count - 1
+	return count

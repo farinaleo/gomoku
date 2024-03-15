@@ -38,13 +38,23 @@ def freedom_alignment_rate(line, grid, x, y, player, opponent, size, line_size) 
     :param opponent: the opponent.
     :param size: the grid size.
     :param line_size: the total lien size.
-    :return: 0 for flanked, 2 for free, 1 for half-free or no alignment.
+    :return: 0 for flanked  or no alignment, 2 for free, 1 for half-free.
     """
     freedom_possibilities = []
     if player == '1':
-        freedom_possibilities.append(free1_4 + free1_3 + free1_2 + half_free1_4 + half_free1_3 + half_free1_2)
+        freedom_possibilities.extend(free1_2)
+        freedom_possibilities.extend(free1_3)
+        freedom_possibilities.extend(free1_4)
+        freedom_possibilities.extend(half_free1_4)
+        freedom_possibilities.extend(half_free1_3)
+        freedom_possibilities.extend(half_free1_2)
     else:
-        freedom_possibilities.append(free2_4 + free2_3 + free2_2 + half_free2_4 + half_free2_3 + half_free2_2)
+        freedom_possibilities.extend(free2_2)
+        freedom_possibilities.extend(free2_3)
+        freedom_possibilities.extend(free2_4)
+        freedom_possibilities.extend(half_free2_4)
+        freedom_possibilities.extend(half_free2_3)
+        freedom_possibilities.extend(half_free2_2)
 
     cnt = __check_column(y, x, player, opponent, line, size, freedom_possibilities)
     cnt = cnt + __check_row(y, x, player, opponent, line, size, freedom_possibilities)
@@ -150,17 +160,17 @@ def freedom_rate(line, player, opponent, cases):
     :return: 00 for flanked, 2 for free, 1 for half-free or no alignment.
     """
     if line.count(player) < 2:
-        return 1
+        return 0
     friends = 0
     for c in line:
         if c == player:
             friends = friends + 1
             if friends >= 2:
-                continue
+                break
         if c == opponent:
             friends = 0
     if friends < 2:
-        return 1
+        return 0
     for case in cases:
         if case[0] in line:
             return case[1]
