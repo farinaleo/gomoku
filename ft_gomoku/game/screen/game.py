@@ -4,7 +4,7 @@ from time import sleep
 import pygame
 import time
 
-from ft_gomoku.AI.AI import run_ia
+from ft_gomoku.AI.AI import run_ai
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
 from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board
 from ft_gomoku.data_structure.GameStruct import GameStruct
@@ -13,7 +13,7 @@ from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, 
 from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 
 from ft_gomoku.game.debug.debug import debug_screen
-
+from ft_gomoku.game.screen.components import draw_rocks
 # from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 
 
@@ -32,6 +32,10 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, deb
 				return 'quit'
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_F3:
 				return 'debug'
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_F4:
+				return 'info'
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_F2:
+				return 'help'
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
@@ -104,6 +108,9 @@ def game_screen(engine: Engine, ai: bool = False):
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 
 	debug_mode = False
+	info_mode = False
+	help_mode = False
+	ai_rocks = None
 	debug = DebuggerStruct(engine, game_engine)
 	# Main loop
 	while True:
@@ -117,7 +124,16 @@ def game_screen(engine: Engine, ai: bool = False):
 			events_list = pygame.event.get()
 			player_turn = game_engine.get_player_turn()
 			if not ai or (ai and player_turn[1] == '2') or (ai and debug_mode):
+				if help_mode and not (debug_mode or info_mode):
+					if ai_rocks is None:
+						rocks_ai = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win], player_turn, game_engine.get_opponent_turn())
+						ai_rocks = rocks_ai
+					if ai_rocks is not None:
+						coords_to_place = rocks_coord[ai_rocks]
+						draw_rocks(engine.screen, game_engine, coords_to_place, 35, 0)
 				result = handle_events(engine, events_list, rocks_coord, game_engine, debug_mode)
+				if result == 'play':
+					ai_rocks = None
 				if result == 'quit':
 					return
 				if result == 'debug':
@@ -126,10 +142,16 @@ def game_screen(engine: Engine, ai: bool = False):
 					if debug_mode:
 						debug.update_cpu_info()
 					redraw_board(engine, game_engine, rocks_coord)
+				if result == 'info':
+					info_mode = not info_mode
+					if info_mode:
+						debug.update_cpu_info()
+				if result == 'help':
+					help_mode = not help_mode
+
 			else:
 				if not debug_mode:
-					print('asd')
-					rocks_ia = run_ia(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
+					rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 					coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 					place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
 					pass
@@ -138,7 +160,7 @@ def game_screen(engine: Engine, ai: bool = False):
 				redraw_board(engine, game_engine, rocks_coord)
 			engine.clock.tick(engine.settings.get_fps())
 			show_timer(engine, game_engine)
-			if debug_mode:
+			if debug_mode or info_mode:
 				redraw_board(engine, game_engine, rocks_coord)
 				debug_screen(engine, game_engine, debug)
 			pygame.display.update()

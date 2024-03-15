@@ -29,6 +29,7 @@ class DebuggerStruct:
 		self.player_2 = game_engine.player_2
 		self.grid_size = game_engine.grid_size
 		self.player_turn = game_engine.player_turn
+		self.opponent_turn = game_engine.get_opponent_turn()
 		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
@@ -61,6 +62,7 @@ class DebuggerStruct:
 		self.player_2 = game_engine.player_2
 		self.grid_size = game_engine.grid_size
 		self.player_turn = game_engine.player_turn
+		self.opponent_turn = game_engine.get_opponent_turn()
 		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
@@ -116,6 +118,7 @@ class DebuggerStruct:
 		print(f"Player 2: {self.player_2}")
 		print(f"Grid size: {self.grid_size} # Board size, add 1 for the grid size")
 		print(f"Player turn: {self.player_turn}")
+		print(f"Opponent turn: {self.opponent_turn}")
 		print(f"Total time player 1: {self.total_time_player_1} # (total_time, last_time, tmp_start_time)")
 		print(f"Total time player 2: {self.total_time_player_2} # (total_time, last_time, tmp_start_time)")
 
@@ -139,6 +142,7 @@ class DebuggerStruct:
 			"player_2": self.player_2,
 			"grid_size": self.grid_size,
 			"player_turn": self.player_turn,
+			"opponent_turn": self.opponent_turn,
 			"total_time": time.time() - self.total_time,
 			"total_time_player_1": self.total_time_player_1,
 			"total_time_player_2": self.total_time_player_2,

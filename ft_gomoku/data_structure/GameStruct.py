@@ -22,6 +22,7 @@ class GameStruct:
 		self.rock_black_img = None
 		self.rock_white_last_img = None
 		self.rock_black_last_img = None
+		self.rock_help_img = None
 		# (total_time, last_time, start_time)
 		self.total_time_player_1 = (0, 0, 0.0)
 		self.total_time_player_2 = (0, 0, 0.0)
@@ -33,12 +34,15 @@ class GameStruct:
 		self.rock_black_img = get_image('rocks_black.png', radius, radius)
 		self.rock_black_last_img = get_image('rocks_black_last.png', radius, radius)
 		self.rock_white_last_img = get_image('rocks_white_last.png', radius, radius)
+		self.rock_help_img = get_image('rocks_help.png', radius, radius)
 
 	def get_rocks_img(self, player: int, last: bool):
 		if player == '1':
 			return self.rock_white_last_img if last else self.rock_white_img
-		else:
+		elif player == '2':
 			return self.rock_black_last_img if last else self.rock_black_img
+		else:
+			return self.rock_help_img
 
 	def get_last_move(self):
 		return self.last_move
@@ -78,6 +82,9 @@ class GameStruct:
 
 	def get_player_turn(self):
 		return self.player_turn
+
+	def get_opponent_turn(self):
+		return self.player_1 if self.player_turn == self.player_2 else self.player_2
 
 	def set_time(self, time):
 		self.time = time
