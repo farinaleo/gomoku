@@ -7,6 +7,14 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
+free2_4 = [('022220', 2)]
+free2_3 = [('0022200', 2), ('0202200', 2), ('0022020', 2)]
+free2_2 = [('00022000', 2), ('0020200', 2), ('020020', 2)]
+
+free1_4 = [('011110', 2)]
+free1_3 = [('0011100', 2), ('0101100', 2), ('0011010', 2)]
+free1_2 = [('00011000', 2), ('0010100', 2), ('010010', 2)]
+
 half_free2_4 = [('22220', 1), ('22202', 1), ('22022', 1), ('20222', 1), ('02222', 1)]
 half_free2_3 = [('22200', 1), ('22020', 1), ('22002', 1), ('20220', 1), ('20202', 1),
                 ('20022', 1), ('02220', 1), ('02202', 1), ('02022', 1), ('00222', 1)]
@@ -32,6 +40,17 @@ def freedom_alignment_rate(line, grid, x, y, player, opponent, size, line_size) 
     :param line_size: the total lien size.
     :return: 0 for flanked, 2 for free, 1 for half-free or no alignment.
     """
+    freedom_possibilities = []
+    if player == '1':
+        freedom_possibilities.append(free1_4 + free1_3 + free1_2 + half_free1_4 + half_free1_3 + half_free1_2)
+    else:
+        freedom_possibilities.append(free2_4 + free2_3 + free2_2 + half_free2_4 + half_free2_3 + half_free2_2)
+
+    cnt = __check_column(y, x, player, opponent, line, size, freedom_possibilities)
+    cnt = cnt + __check_row(y, x, player, opponent, line, size, freedom_possibilities)
+    cnt = cnt + __check_diagonal1(y, x, player, opponent, line, size, freedom_possibilities)
+    cnt = cnt + __check_diagonal2(y, x, player, opponent, line, size, freedom_possibilities)
+    return cnt
 
 
 def __check_column(row: int, col: int, player, opponent, line, size, cases) -> float:
