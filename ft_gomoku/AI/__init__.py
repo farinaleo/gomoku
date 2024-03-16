@@ -18,6 +18,7 @@ from ft_gomoku.AI.heurisitic.freedom_alignment import freedom_alignment_rate
 from ft_gomoku.AI.heurisitic.evaluate_node import heuristic
 from ft_gomoku.AI.next_generation import next_generation
 from ft_gomoku.AI.algorithm.alphabetaprunning import launch_alpha_beta
+from ft_gomoku.AI.algorithm.pvs import launch_pvs
 from ft_gomoku.AI.priority.priority import get_priority
 from ft_gomoku.AI.AI import run_ai
 
