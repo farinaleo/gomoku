@@ -52,7 +52,7 @@ def freedom_dir(line, x, y, size, opponent, dir_x, dir_y) -> float:
 	:return: the number of free steps possible from (x, y) [0,4].
 	"""
 	count = 0
-	while count < 5 and 0 <= x <= size and 0 <= y <= size and line[x + y * size] != opponent:
+	while count < 5 and 0 <= x < size and 0 <= y < size and line[x + y * size] != opponent:
 		x = x + dir_x
 		y = y + dir_y
 		count = count + 1

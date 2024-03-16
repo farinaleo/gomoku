@@ -133,7 +133,7 @@ def can_win(line, player, opponent):
     start = 0
     end = 5
     len_diag2_g = len(line)
-    while 0 <= start <= len_diag2_g and 0 <= end <= len_diag2_g:
+    while 0 <= start < len_diag2_g and 0 <= end < len_diag2_g:
         if line[start:end].count(player) >= 2:
             if line[start:end].count(opponent) == 0:
                 return 1
