@@ -8,7 +8,6 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
-
 capture1 = [('0112', 1), ('2110', 1)]
 capture2 = [('0221', 1), ('1220', 1)]
 

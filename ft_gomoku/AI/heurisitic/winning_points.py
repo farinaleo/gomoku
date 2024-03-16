@@ -9,7 +9,6 @@
 
 from ft_gomoku import Grid
 
-
 def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
 	"""Evaluate if the move is winning.
 	:param line: the game as list.
