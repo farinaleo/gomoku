@@ -37,7 +37,7 @@ def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
 			max_val = max(max_val, _val)
 			alpha = max(alpha, max_val)
 			if max_val >= beta:
-				break
+				return max_val
 	else:
 		max_val = float('+inf')
 		for node in next_gen:
@@ -45,7 +45,7 @@ def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
 			max_val = min(max_val, _val)
 			beta = min(beta, max_val)
 			if max_val <= alpha:
-				break
+				return max_val
 	return max_val
 
 
