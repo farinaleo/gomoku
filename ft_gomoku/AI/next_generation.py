@@ -6,7 +6,6 @@
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
-import ctypes
 
 from ft_gomoku.grid.grid import Grid
 from ft_gomoku import RuleStatus
