@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import os
 import json
 
@@ -12,14 +12,14 @@ class SettingsStruct:
     def __init__(self):
         self.__fps = None
         self.__music = None
-        self.__sound = None
+        self.__sound = None#delete
         self.__fullscreen = None
         self.__window_size = None
 
     def print(self):
         """print representation of the SettingsStruct. Debug only"""
         print('SettingsStruct contain :')
-        print(f'fps: {self.__fps}, music: {self.__music}, sound: {self.__sound}, fullscreen: {self.__fullscreen}, size: {self.__window_size}')
+        print(f'fps: {self.__fps}, music: {self.__music}, fullscreen: {self.__fullscreen}, size: {self.__window_size}')
 
     def get_fps(self) -> int:
         return self.__fps
@@ -33,12 +33,6 @@ class SettingsStruct:
     def set_music(self, music: bool):
         self.__music = music
 
-    def get_sound(self) -> bool:
-        return self.__sound
-
-    def set_sound(self, sound: bool):
-        self.__sound = sound
-
     def get_fullscreen(self) -> bool:
         return self.__fullscreen
 
@@ -48,7 +42,17 @@ class SettingsStruct:
     def get_window_size(self) -> [int, int]:
         return self.__window_size
 
+    def get_width(self) -> int:
+        return self.__window_size[0]
+
+    def get_height(self) -> int:
+        return self.__window_size[1]
+
     def set_window_size(self, width: int, height: int):
+        """set window size in the settings
+        :param width: width of the window
+        :param height: height of the window
+        """
         self.__window_size = [width, height]
 
     def save(self) -> bool:
@@ -58,7 +62,6 @@ class SettingsStruct:
         settings_file = {
             'max_framerate': self.get_fps(),
             'music': self.get_music(),
-            'sound': self.get_sound(),
             'fullscreen': self.get_fullscreen(),
             'window_size': self.get_window_size()
         }
@@ -76,11 +79,10 @@ class SettingsStruct:
 
     def load_default_settings(self):
         """load default settings."""
-        self.set_fps(30)
+        self.set_fps(60)
         self.set_music(True)
-        self.set_sound(True)
         self.set_fullscreen(False)
-        self.set_window_size(1280, 720)
+        self.set_window_size(1920, 1080)
         print('default settings loaded')
 
     def load(self):
@@ -95,7 +97,6 @@ class SettingsStruct:
                 settings_file = json.load(file)
                 self.set_fps(settings_file['max_framerate'])
                 self.set_music(settings_file['music'])
-                self.set_sound(settings_file['sound'])
                 self.set_fullscreen(settings_file['fullscreen'])
                 self.set_window_size(settings_file['window_size'][0], settings_file['window_size'][1])
                 print('settings loaded')
