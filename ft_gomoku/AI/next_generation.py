@@ -7,8 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku.grid.grid import Grid
-from ft_gomoku import RuleStatus
+from ft_gomoku import Grid, RuleStatus
 
 # class Point(ctypes.Structure):
 #     _fields_ = [("x", ctypes.c_int),

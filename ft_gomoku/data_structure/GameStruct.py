@@ -1,7 +1,7 @@
 import random
 import time
 from dataclasses import dataclass
-from ft_gomoku.grid.grid import Grid
+from ft_gomoku import Grid
 from ft_gomoku.engine.image_control import get_image
 
 

@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku.grid.grid import Grid
+from ft_gomoku import Grid
 
 
 def capture_stones(line, grid, x, y, player, opponent, size, line_size) -> float:

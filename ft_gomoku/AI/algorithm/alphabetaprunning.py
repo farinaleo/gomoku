@@ -8,7 +8,7 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import log
-from ft_gomoku.grid.grid import Grid
+from ft_gomoku import Grid
 from ft_gomoku.AI import heuristic, next_generation
 
 

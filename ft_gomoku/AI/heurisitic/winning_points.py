@@ -7,7 +7,7 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku.grid.grid import Grid
+from ft_gomoku import Grid
 
 def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
 	"""Evaluate if the move is winning.
