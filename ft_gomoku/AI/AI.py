@@ -30,8 +30,8 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
 	#   return algo(depth 1) // win
 	# else :
 	#   return algo(depth > 1) // attack
-	depth = 3   # %2=1 to target IA
+	depth = 5   # %2=1 to target IA
 	priority = get_priority(grid, ai_value, opponent_value)
 	if priority != 0:
 		depth = 1
-	return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules)
+	return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)

@@ -14,11 +14,11 @@ from ft_gomoku import Grid, RuleStatus
 #                 ("y", ctypes.c_int)]
 
 
-def next_generation(grid: Grid, rules, player1=True):
+def next_generation(grid: Grid, rules, ai_value):
 	"""Generate the next generation from the given grid by placing the player.
 	:param grid: the grid to extend
 	:param rules: the rules aplay to the game
-	:param player1: True if the new generation is with the first player, otherwise False
+	:param ai_value: the value used to identify the AI.
 	:return: a list of ft_gomoku.grid representing the next generation
 	"""
 	new_gen = []
@@ -26,7 +26,7 @@ def next_generation(grid: Grid, rules, player1=True):
 	size = grid.size
 	line_size = len(line)
 	bypass = True if line.count('0') > line_size - 2 else False
-	player, opponent = (grid.player1, grid.player2) if player1 else (grid.player2, grid.player1)
+	player, opponent = (grid.player1, grid.player2) if ai_value == grid.player1 else (grid.player2, grid.player1)
 
 	cluster = __cluster(line, size, line_size, player, opponent, bypass)
 	for cell in cluster:
@@ -158,7 +158,10 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 			prev_x = x - (x_exp - x)
 			prev_y = y - (y_exp - y)
 			if 0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == opponent:
-				return True
+				prev2_x = x - 2 * (x_exp - x)
+				prev2_y = y - 2 * (y_exp - y)
+				if 0 <= prev2_x < size and 0 <= prev2_y < size and line[prev2_x + prev2_y * size] == opponent:
+					return True
 	return False
 
 
