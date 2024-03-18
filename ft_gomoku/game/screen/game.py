@@ -113,6 +113,7 @@ def game_screen(engine: Engine, ai: bool = False):
 	ai_rocks = None
 	debug = DebuggerStruct(engine, game_engine)
 	# Main loop
+	game_engine.update_player_turn()
 	while True:
 		events_list = []
 		engine.screen.fill((8, 26, 43))
