@@ -77,19 +77,30 @@ def __cluster(line, size, line_size, p1, p2, bypass):
 	end = max(last_p1, last_p2)
 	end = min(end, line_size)
 
-	# lib = ctypes.CDLL('./ft_gomoku/AI/ft_gomoku.so')
-	# lib.possible_mvt.restype = ctypes.POINTER(Point)
-	#
-	# line_c = ctypes.c_char_p(''.join(line).encode('utf-8'))
-	# size_c = ctypes.c_int(size)
-	# i_c = ctypes.c_int(i)
-	# end_c = ctypes.c_int(end)
-	# p = lib.possible_mvt(line_c, size_c, i_c, end_c)
-	# for i in range(361):
-	# 	if p[i].x == -1:
-	# 		break
-	# 	cluster.append((p[i].x, p[i].y))
-	# lib.free_alloc(p)
+	expend_cluster(line, i, end, size, p1, p2, cluster, bypass)
+	if len(cluster) == 0:
+		expend_cluster(line, i, end, size, p1, p2, cluster, True)
+	if len(cluster) == 0:
+		mid = size // 2
+		cluster.append((mid, mid))
+	print(f'child {len(cluster)}')
+	size_max_cluster = min(3, len(cluster))
+	cluster = cluster[:size_max_cluster]
+	return cluster
+
+
+def expend_cluster(line, i, end, size, p1, p2, cluster, bypass):
+	""" Expend the cluster with the next points to explore.
+	:param line: the game as line.
+	:param i: the starting point.
+	:param end: the ending point.
+	:param size: the grid size.
+	:param p1: the player.
+	:param p2: the opponent.
+	:param cluster: the points cluster.
+	:param bypass: allow the middle expansion if the grid contains one stone.
+	:return: a points list.
+	"""
 	while i < end:
 		x = i % size
 		y = i // size
@@ -123,10 +134,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
 			if can_expend(line, i, x, y, _right, _down, size, p1, p2, bypass):
 				cluster.append((_right, _down))
 		i = i + 1
-	if len(cluster) == 0:
-		mid = size // 2
-		cluster.append((mid, mid))
-	return cluster
 
 
 def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> bool:
@@ -147,7 +154,7 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 		if have_friends(line, x, y, size, player):
 			prev_x = x - (x_exp - x)
 			prev_y = y - (y_exp - y)
-			if not (0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == player):
+			if not bypass and not (0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == player):
 				return False
 		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
 			return True
@@ -160,7 +167,10 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 			if 0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == opponent:
 				prev2_x = x - 2 * (x_exp - x)
 				prev2_y = y - 2 * (y_exp - y)
-				if 0 <= prev2_x < size and 0 <= prev2_y < size and line[prev2_x + prev2_y * size] == opponent:
+				if not bypass:
+					if 0 <= prev2_x < size and 0 <= prev2_y < size and line[prev2_x + prev2_y * size] == opponent:
+						return True
+				else:
 					return True
 	return False
 
