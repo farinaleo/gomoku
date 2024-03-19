@@ -1,16 +1,14 @@
 #include "grid.hpp"
 
 
-Grid::Grid(int size, char player1, char player2) {
+Grid::Grid(const char *grid, int size, char player1, char player2) {
     this->size = size;
     this->player1 = player1;
     this->player2 = player2;
     for (int i = 0; i < 361; i++) {
-        this->grid[i] = '0';
+        this->grid[i] = grid[i];
     }
     this->grid[361] = '\0';
-    this->captured_stones[player1] = 0;
-    this->captured_stones[player2] = 0;
 }
 
 Grid::~Grid() {
@@ -26,7 +24,7 @@ Grid::Grid(const Grid& arg) {
         this->grid[i] = arg.grid[i];
     }
     this->grid[361] = '\0';
-    this->captured_stones = arg.captured_stones;
+//    this->captured_stones = arg.captured_stones;
 }
 
 Grid& Grid::operator=(const Grid& arg) {
@@ -38,7 +36,7 @@ Grid& Grid::operator=(const Grid& arg) {
         this->grid[i] = arg.grid[i];
     }
     this->grid[361] = '\0';
-    this->captured_stones = arg.captured_stones;
+//    this->captured_stones = arg.captured_stones;
     return *this;
 }
 

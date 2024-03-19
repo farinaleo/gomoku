@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-int run_ai(char player, int x, int y,const char *groud);
+int run_ai(const char *grid, char ai_value, char opponent_value);
 
 #ifdef __cplusplus
 }

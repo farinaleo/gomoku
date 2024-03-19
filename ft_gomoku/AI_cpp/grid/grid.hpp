@@ -25,7 +25,7 @@ class Grid {
         std::map<char, int> captured_stones;
         std::vector<Move> history;
 
-        Grid(int size, char player1, char player2);
+        Grid(const char *grid, int size, char player1, char player2);
         ~Grid();
         Grid(const Grid& arg);
         Grid& operator=(const Grid& arg);
