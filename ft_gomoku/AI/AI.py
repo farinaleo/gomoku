@@ -9,7 +9,7 @@
 
 import os
 from ft_gomoku import Grid
-from ft_gomoku.AI import get_priority, launch_alpha_beta, launch_alpha_beta_hard, launch_pvs
+from ft_gomoku.AI import get_priority, launch_alpha_beta, launch_alpha_beta_hard, launch_pvs, launch_alpha_beta_thread
 
 
 def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
@@ -31,16 +31,18 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
 	#   return algo(depth 1) // win
 	# else :
 	#   return algo(depth > 1) // attack
-	depth = 11   # %2=1 to target IA
+	depth = 5   # %2=1 to target IA
 
 	algo = os.getenv('GOMOKU_ALGO')
 
 	priority = get_priority(grid, ai_value, opponent_value)
 	if priority != 0:
-		depth = 1
+		depth = 5
 	if algo == 'PVS':
 		return launch_pvs(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
-	if algo == 'ALPHA_HARD':
+	elif algo == 'ALPHA_HARD':
 		return launch_alpha_beta_hard(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
+	elif algo == 'ALPHA_THREAD':
+		return launch_alpha_beta_thread(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	else:
 		return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)

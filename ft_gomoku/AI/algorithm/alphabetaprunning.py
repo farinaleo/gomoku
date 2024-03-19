@@ -25,7 +25,7 @@ def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
     :param is_max: True if the turn is for the IA otherwise False.
     :return: The node evaluation or None in case of error.
     """
-    if depth == 0 or grid.winning:
+    if depth <= 0 or grid.winning:
         return heuristic(grid, ai_value if is_max else grid.player2 if ai_value != grid.player2 else grid.player1) + depth
     next_gen = next_generation(grid, rules, ai_value)
     if not next_generation:

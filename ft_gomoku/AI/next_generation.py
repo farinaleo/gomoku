@@ -25,7 +25,7 @@ def next_generation(grid: Grid, rules, ai_value):
 	line = grid.line_grid
 	size = grid.size
 	line_size = len(line)
-	bypass = True if line.count('0') > line_size - 2 else False
+	bypass = 'middle' if line.count('0') > line_size - 2 else None
 	player, opponent = (grid.player1, grid.player2) if ai_value == grid.player1 else (grid.player2, grid.player1)
 
 	cluster = __cluster(line, size, line_size, player, opponent, bypass)
@@ -79,13 +79,15 @@ def __cluster(line, size, line_size, p1, p2, bypass):
 
 	expend_cluster(line, i, end, size, p1, p2, cluster, bypass)
 	if len(cluster) == 0:
-		expend_cluster(line, i, end, size, p1, p2, cluster, True)
+		expend_cluster(line, i, end, size, p1, p2, cluster, 'player')
+	if len(cluster) == 0:
+		expend_cluster(line, i, end, size, p1, p2, cluster, 'opponent')
 	if len(cluster) == 0:
 		mid = size // 2
 		cluster.append((mid, mid))
-	print(f'child {len(cluster)}')
-	size_max_cluster = min(3, len(cluster))
-	cluster = cluster[:size_max_cluster]
+	# print(f'child {len(cluster)}')
+	# size_max_cluster = min(3, len(cluster))
+	# cluster = cluster[:size_max_cluster]
 	return cluster
 
 
@@ -151,27 +153,30 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass) -> b
 	:return: True if the expansion is allowed, otherwise False.
 	"""
 	if line[i] == player:
-		if have_friends(line, x, y, size, player):
-			prev_x = x - (x_exp - x)
-			prev_y = y - (y_exp - y)
-			if not bypass and not (0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == player):
-				return False
 		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
-			return True
-	else:
+			if bypass == 'player':
+				return True
+			else:
+				if have_friends(line, x, y, size, player):
+					prev_x = x - (x_exp - x)
+					prev_y = y - (y_exp - y)
+					if not (0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == player):
+						return False
+				return True
+	elif line[i] == opponent:
 		if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
-			if bypass and x == size // 2 and y == size // 2:
+			if bypass == 'middle' and x == size // 2 and y == size // 2:
 				return True
 			prev_x = x - (x_exp - x)
 			prev_y = y - (y_exp - y)
 			if 0 <= prev_x < size and 0 <= prev_y < size and line[prev_x + prev_y * size] == opponent:
 				prev2_x = x - 2 * (x_exp - x)
 				prev2_y = y - 2 * (y_exp - y)
-				if not bypass:
+				if bypass == 'opponent':
+					return True
+				else:
 					if 0 <= prev2_x < size and 0 <= prev2_y < size and line[prev2_x + prev2_y * size] == opponent:
 						return True
-				else:
-					return True
 	return False
 
 
