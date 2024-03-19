@@ -25,7 +25,7 @@ class Grid:
 			raise ValueError("Grid initialisation failed due to bad parameters")
 		self.winning = False
 		self.size = size
-		self.line_grid = np.array(['0'] * (size * size), ndmin=1)
+		self.line_grid = ['0'] * (size * size)
 		self.history = []
 		self.player1 = player1
 		self.player2 = player2
@@ -104,8 +104,7 @@ class Grid:
 		"""
 		if player == self.player1 or player == self.player2:
 			return self.captured_stones[player]
-		else:
-			return None
+		else:			return None
 
 	# def is_win(self):
 	# 	""" Check if the game is over"""

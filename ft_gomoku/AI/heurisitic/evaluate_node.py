@@ -67,7 +67,7 @@ def heuristic(node: Grid, player) -> float:
     #             h_total = h_total + (func[0](node_line, node, op_x, op_y, opponent, player, node_size, node_line_size) *
     #                                  func[1] * opponent_weight)
 
-    history = node.history
+    history = node.history # replace by all points (NOLAN) Move(player, x, y) x = i / size y = i % size
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
             if move[0] == player:

@@ -12,7 +12,7 @@ from ft_gomoku import Grid
 from ft_gomoku.AI import get_priority, launch_alpha_beta, launch_alpha_beta_hard, launch_pvs
 
 
-def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
+def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None: # add capture for p1 and p2
 	"""
 	Main function for the IA.
 	It runs the proper algorithm according to the situation.
