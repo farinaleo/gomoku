@@ -78,7 +78,17 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     end = max(last_p1, last_p2)
     end = min(end, line_size)
 
-    expend_cluster(line, i, end, size, p1, p2, cluster, bypass)
+    expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 9)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 8)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 7)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 6)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 5)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
     if len(cluster) == 0:
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
     if len(cluster) == 0:
