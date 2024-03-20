@@ -11,6 +11,12 @@
 #define GMK_AI_H
 
 #include "grid/grid.hpp"
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <algorithm>
+#include <map>
+#include <functional>
 
 int get_priority(Grid& grid, char ai_value, char opponent_value);
 int ai_priority(Grid& grid, char ai_value, char opponent_value);
