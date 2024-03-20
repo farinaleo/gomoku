@@ -11,7 +11,11 @@
 extern "C" {
 #endif
 
+#include "grid/grid.hpp"
+
 int run_ai(const char *grid, char ai_value, char opponent_value);
+int get_priority(Grid grid, char ai_value, char opponent_value);
+int ai_priority(Grid grid, char ai_value, char opponent_value);
 
 #ifdef __cplusplus
 }

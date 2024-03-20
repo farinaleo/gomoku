@@ -12,6 +12,7 @@
 #include "grid/grid.hpp"
 #include "run_ai.h"
 #include <chrono>
+#include <algorithm>
 
 //grid: Grid, rules, ai_value='1', opponent_value='2'
 extern "C" int run_ai(const char *grid, char ai_value, char opponent_value) {
@@ -19,6 +20,8 @@ extern "C" int run_ai(const char *grid, char ai_value, char opponent_value) {
     (void)opponent_value;
     // En moyenne, le temps d'execution de ce constructeur est de 0.001 ms.
     Grid cpp_grid = Grid(grid, 19, ai_value, opponent_value);
+//    int depth = 11;
+//    int priority = 0;
 
     int i = 0;
     while(cpp_grid.grid[i]) {

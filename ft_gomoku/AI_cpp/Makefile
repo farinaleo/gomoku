@@ -1,7 +1,8 @@
 NAME = ft_gomoku_ai
 
 SRCS = grid/grid.cpp \
-		run_ai.cpp
+		run_ai.cpp \
+		priority.cpp
 
 OBJS = ${SRCS:.cpp=.o}
 
