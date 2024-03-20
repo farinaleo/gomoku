@@ -25,13 +25,14 @@ int get_priority(Grid grid, char ai_value, char opponent_value) {
 //:param opponent_value: the value associated with the opponent.
 //:return: the priority rate.
 //"""
-///**
-// * @brief evaluate the AI priority according to its last move.
-// * @param grid the game.
-// * @param ai_value the value associated with the AI.
-// * @param opponent_value the value associated with the opponent.
-// * @return (int) the priority rate.
-// */
+/**
+ * @brief evaluate the AI priority according to its last move.
+ * @param grid the game.
+ * @param ai_value the value associated with the AI.
+ * @param opponent_value the value associated with the opponent.
+ * @return (int) the priority rate.
+ */
 //int ai_priority(Grid grid, char ai_value, char opponent_value) {
-//
+//    int count = 0;
+//    if grid.
 //}

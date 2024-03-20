@@ -20,17 +20,10 @@ extern "C" int run_ai(const char *grid, const char *history, char ai_value, char
     (void)opponent_value;
     // En moyenne, le temps d'execution de ce constructeur est de 0.001 ms.
     Grid cpp_grid = Grid(grid, history, 19, ai_value, opponent_value);
+    std::tuple<char, int, int> last_move = cpp_grid.get_last_move(ai_value, 2);
+    printf("last_move: %c %d %d\n", std::get<0>(last_move), std::get<1>(last_move), std::get<2>(last_move));
 //    int depth = 11;
 //    int priority = 0;
 
-    int i = 0;
-    while(cpp_grid.grid[i]) {
-        if ((i + 1) % 19 == 0) {
-            std::cout << cpp_grid.grid[i] << std::endl;
-        } else {
-            std::cout << cpp_grid.grid[i] << ", ";
-        }
-        i++;
-    }
     return 1;
 }

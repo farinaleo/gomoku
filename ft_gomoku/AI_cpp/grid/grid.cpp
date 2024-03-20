@@ -5,9 +5,13 @@ Grid::Grid(const char *grid, const char *history, int size, char player1, char p
     this->size = size;
     this->player1 = player1;
     this->player2 = player2;
+
+    // Copy grid
     for (int i = 0; grid[i]; i++) {
         this->grid[i] = grid[i];
     }
+
+    // Copy history ( expected format: "PLAYER:X:Y:PLAYER:X:Y[...]" Ex: "1:1:1:2:2:2")
     for (int i = 0; history[i]; i += 6) {
         if (!history[i] || !history[i + 2] || !history[i + 4])
             break;
@@ -24,11 +28,11 @@ Grid::Grid(const char *grid, const char *history, int size, char player1, char p
         }
         this->history.push_back(std::make_tuple(player, x, y));
     }
-    // print all tuples in history
+    // Print history
 //    for (int i = 0; i < static_cast<int>(this->history.size()); i++) {
 //        std::cout << std::get<0>(this->history[i]) << ", " << std::get<1>(this->history[i]) << ", " << std::get<2>(this->history[i]) << std::endl;
 //    }
-//    this->grid[361] = '\0';
+    this->grid[361] = '\0';
 }
 
 Grid::~Grid() {
@@ -47,38 +51,31 @@ Grid::Grid(const Grid& arg) {
 //    this->captured_stones = arg.captured_stones;
 }
 
-//Grid& Grid::operator=(const Grid& arg) {
-//    // Assignment operator
-//    this->size = arg.size;
-//    this->player1 = arg.player1;
-//    this->player2 = arg.player2;
-//    for (int i = 0; i < 361; i++) {
-//        this->grid[i] = arg.grid[i];
-//    }
-//    this->grid[361] = '\0';
-////    this->captured_stones = arg.captured_stones;
-//    return *this;
-//}
-//
-//Move Grid::get_last_move(char player, int i) {
-//    // Get the last move of a player
-//    Move default_mv;
-//    default_mv.player = '0';
-//    default_mv.x = -1;
-//    default_mv.y = -1;
-//    if (this->history.size() == 0) {
-//        return default_mv;
-//    }
-//    for (int j = this->history.size() - 1; j >= 0; j--) {
-//        if (this->history[j].player == player) {
-//            if (i == 0) {
-//                return this->history[j];
-//            }
-//            i--;
-//        }
-//    }
-//    return default_mv;
-//}
+/**
+ * @brief return the last move played if the player is not specified, otherwise return the player last move.
+ * @param player the player to search.
+ * @param i the index of the move (1 for the last, 2 for the last -1, ...)
+ * @return ((Player, x, y)) Player = '0' if no move found.
+ */
+std::tuple<char, int, int> Grid::get_last_move(char player = '0', int i = 1) {
+    int _cnt = 0;
+
+    if (this->history.size() == 0) {
+        return std::make_tuple('0', 0, 0);
+    }
+    if (player == '0') {
+        return this->history[this->history.size() - 1];
+    }
+    for (int j = this->history.size() - 1; j >= 0; j--) { //2
+        if (std::get<0>(this->history[j]) == player) {
+            _cnt++;
+            if (_cnt == i) {
+                return this->history[j];
+            }
+        }
+    }
+    return std::make_tuple('0', 0, 0);
+}
 //
 //void Grid::add_move(char player, int x, int y) {
 //    Move tmp;

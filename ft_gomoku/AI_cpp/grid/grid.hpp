@@ -30,7 +30,7 @@ class Grid {
         Grid(const Grid& arg);
         Grid& operator=(const Grid& arg);
 
-        Move get_last_move(char player='0', int i = 0);
+        std::tuple<char, int, int> get_last_move(char player, int);
         void add_move(char player, int x, int y);
         int get_capture(char player);
         int add_rock(int x, int y, char player, std::vector<std::function<bool(int, int, char, Grid)>> rules);
