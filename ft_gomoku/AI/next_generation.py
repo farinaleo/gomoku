@@ -111,28 +111,36 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass):
 			_right = x + 1
 			# up left
 			if can_expend(line, i, x, y, _left, _up, size, p1, p2, bypass):
-				cluster.append((_left, _up))
+				if (_left, _up) not in cluster:
+					cluster.append((_left, _up))
 			# up mid
 			if can_expend(line, i, x, y, x, _up, size, p1, p2, bypass):
-				cluster.append((x, _up))
+				if (x, _up) not in cluster:
+					cluster.append((x, _up))
 			# up right
 			if can_expend(line, i, x, y, _right, _up, size, p1, p2, bypass):
-				cluster.append((_right, _up))
+				if (_right, _up) not in cluster:
+					cluster.append((_right, _up))
 			# mid left
 			if can_expend(line, i, x, y, _left, y, size, p1, p2, bypass):
-				cluster.append((_left, y))
+				if (_left, y) not in cluster:
+					cluster.append((_left, y))
 			# mid right
 			if can_expend(line, i, x, y, _right, y, size, p1, p2, bypass):
-				cluster.append((_right, y))
+				if (_right, y) not in cluster:
+					cluster.append((_right, y))
 			# down left
 			if can_expend(line, i, x, y, _left, _down, size, p1, p2, bypass):
-				cluster.append((_left, _down))
+				if (_left, _down) not in cluster:
+					cluster.append((_left, _down))
 			# down mid
 			if can_expend(line, i, x, y, x, _down, size, p1, p2, bypass):
-				cluster.append((x, _down))
+				if (x, _down) not in cluster:
+					cluster.append((x, _down))
 			# down right
 			if can_expend(line, i, x, y, _right, _down, size, p1, p2, bypass):
-				cluster.append((_right, _down))
+				if (_right, _down) not in cluster:
+					cluster.append((_right, _down))
 		i = i + 1
 
 
