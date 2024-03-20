@@ -17,6 +17,8 @@ int run_ai(const char *grid, const char *history, char ai_value, char opponent_v
 int get_priority(Grid& grid, char ai_value, char opponent_value);
 int ai_priority(Grid& grid, char ai_value, char opponent_value);
 
+float matching_cases(char *line, Grid grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block = true);
+
 #ifdef __cplusplus
 }
 #endif

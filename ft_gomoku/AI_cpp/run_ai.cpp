@@ -18,10 +18,12 @@
 extern "C" int run_ai(const char *grid, const char *history, char ai_value, char opponent_value) {
     (void)ai_value;
     (void)opponent_value;
-    // En moyenne, le temps d'execution de ce constructeur est de 0.001 ms.
+
     Grid cpp_grid = Grid(grid, history, 19, ai_value, opponent_value);
 //    int depth = 11;
 //    int priority = 0;
     std::cout << "Prio: " << get_priority(cpp_grid, ai_value, opponent_value) << std::endl;
+
+    // Je suis a matching_cases.cpp, je fais la fonction get_priority. Il manque matching_cases pour finir get_priority.
     return 1;
 }

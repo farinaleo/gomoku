@@ -2,7 +2,8 @@ NAME = ft_gomoku_ai
 
 SRCS = grid/grid.cpp \
 		run_ai.cpp \
-		priority.cpp
+		priority.cpp \
+		matching_cases.cpp \
 
 OBJS = ${SRCS:.cpp=.o}
 
