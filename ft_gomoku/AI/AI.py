@@ -31,13 +31,13 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
 	#   return algo(depth 1) // win
 	# else :
 	#   return algo(depth > 1) // attack
-	depth = 5   # %2=1 to target IA
+	depth = 11   # %2=1 to target IA
 
 	algo = os.getenv('GOMOKU_ALGO')
 
 	priority = get_priority(grid, ai_value, opponent_value)
 	if priority != 0:
-		depth = 5
+		depth = 1
 	if algo == 'PVS':
 		return launch_pvs(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	elif algo == 'ALPHA_HARD':
