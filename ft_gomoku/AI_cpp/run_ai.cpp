@@ -26,5 +26,5 @@ extern "C" int run_ai(const char *grid, const char *history, char ai_value, char
     std::cout << "Prio: " << get_priority(cpp_grid, ai_value, opponent_value) << std::endl;
 
     // Je suis a matching_cases.cpp, je fais la fonction get_priority. Il manque matching_cases pour finir get_priority.
-    return (chosen_x + chosen_y * size); // return the index in the line (easier to passer data between C++ and python)
+    return (chosen_x + chosen_y * cpp_grid.size); // return the index in the line (easier to passer data between C++ and python)
 }

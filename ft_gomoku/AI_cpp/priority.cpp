@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "grid/grid.hpp"
-#include "run_ai.h"
+#include "AI.h"
 
 /**
  * @brief evaluate the priority according to the IA and opponent last moves.

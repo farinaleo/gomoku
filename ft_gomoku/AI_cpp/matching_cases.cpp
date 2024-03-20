@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "grid/grid.hpp"
-#include "run_ai.h"
+#include "AI.h"
 
 // Je suis ici, pour remplacer .extends() de Python, on peut utiliser insert de std::vector. Il fait la meme chose.
 // Le seul hic c'est que il faudrait faire en sorte de pas creer des vecteurs a chaque fois qu'on appelle la fonction.
