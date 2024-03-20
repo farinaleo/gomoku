@@ -37,7 +37,7 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
 
 	priority = get_priority(grid, ai_value, opponent_value)
 	if priority != 0:
-		depth = 1
+		depth = 11
 	if algo == 'PVS':
 		return launch_pvs(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	elif algo == 'ALPHA_HARD':
