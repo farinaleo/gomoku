@@ -57,23 +57,28 @@ Grid::Grid(const Grid& arg) {
  * @param i the index of the move (1 for the last, 2 for the last -1, ...)
  * @return ((Player, x, y)) Player = '0' if no move found.
  */
-std::tuple<char, int, int> Grid::get_last_move(char player = '0', int i = 1) {
+std::tuple<char, int, int> Grid::get_last_move(char player, int i) {
     int _cnt = 0;
-
+    std::cout << "OKAYT" << std::endl;
+    std::cout << "SIZE: " << this->history.size() << std::endl;
     if (this->history.size() == 0) {
+        std::cout << "SOK2" << std::endl;
         return std::make_tuple('0', 0, 0);
     }
     if (player == '0') {
+        std::cout << "SOK3" << std::endl;
         return this->history[this->history.size() - 1];
     }
     for (int j = this->history.size() - 1; j >= 0; j--) { //2
         if (std::get<0>(this->history[j]) == player) {
             _cnt++;
             if (_cnt == i) {
+                std::cout << "SOK" << std::endl;
                 return this->history[j];
             }
         }
     }
+
     return std::make_tuple('0', 0, 0);
 }
 //
