@@ -50,14 +50,15 @@ print(bytes_history)
 c_history = ctypes.c_char_p(bytes_history)
 c_grid = ctypes.c_char_p(bytes_grid)
 
-p1 = b'1'
-p2 = b'2'
+p1 = 49
+p2 = 50
 
 from ft_gomoku.AI.priority.priority import get_priority
+from ft_gomoku.AI import next_generation
 
-print("PYTHONget priority", get_priority(grid, p1, p2))
+print("PYTHON get priority", next_generation(grid, [], '1'))
 
-result = lib.run_ai(c_grid, c_history, p1, p2)
+result = lib.next_generation(c_grid, c_history, ctypes.c_char(p1), ctypes.c_char(p2))
 execution_time_ms = (time.time() - start_time) * 1000
 
 print("Execution time for run_ai :", execution_time_ms, "ms", "In case of > 500 ms, sorry leo, we are in a big trouble.")

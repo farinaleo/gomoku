@@ -30,4 +30,6 @@ float     __check_diagonal1(int row, int col, PatternList goals, Grid grid, int 
 float     __check_column(int row, int col, PatternList goals, Grid grid, int size);
 float     __check_row(int row, int col, PatternList goals, Grid grid, int size);
 
+std::vector<Grid>	next_gen(Grid& grid, char &player, char &opponent, std::vector<std::function<bool(int, int, char, Grid)>>& rules);
+
 #endif //GMK_AI_H

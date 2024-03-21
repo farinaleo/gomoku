@@ -27,3 +27,26 @@ extern "C" int run_ai(const char *grid, const char *history, char ai_value, char
 
     return (chosen_x + chosen_y * cpp_grid.size); // return the index in the line (easier to passer data between C++ and python)
 }
+
+
+//grid: Grid, rules, ai_value='1', opponent_value='2'
+extern "C" int next_generation(const char *grid, const char *history, char ai_value, char opponent_value) {
+	int chosen_x = 0;
+	int chosen_y = 0;
+	std::vector<std::function<bool(int, int, char, Grid)>> rules;
+
+	std::cout << "test next gen" << std::endl;
+
+	Grid cpp_grid = Grid(grid, history, 19, ai_value, opponent_value);
+
+	std::vector<Grid> next_gena;
+	next_gena = next_gen(cpp_grid, ai_value, opponent_value, rules);
+
+
+	for (Grid g : next_gena) {
+		std::cout << "-----------------" << std::endl;
+		std::cout << g.grid << std::endl;
+	}
+
+	return (chosen_x + chosen_y * cpp_grid.size); // return the index in the line (easier to passer data between C++ and python)
+}

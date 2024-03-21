@@ -1,6 +1,7 @@
 NAME = ft_gomoku_ai
 
 SRCS = grid/grid.cpp \
+		tools/nex_gen.cpp \
 		run_ai.cpp \
 		priority.cpp \
 		matching_cases.cpp \

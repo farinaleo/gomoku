@@ -11,6 +11,6 @@
 #include "AI.h"
 
 extern "C" int run_ai(const char *grid, const char *history, char ai_value, char opponent_value);
-
+extern "C" int next_generation(const char *grid, const char *history, char ai_value, char opponent_value);
 
 
