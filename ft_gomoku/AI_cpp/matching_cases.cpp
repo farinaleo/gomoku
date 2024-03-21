@@ -48,6 +48,7 @@ float matching_cases(Grid& grid, int x, int y, char player, char opponent, int s
     (void)line_size;
     if (!lens)
         lens = default_lens;
+
     for (int i = 0; i < 3; i++) {
         if (lens[i] == 2) {
             if (player == '2') {
@@ -64,6 +65,7 @@ float matching_cases(Grid& grid, int x, int y, char player, char opponent, int s
                 if (block)
                     goals.insert(goals.end(), block1_3.begin(), block1_3.end());
             } else {
+                std::cout << "p1 3\n";
                 goals.insert(goals.end(), goal1_3.begin(), goal1_3.end());
                 if (block)
                     goals.insert(goals.end(), block2_3.begin(), block2_3.end());
@@ -80,14 +82,14 @@ float matching_cases(Grid& grid, int x, int y, char player, char opponent, int s
             }
         }
     }
-    count += __check_column(y, x, goals, grid, size);
-    std::cout << "------------------------ Column: " << count << std::endl;
     count += __check_row(y, x, goals, grid, size);
-    std::cout << "------------------------ Row: " << count << std::endl;
+//    std::cout << "------------------------ Row: " << count << std::endl;
+    count += __check_column(y, x, goals, grid, size);
+//    std::cout << "------------------------ Column: " << count << std::endl;
     count += __check_diagonal1(y, x, goals, grid, size);
-    std::cout << "------------------------ Diag1: " << count << std::endl;
+//    std::cout << "------------------------ Diag1: " << count << std::endl;
     count += __check_diagonal2(y, x, goals, grid, size);
-    std::cout << "------------------------ Diag2: " << count << std::endl;
+//    std::cout << "------------------------ Diag2: " << count << std::endl;
     return count;
 }
 
@@ -97,7 +99,7 @@ float matching_cases(Grid& grid, int x, int y, char player, char opponent, int s
  * @param sub
  * @return
  */
-int countSubstring(std::string str, std::string sub) {
+int countSubstring(const std::string& str, const std::string& sub) {
     if (sub.length() == 0) return 0;
     int count = 0;
     for (size_t offset = str.find(sub); offset != std::string::npos; offset = str.find(sub, offset + sub.length())) {
@@ -115,8 +117,8 @@ int countSubstring(std::string str, std::string sub) {
  * @param size
  * @return
  */
-int __check_column(int row, int col, PatternList goals, Grid grid, int size) {
-    int cnt = 0;
+float __check_column(int row, int col, PatternList goals, Grid grid, int size) {
+    float cnt = 0;
     std::string col_g;
     for (int i = 0; i < size; i++) {
         col_g += grid.grid[col + (i * size)];
@@ -139,8 +141,8 @@ int __check_column(int row, int col, PatternList goals, Grid grid, int size) {
  * @param size
  * @return
  */
-int __check_row(int row, int col, PatternList goals, Grid grid, int size) {
-    int cnt = 0;
+float __check_row(int row, int col, PatternList goals, Grid grid, int size) {
+    float cnt = 0;
     std::string row_g;
     for (int i = 0; i < size; i++) {
         row_g += grid.grid[i + (row * size)];
@@ -163,7 +165,7 @@ int __check_row(int row, int col, PatternList goals, Grid grid, int size) {
  * @param size grid size
  * @return bool true or false
  */
-int __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size) {
+float __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size) {
     while (0 <= row && row < size && 0 <= col && col < size) {
         row--;
         col--;
@@ -178,7 +180,7 @@ int __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size) 
     int start = std::max(0, std::min(col, row) - 4);
     int end = std::min(len_diag1_g, std::min(col, row) + 5);
     diag1_g = diag1_g.substr(start, end - start);
-    int cnt = 0;
+    float cnt = 0;
     for (const auto& goal : goals) {
         cnt += countSubstring(diag1_g, goal.first) * goal.second;
     }
@@ -194,7 +196,7 @@ int __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size) 
  * @param size grid size
  * @return bool true or false
  */
-int __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) {
+float __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) {
     while (0 <= row && row < size && 0 <= col && col < size) {
         row++;
         col--;
@@ -209,7 +211,7 @@ int __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) 
     int start = std::max(0, std::min(col, len_diag2_g - row) - 4);
     int end = std::min(len_diag2_g, std::min(len_diag2_g - col, row) + 5);
     diag2_g = diag2_g.substr(start, end - start);
-    int cnt = 0;
+    float cnt = 0;
     for (const auto& goal : goals) {
         cnt += countSubstring(diag2_g, goal.first) * goal.second;
     }

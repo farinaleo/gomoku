@@ -25,9 +25,9 @@ int     ai_priority(Grid& grid, char ai_value, char opponent_value);
 int     opponent_priority(Grid& grid, char ai_value, char opponent_value);
 
 float   matching_cases(Grid& grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block = true);
-int     __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size);
-int     __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size);
-int     __check_column(int row, int col, PatternList goals, Grid grid, int size);
-int     __check_row(int row, int col, PatternList goals, Grid grid, int size);
+float     __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size);
+float     __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size);
+float     __check_column(int row, int col, PatternList goals, Grid grid, int size);
+float     __check_row(int row, int col, PatternList goals, Grid grid, int size);
 
 #endif //GMK_AI_H

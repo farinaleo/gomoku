@@ -115,7 +115,6 @@ def game_screen(engine: Engine, ai: bool = False):
 	ai_rocks = None
 	debug = DebuggerStruct(engine, game_engine)
 	# Main loop
-	game_engine.update_player_turn()
 	while True:
 		events_list = []
 		engine.screen.fill((8, 26, 43))
@@ -186,13 +185,17 @@ def run_ai_cpp(game: GameStruct):
 	grid_string = ''.join(game.grid.line_grid)
 	bytes_history = (history_str + '\0').encode('utf-8')
 	bytes_grid = (grid_string + '\0').encode('utf-8')
+	bytes_player_1 = game.player_1[1].encode('utf-8')
+	bytes_player_2 = game.player_2[1].encode('utf-8')
 	c_history = ctypes.c_char_p(bytes_history)
 	c_grid = ctypes.c_char_p(bytes_grid)
+	c_player_1 = ctypes.c_char(bytes_player_1)
+	c_player_2 = ctypes.c_char(bytes_player_2)
 
 	p1 = b'1'
 	p2 = b'2'
 
-	result = lib.run_ai(c_grid, c_history, p1, p2)
+	result = lib.run_ai(c_grid, c_history, c_player_1, c_player_2)
 	execution_time_ms = (time.time() - start_time) * 1000
 
 	print("Execution time for run_ai :", execution_time_ms, "ms",

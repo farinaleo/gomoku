@@ -23,7 +23,7 @@ extern "C" int run_ai(const char *grid, const char *history, char ai_value, char
 //    int depth = 11;
 //    int priority = 0;
     int result = get_priority(cpp_grid, ai_value, opponent_value);
-    std::cout << "Result: " << result << std::endl;
+    std::cout << "------------------------------------ CPP Result: " << result << std::endl;
 
     return (chosen_x + chosen_y * cpp_grid.size); // return the index in the line (easier to passer data between C++ and python)
 }
