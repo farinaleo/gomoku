@@ -83,13 +83,9 @@ float matching_cases(Grid& grid, int x, int y, char player, char opponent, int s
         }
     }
     count += __check_row(y, x, goals, grid, size);
-//    std::cout << "------------------------ Row: " << count << std::endl;
     count += __check_column(y, x, goals, grid, size);
-//    std::cout << "------------------------ Column: " << count << std::endl;
     count += __check_diagonal1(y, x, goals, grid, size);
-//    std::cout << "------------------------ Diag1: " << count << std::endl;
     count += __check_diagonal2(y, x, goals, grid, size);
-//    std::cout << "------------------------ Diag2: " << count << std::endl;
     return count;
 }
 

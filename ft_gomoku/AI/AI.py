@@ -36,7 +36,6 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2') -> tuple | None:
 	algo = os.getenv('GOMOKU_ALGO')
 
 	priority = get_priority(grid, ai_value, opponent_value)
-	print("----------------------------- PY PRIORITY", priority)
 	if priority != 0:
 		depth = 1
 	if algo == 'PVS':

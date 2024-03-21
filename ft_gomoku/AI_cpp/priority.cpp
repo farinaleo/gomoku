@@ -29,7 +29,6 @@ int ai_priority(Grid& grid, char ai_value, char opponent_value) {
         return 0;
     int lens[3] = {0, 3, 4};
     float p_4 = matching_cases(grid, std::get<1>(ia_last_move), std::get<2>(ia_last_move), ai_value, opponent_value, grid.size, pow(grid.size, 2), lens, false);
-    std::cout << "CPP -- P4" << p_4 << std::endl;
     if (p_4 > 0)
         return 1;
     return 0;
