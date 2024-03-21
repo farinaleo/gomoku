@@ -83,7 +83,6 @@ class Grid:
 		:param x: The coordinate of the move
 		:param y: The coordinate of the move
 		"""
-		print("history len: ", len(self.history))
 		self.history.append((player, x, y))
 
 	# def get_player1(self):

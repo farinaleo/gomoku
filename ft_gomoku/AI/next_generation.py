@@ -83,7 +83,7 @@ def __cluster(line, size, line_size, p1, p2, bypass):
 	if len(cluster) == 0:
 		mid = size // 2
 		cluster.append((mid, mid))
-	print(f'child {len(cluster)}')
+	# print(f'child {len(cluster)}')
 	size_max_cluster = min(3, len(cluster))
 	cluster = cluster[:size_max_cluster]
 	return cluster

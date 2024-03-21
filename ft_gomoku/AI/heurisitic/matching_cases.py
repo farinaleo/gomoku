@@ -93,10 +93,13 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=Non
                     goals.extend(block2_4)
 
     count = count + __check_row(y, x, goals, line, size)
+    # print("PY------------------------ Row", count)
     count = count + __check_column(y, x, goals, line, size)
+    # print("PY------------------------ Column", count)
     count = count + __check_diagonal1(y, x, goals, line, size)
+    # print("PY------------------------ Diagonal1", count)
     count = count + __check_diagonal2(y, x, goals, line, size)
-
+    # print("PY------------------------ Diagonal2", count)
     return count
 
 

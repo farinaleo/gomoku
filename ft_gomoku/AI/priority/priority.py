@@ -23,6 +23,7 @@ def get_priority(grid: Grid, ai_value, opponent_value) -> int:
 	"""
 	# is in a four alignment (or three)
 	# has captured 8 opponent stones and can capture 2 more.
+	print("PY IA", ia_priority(grid, ai_value, opponent_value), "OPPONENT", opponent_priority(grid, ai_value, opponent_value))
 	priority = max(ia_priority(grid, ai_value, opponent_value), opponent_priority(grid, ai_value, opponent_value))
 	return priority
 
@@ -40,6 +41,8 @@ def ia_priority(grid: Grid, ai_value, opponent_value) -> int:
 	p_4 = matching_cases(grid.line_grid, grid, ia_last_move[1],
 							ia_last_move[2], ai_value, opponent_value,
 							grid.size, grid.size ** 2, [3, 4], False)
+
+	print("! -- py P4", p_4)
 	if p_4 > 0:
 		return 1
 	return 0

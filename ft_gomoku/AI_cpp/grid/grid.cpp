@@ -3,6 +3,7 @@
 
 Grid::Grid(const char *grid, const char *history, int size, char player1, char player2) {
     this->size = size;
+    std::cout << "size: " << size << std::endl;
     this->player1 = player1;
     this->player2 = player2;
 
@@ -28,10 +29,9 @@ Grid::Grid(const char *grid, const char *history, int size, char player1, char p
         }
         this->history.push_back(std::make_tuple(player, x, y));
     }
-    // Print history
-//    for (int i = 0; i < static_cast<int>(this->history.size()); i++) {
-//        std::cout << std::get<0>(this->history[i]) << ", " << std::get<1>(this->history[i]) << ", " << std::get<2>(this->history[i]) << std::endl;
-//    }
+    for (int i = 0; i < static_cast<int>(this->history.size()); i++) {
+        std::cout << std::get<0>(this->history[i]) << ", " << std::get<1>(this->history[i]) << ", " << std::get<2>(this->history[i]) << std::endl;
+    }
     this->grid[361] = '\0';
 }
 

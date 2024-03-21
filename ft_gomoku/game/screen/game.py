@@ -3,6 +3,8 @@ from time import sleep
 
 import pygame
 import time
+import ctypes
+
 
 from ft_gomoku.AI.AI import run_ai
 from ft_gomoku.engine import Engine, get_image, set_titlescreen, play_sound, stop_sound
@@ -152,6 +154,7 @@ def game_screen(engine: Engine, ai: bool = False):
 
 			else:
 				if not debug_mode:
+					run_ai_cpp(game_engine)
 					rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 					coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 					place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
@@ -165,3 +168,33 @@ def game_screen(engine: Engine, ai: bool = False):
 				redraw_board(engine, game_engine, rocks_coord)
 				debug_screen(engine, game_engine, debug)
 			pygame.display.update()
+
+
+def convert_history(history_to_convert: []) -> str:
+	return ':'.join('{}:{}:{}'.format(*move) for move in history_to_convert)
+
+
+def run_ai_cpp(game: GameStruct):
+	start_time = time.time()
+
+	lib = ctypes.CDLL("./ft_gomoku/AI_cpp/ft_gomoku_ai.so")
+	lib.run_ai.restype = ctypes.c_int
+	lib.run_ai.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char, ctypes.c_char]
+
+	history_str = convert_history(game.grid.history)
+
+	grid_string = ''.join(game.grid.line_grid)
+	bytes_history = (history_str + '\0').encode('utf-8')
+	bytes_grid = (grid_string + '\0').encode('utf-8')
+	c_history = ctypes.c_char_p(bytes_history)
+	c_grid = ctypes.c_char_p(bytes_grid)
+
+	p1 = b'1'
+	p2 = b'2'
+
+	result = lib.run_ai(c_grid, c_history, p1, p2)
+	execution_time_ms = (time.time() - start_time) * 1000
+
+	print("Execution time for run_ai :", execution_time_ms, "ms",
+	      "In case of > 500 ms, sorry leo, we are in a big trouble.")
+	print("Result:", result)

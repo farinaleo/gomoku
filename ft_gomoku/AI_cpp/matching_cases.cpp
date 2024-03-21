@@ -40,9 +40,9 @@ PatternList block1_2 { {"11002", 0.4}, {"10102", 0.4}, {"10012", 0.4}, {"10021",
 
 
 
-float matching_cases(Grid grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block) {
-    int default_lens[3] = {2, 3, 4};
-    int count = 0;
+float matching_cases(Grid& grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block) {
+    int default_lens[3] = {0, 3, 4}; // C'est 2,3,4 dans ta doc de fonction mais dans ton code python tu as 3, 4 donc regarde bien pk
+    float count = 0;
     PatternList goals;
     (void)opponent;
     (void)line_size;
@@ -81,9 +81,13 @@ float matching_cases(Grid grid, int x, int y, char player, char opponent, int si
         }
     }
     count += __check_column(y, x, goals, grid, size);
+    std::cout << "------------------------ Column: " << count << std::endl;
     count += __check_row(y, x, goals, grid, size);
+    std::cout << "------------------------ Row: " << count << std::endl;
     count += __check_diagonal1(y, x, goals, grid, size);
+    std::cout << "------------------------ Diag1: " << count << std::endl;
     count += __check_diagonal2(y, x, goals, grid, size);
+    std::cout << "------------------------ Diag2: " << count << std::endl;
     return count;
 }
 
