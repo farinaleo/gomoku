@@ -1,10 +1,6 @@
 #include <string>
-#include <iostream>
 #include "grid/grid.hpp"
 #include "AI.h"
-
-
-
 
 PatternList goal2_4 { {"22220", 0.4}, {"22202", 0.4}, {"22022", 0.4}, {"20222", 0.4}, {"02222", 0.4}};
 PatternList goal2_3 { {"22200", 0.3}, {"22020", 0.3}, {"22002", 0.3}, {"20220", 0.3}, {"20202", 0.3},
@@ -44,23 +40,12 @@ PatternList block1_2 { {"11002", 0.4}, {"10102", 0.4}, {"10012", 0.4}, {"10021",
 
 
 
-float matching_cases(char *line, Grid grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block) {
-    (void)line;
-    (void)grid;
-    (void)x;
-    (void)y;
-    (void)player;
-    (void)opponent;
-    (void)size;
-    (void)line_size;
-    (void)lens;
-    (void)block;
-
+float matching_cases(Grid grid, int x, int y, char player, char opponent, int size, int line_size, int* lens, bool block) {
     int default_lens[3] = {2, 3, 4};
     int count = 0;
-    count++;
     PatternList goals;
-
+    (void)opponent;
+    (void)line_size;
     if (!lens)
         lens = default_lens;
     for (int i = 0; i < 3; i++) {
@@ -95,9 +80,19 @@ float matching_cases(char *line, Grid grid, int x, int y, char player, char oppo
             }
         }
     }
-    return 0.0;
+    count += __check_column(y, x, goals, grid, size);
+    count += __check_row(y, x, goals, grid, size);
+    count += __check_diagonal1(y, x, goals, grid, size);
+    count += __check_diagonal2(y, x, goals, grid, size);
+    return count;
 }
 
+/**
+ * Count the number of substring in a string.
+ * @param str
+ * @param sub
+ * @return
+ */
 int countSubstring(std::string str, std::string sub) {
     if (sub.length() == 0) return 0;
     int count = 0;
@@ -105,6 +100,54 @@ int countSubstring(std::string str, std::string sub) {
         ++count;
     }
     return count;
+}
+
+/**
+ * Check if the next move is winning by aligning five stones or more in a column.
+ * @param row
+ * @param col
+ * @param goals
+ * @param grid
+ * @param size
+ * @return
+ */
+int __check_column(int row, int col, PatternList goals, Grid grid, int size) {
+    int cnt = 0;
+    std::string col_g;
+    for (int i = 0; i < size; i++) {
+        col_g += grid.grid[col + (i * size)];
+    }
+    int start = std::max(0, row - 4);
+    int end = std::min(size, row + 5);
+    col_g = col_g.substr(start, end - start);
+    for (const auto& goal : goals) {
+        cnt += countSubstring(col_g, goal.first) * goal.second;
+    }
+    return cnt;
+}
+
+/**
+ * Check if the next move is winning by aligning five stones or more in a row.
+ * @param row
+ * @param col
+ * @param goals
+ * @param grid
+ * @param size
+ * @return
+ */
+int __check_row(int row, int col, PatternList goals, Grid grid, int size) {
+    int cnt = 0;
+    std::string row_g;
+    for (int i = 0; i < size; i++) {
+        row_g += grid.grid[i + (row * size)];
+    }
+    int start = std::max(0, col - 4);
+    int end = std::min(size, col + 5);
+    row_g = row_g.substr(start, end - start);
+    for (const auto& goal : goals) {
+        cnt += countSubstring(row_g, goal.first) * goal.second;
+    }
+    return cnt;
 }
 
 /**
@@ -116,14 +159,44 @@ int countSubstring(std::string str, std::string sub) {
  * @param size grid size
  * @return bool true or false
  */
-int check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) {
+int __check_diagonal1(int row, int col, PatternList goals, Grid grid, int size) {
+    while (0 <= row && row < size && 0 <= col && col < size) {
+        row--;
+        col--;
+    }
+    row++;
+    col++;
+    std::string diag1_g;
+    for (int i = 0; i < std::min(size - row, size - col); i++) {
+        diag1_g += grid.grid[(row + i) * size + col + i];
+    }
+    int len_diag1_g = diag1_g.size();
+    int start = std::max(0, std::min(col, row) - 4);
+    int end = std::min(len_diag1_g, std::min(col, row) + 5);
+    diag1_g = diag1_g.substr(start, end - start);
+    int cnt = 0;
+    for (const auto& goal : goals) {
+        cnt += countSubstring(diag1_g, goal.first) * goal.second;
+    }
+    return cnt;
+}
+
+/**
+ * Check if the next move is winning by aligning five stones or more in a diagonal.
+ * @param row y pos
+ * @param col x pos
+ * @param goals goal line
+ * @param grid grid to analyse
+ * @param size grid size
+ * @return bool true or false
+ */
+int __check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) {
     while (0 <= row && row < size && 0 <= col && col < size) {
         row++;
         col--;
     }
     row--;
     col++;
-
     std::string diag2_g;
     for (int i = 0; i < std::min(row + 1, size - col); i++) {
         diag2_g += grid.grid[(row - i) * size + col + i];
@@ -138,4 +211,3 @@ int check_diagonal2(int row, int col, PatternList goals, Grid grid, int size) {
     }
     return cnt;
 }
-

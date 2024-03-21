@@ -171,7 +171,6 @@ def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
         col = col - 1
     row = row - 1
     col = col + 1
-
     diag2_g = ''.join([str(grid[(row - i) * size + col + i]) for i in range(min(row + 1, size - col))])
     len_diag2_g = len(diag2_g)
     start = max(0, min(col, len_diag2_g - row) - 4)

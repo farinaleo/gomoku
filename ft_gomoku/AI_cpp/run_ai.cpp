@@ -31,7 +31,7 @@ extern "C" int run_ai(const char *grid, const char *history, char ai_value, char
     Grid cpp_grid = Grid(grid, history, 19, ai_value, opponent_value);
 //    int depth = 11;
 //    int priority = 0;
-    int result = check_diagonal2(4, 2, block1_2, cpp_grid, 19);
+    int result = __check_row(0, 1, block1_2, cpp_grid, 19);
     std::cout << "Result: " << result << std::endl;
     std::cout << "Prio: " << get_priority(cpp_grid, ai_value, opponent_value) << std::endl;
 

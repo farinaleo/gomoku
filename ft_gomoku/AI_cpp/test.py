@@ -64,6 +64,8 @@ print(history_str)
 grid.add_rock(2, 2, '1', [])
 grid.add_rock(3, 3, '1', [])
 grid.add_rock(4, 4, '1', [])
+grid.add_rock(5, 1, '1', [])
+grid.add_rock(5, 2, '1', [])
 grid.add_rock(5, 5, '2', [])
 grid.add_rock(6, 6, '2', [])
 grid.add_rock(7, 7, '2', [])
@@ -81,9 +83,9 @@ c_grid = ctypes.c_char_p(bytes_grid)
 p1 = b'1'
 p2 = b'2'
 
-from ft_gomoku.AI.heurisitic.matching_cases import __check_diagonal2
+from ft_gomoku.AI.heurisitic.matching_cases import __check_row
 
-print("check daig py:", __check_diagonal2(4, 2, block1_2, grid.line_grid, 19))
+print("check daig1 py:", __check_row(1, 5, block1_2, grid.line_grid, 19))
 
 result = lib.run_ai(c_grid, c_history, p1, p2)
 execution_time_ms = (time.time() - start_time) * 1000
