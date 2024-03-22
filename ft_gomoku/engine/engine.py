@@ -35,7 +35,7 @@ class Engine:
         self.settings = SettingsStruct()
         self.settings.load()
         self.window_size = self.settings.get_window_size()
-        self.screen = pygame.display.set_mode(self.get_window_size(), pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
+        self.screen = pygame.display.set_mode(self.get_window_size(), pygame.NOFRAME if self.settings.get_fullscreen() else 0)
         if not self.settings.get_music():
             pygame.mixer.music.set_volume(0)
         self.settings.print() # TODO: remove this line
@@ -56,7 +56,7 @@ class Engine:
         self.settings.set_fullscreen(not self.settings.get_fullscreen())
         self.window_size = self.settings.get_window_size()
         self.screen = pygame.display.set_mode(self.settings.get_window_size(),
-                                              pygame.FULLSCREEN if self.settings.get_fullscreen() else 0)
+                                              pygame.NOFRAME if self.settings.get_fullscreen() else 0)
 
     def init_font(self):
         """Initialize the font"""
