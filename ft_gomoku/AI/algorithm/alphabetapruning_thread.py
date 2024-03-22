@@ -12,7 +12,6 @@ import math
 from threading import Thread
 from ft_gomoku.AI import next_generation
 from ft_gomoku import Grid
-from ft_gomoku.AI.algorithm.alphabetaprunning import alpha_beta
 from ft_gomoku.AI.algorithm.pvs import pvs
 
 
@@ -33,7 +32,7 @@ class AlphaBetaThread(Thread):
 
 def alpha_beta_t(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> float | None:
     """
-    Alpha Beta pruning algorithm (fail-soft). Uses it to find the best move to play
+    Alpha Beta pruning thread algorithm (fail-soft). Uses it to find the best move to play
     to win the game.
     :param grid: the game board.
     :param depth: the depth to explore.
@@ -45,7 +44,6 @@ def alpha_beta_t(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_va
     :return: The node evaluation or None in case of error.
     """
     if depth <= 0 or grid.winning:
-        # return heuristic(grid, ai_value if is_max else grid.player2 if ai_value != grid.player2 else grid.player1) + depth
         return grid.heuristic * (depth + 1)
     elif depth == 1:
         return alpha_beta_thread(grid, depth, alpha, beta, rules, ai_value, is_max)
@@ -73,7 +71,7 @@ def alpha_beta_t(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_va
 
 def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> tuple | None:
     """
-    Launch the alpha beta pruning (fail-soft) to find the best move to play.
+    Launch the alpha beta pruning thread (fail-soft) to find the best move to play.
     :param grid: the game board.
     :param depth: the depth to explore.
     :param alpha: the alpha limit.
@@ -98,7 +96,7 @@ def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, 
 
 def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> tuple | None:
     """
-    Launch the alpha beta pruning (fail-soft) with multi threading to find the best move to play.
+    Launch the alpha beta pruning thread (fail-soft) with multi threading to find the best move to play.
     :param grid: the game board.
     :param depth: the depth to explore.
     :param alpha: the alpha limit.
@@ -136,17 +134,25 @@ def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, 
         thread.start()
 
     max_val = float('-inf')
-    move_selected = next_gen[0].get_last_move()[-2:]
     for thread in threads:
         thread.join()
         _result = thread.get_result()
         if _result[-1] > max_val:
             max_val = _result[-1]
-            move_selected = _result[0]
     return max_val
 
 
 def launch_thread(nodes, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> tuple | None:
+    """Launch leaves threads.
+    :param nodes: leaves selected.
+    :param depth: the depth to explore.
+    :param alpha: the alpha limit.
+    :param beta:  the beta limit.
+    :param rules: game rules.
+    :param ai_value: value associate with the AI.
+    :param is_max: should nodes be maximized or not.
+    :return: the chosen leaf.
+    """
     max_val = float('-inf')
     move_selected = nodes[0].get_last_move()[-2:]
     for node in nodes:

@@ -157,7 +157,7 @@ def freedom_rate(line, player, opponent, cases):
     :param player: the player value
     :param opponent: the opponent value
     :param cases: all possible alignments cases.
-    :return: 00 for flanked, 2 for free, 1 for half-free or no alignment.
+    :return: 0 for flanked, 2 for free, 1 for half-free or no alignment.
     """
     if line.count(player) < 2:
         return 0

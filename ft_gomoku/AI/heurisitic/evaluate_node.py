@@ -45,36 +45,19 @@ def heuristic(node: Grid, player) -> float:
     node_size = node.size
     opponent = node.player1 if player == node.player2 else node.player2
     node_line_size = node_size * node_size  # the grid is a square
-    p_x, p_y = node.get_last_move()[-2:]
     func_player = g_func_player
     func_opponent = g_func_opponent
-
-    # for func in func_player:
-    #     h_total = h_total + func[0](node_line, node, p_x, p_y, player, opponent, node_size, node_line_size) * func[1]
-    #
-    # op_mv = node.get_last_move(opponent, 3)  # try to evaluate stone that could be captured
-    # if op_mv:
-    #     if type(op_mv) is list:
-    #         for mv in op_mv:
-    #             if mv:
-    #                 op_x, op_y = mv[-2:]
-    #                 for func in func_opponent:
-    #                     h_total = h_total + (func[0](node_line, node, op_x, op_y, opponent, player, node_size, node_line_size) *
-    #                                          func[1] * opponent_weight)
-    #     else:
-    #         op_x, op_y = op_mv[-2:]
-    #         for func in func_opponent:
-    #             h_total = h_total + (func[0](node_line, node, op_x, op_y, opponent, player, node_size, node_line_size) *
-    #                                  func[1] * opponent_weight)
 
     history = node.history
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
             if move[0] == player:
                 for func in func_player:
-                    h_total = h_total + func[0](node_line, node, move[1], move[2], player, opponent, node_size, node_line_size) * func[1]
+                    h_total = h_total + func[0](node_line, node, move[1], move[2], player, opponent, node_size,
+                                                node_line_size) * func[1]
             elif move[0] == opponent:
                 for func in func_opponent:
-                    h_total = h_total + func[0](node_line, node, move[1], move[2], opponent, player, node_size, node_line_size) * func[1]
+                    h_total = h_total + func[0](node_line, node, move[1], move[2], opponent, player, node_size,
+                                                node_line_size) * func[1]
 
     return h_total

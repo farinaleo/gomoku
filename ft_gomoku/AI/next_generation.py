@@ -11,11 +11,6 @@ from ft_gomoku import Grid, RuleStatus
 from ft_gomoku.AI import heuristic
 
 
-# class Point(ctypes.Structure):
-#     _fields_ = [("x", ctypes.c_int),
-#                 ("y", ctypes.c_int)]
-
-
 def next_generation(grid: Grid, rules, ai_value):
     """Generate the next generation from the given grid by placing the player.
     :param grid: the grid to extend
@@ -83,16 +78,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     end = max(last_p1, last_p2)
     end = min(end, line_size)
 
-    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 9)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 8)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 7)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 6)
-    # if len(cluster) == 0:
-    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 5)
-    # if len(cluster) == 0:
     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
     if len(cluster) == 0:
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
@@ -103,8 +88,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     if len(cluster) == 0:
         mid = size // 2
         cluster.append((mid, mid))
-    # size_max_cluster = min(3, len(cluster))
-    # cluster = cluster[:size_max_cluster]
     return cluster
 
 
@@ -118,6 +101,7 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass, nb_friends=4):
     :param p2: the opponent.
     :param cluster: the points cluster.
     :param bypass: allow the middle expansion if the grid contains one stone.
+    :param nb_friends: the total friends number to have to admit a point.
     :return: a points list.
     """
     while i < end:
@@ -175,6 +159,7 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
     :param player: the player value.
     :param opponent: the opponent value.
     :param bypass: allow the middle expansion if the grid contains one stone.
+    :param nb_friends: the total friends number to have to admit a point.
     :return: True if the expansion is allowed, otherwise False.
     """
     if line[i] == player:
@@ -223,6 +208,19 @@ def have_friends(line, x, y, size, player) -> bool:
 
 
 def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
+    """
+    Count the number of available friends around the point.
+    :param line: the game as line.
+    :param x: the starting x coordinate.
+    :param y: the starting y coordinate.
+    :param x_dir: the x direction.
+    :param y_dir: the y direction.
+    :param size: the game size.
+    :param player: the player value.
+    :param opponent: the opponent value.
+    :param nb_friends: the total friends number to have to admit a point.
+    :return:
+    """
     i = 0
     cnt_friends = 0
     tmp_x = x

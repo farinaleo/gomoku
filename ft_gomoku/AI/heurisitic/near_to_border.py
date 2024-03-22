@@ -10,7 +10,7 @@
 
 
 def near_to_border(line, grid, x, y, player, opponent, size, line_size) -> float:
-	"""Evaluate if the move is to close to the border.
+	"""Evaluate if the move is to close to a border.
 	:param line: the game as list.
 	:param grid: the node.
 	:param x: last move played.

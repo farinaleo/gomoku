@@ -10,8 +10,8 @@
 
 from ft_gomoku import RuleStatus, rule, capture
 
-free2_3 = [('0022200', 1), ('0202200', 1), ('0022020', 1)]
-free1_3 = [('0011100', 1), ('0101100', 1), ('0011010', 1)]
+free2_3 = [('0022200', 1), ('0202200', 1), ('0022020', 1), ('002220', 1), ('022200', 1), ('020220', 1), ('022020', 1)]
+free1_3 = [('0011100', 1), ('0101100', 1), ('0011010', 1), ('001110', 1), ('011100', 1), ('010110', 1), ('011010', 1)]
 
 
 @rule()
@@ -46,7 +46,7 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
 
 
 def __check_column(row: int, col: int, player, opponent, line, size, cases) -> float:
-    """Evaluate the alignment freedom rate.
+    """Extract the column from the game board to analyse it.
     :param row:  row to analyse
     :param col: column to analyse
     :param player: player value
@@ -65,7 +65,7 @@ def __check_column(row: int, col: int, player, opponent, line, size, cases) -> f
 
 
 def __check_row(row: int, col: int, player, opponent, line, size, cases) -> float:
-    """Evaluate the alignment freedom rate.
+    """Extract the row from the game board to analyse it.
     :param row:  row to analyse
     :param col: column to analyse
     :param player: player value
@@ -84,7 +84,7 @@ def __check_row(row: int, col: int, player, opponent, line, size, cases) -> floa
 
 
 def __check_diagonal1(row: int, col: int, player, opponent, line, size, cases) -> float:
-    """Evaluate the alignment freedom rate.
+    """Extract the first diagonal from the game board to analyse it.
     :param row:  row to analyse
     :param col: column to analyse
     :param player: player value
@@ -108,7 +108,7 @@ def __check_diagonal1(row: int, col: int, player, opponent, line, size, cases) -
 
 
 def __check_diagonal2(row: int, col: int, player, opponent, line, size, cases) -> float:
-    """Evaluate the alignment freedom rate.
+    """Extract the second diagonal from the game board to analyse it.
     :param row:  row to analyse
     :param col: column to analyse
     :param player: player value
@@ -134,7 +134,7 @@ def __check_diagonal2(row: int, col: int, player, opponent, line, size, cases) -
 
 
 def freedom_rate(line, player, opponent, cases):
-    """Evaluate the alignment freedom.
+    """Evaluate the alignment freedom (for three alignment).
     :param line: the extracted line
     :param player: the player value
     :param opponent: the opponent value
@@ -157,4 +157,5 @@ def freedom_rate(line, player, opponent, cases):
     for case in cases:
         if case[0] in line:
             cnt = cnt + case[1]
+            break
     return cnt

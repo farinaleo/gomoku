@@ -21,6 +21,5 @@ from ft_gomoku.AI.algorithm.alphabetaprunning import launch_alpha_beta
 from ft_gomoku.AI.algorithm.alphabetapruning_hard import launch_alpha_beta_hard
 from ft_gomoku.AI.algorithm.alphabetapruning_thread import launch_alpha_beta_thread
 from ft_gomoku.AI.algorithm.pvs import launch_pvs
-from ft_gomoku.AI.priority.priority import get_priority
 from ft_gomoku.AI.AI import run_ai
 
