@@ -33,6 +33,7 @@ class DebuggerStruct:
 		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
+		self.captured_stones = game_engine.grid.captured_stones
 
 		#System information
 		self.python_version = ""
@@ -66,6 +67,7 @@ class DebuggerStruct:
 		self.total_time = game_engine.time
 		self.total_time_player_1 = game_engine.total_time_player_1
 		self.total_time_player_2 = game_engine.total_time_player_2
+		self.captured_stones = game_engine.grid.captured_stones
 
 	def update_cpu_info(self):
 		"""Update the cpu information in the debugger struct"""
@@ -121,6 +123,7 @@ class DebuggerStruct:
 		print(f"Opponent turn: {self.opponent_turn}")
 		print(f"Total time player 1: {self.total_time_player_1} # (total_time, last_time, tmp_start_time)")
 		print(f"Total time player 2: {self.total_time_player_2} # (total_time, last_time, tmp_start_time)")
+		print(f"Captured stones: {self.captured_stones}")
 
 	def get_all_game_info(self, reload: bool = False):
 		"""Get all the game information
@@ -146,6 +149,7 @@ class DebuggerStruct:
 			"total_time": time.time() - self.total_time,
 			"total_time_player_1": self.total_time_player_1,
 			"total_time_player_2": self.total_time_player_2,
+			"captured_stones": self.captured_stones,
 			"python_version": self.python_version,
 			"cpu_info": self.cpu_info,
 			"cpu_cores": self.cpu_cores,

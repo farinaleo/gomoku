@@ -8,6 +8,7 @@ from ft_gomoku.engine import Engine, play_sound
 from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
+from ft_gomoku.game.screen.animations.win import get_winner_rocks
 from ft_gomoku.game.screen.animations import anim_place_rock
 
 
@@ -89,19 +90,18 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param radius: the radius of the rocks
 	"""
 	player_turn = game_engine.get_player_turn()
-	game_engine.end_player_timer(player_turn[1])
 	if not debug:
 		result = game_engine.grid.add_rock(coords[0][1], coords[0][0], player_turn[1], [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 		if result is RuleStatus.NO:
 			play_sound('wrong.mp3')
 			pygame.time.wait(500)
 			return
-		game_engine.update_player_turn()
+		game_engine.end_player_timer(player_turn[1])
 		anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 		if result is RuleStatus.WIN:
-			print(f"Player {player_turn[1]} win")
-			sleep(5)
+
 			exit(0)
+		game_engine.update_player_turn()
 	else:
 		game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
@@ -142,4 +142,3 @@ def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
 				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], True)
 			else:
 				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], False)
-
