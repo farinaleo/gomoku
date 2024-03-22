@@ -22,14 +22,14 @@ g_func_player = [(matching_cases, 1),
                  (freedom_rate, 1),
                  (expend_to_victory, 1),
                  (freedom_alignment_rate, 1)]
-g_func_opponent = [(matching_cases, -1),
-                   (near_to_border, -1),
-                   (capture_stones, -1),
-                   (winning, -10),
-                   (potential_capture, -2.8),
-                   (freedom_rate, -1),
-                   (expend_to_victory, -1),
-                   (freedom_alignment_rate, -1)]
+g_func_opponent = [(matching_cases, -10),
+                   (near_to_border, -10),
+                   (capture_stones, -10),
+                   (winning, -10000),
+                   (potential_capture, -20.8),
+                   (freedom_rate, -10),
+                   (expend_to_victory, -10),
+                   (freedom_alignment_rate, -10)]
 
 opponent_weight = 2.03
 

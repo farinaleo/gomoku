@@ -8,7 +8,7 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid, log
-from ft_gomoku.AI import heuristic, next_generation
+from ft_gomoku.AI import next_generation
 
 
 @log()
@@ -25,8 +25,9 @@ def pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_m
     :param is_max: True if the turn is for the IA otherwise False.
     :return: The node evaluation or None in case of error.
     """
-    if depth == 0 or grid.winning:
-        return heuristic(grid, grid.player1 if is_max else grid.player2) + depth
+    if depth <= 0 or grid.winning:
+        # return heuristic(grid, grid.player1 if is_max else grid.player2) + depth
+        return grid.heuristic * (depth + 1)
     next_gen = next_generation(grid, rules, ai_value)
 
     for node in next_gen:
