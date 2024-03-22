@@ -156,11 +156,11 @@ def anim_random_rock(engine: Engine, game_engine: GameStruct, board: dict) -> bo
 	pygame.display.update()
 	while x < 6:
 		x += 1
-		draw(engine.screen, game_engine, board[(x, y)], 50, str(x % 2))
+		draw(engine.screen, game_engine, board[(x, y)], 50, '1' if x % 2 else '2')
 	while y < 7:
 		y += 1
 		x -= 1
-		draw(engine.screen, game_engine, board[(x, y)], 50, str(x % 2))
+		draw(engine.screen, game_engine, board[(x, y)], 50, '1' if x % 2 else '2')
 	return True
 
 
