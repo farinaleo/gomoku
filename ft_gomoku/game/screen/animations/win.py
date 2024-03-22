@@ -7,8 +7,8 @@ from ft_gomoku.data_structure.GameStruct import GameStruct
 
 #TODO: change player value type
 
-def anim_win(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, player: int):
-	print(game_engine.grid.line_grid)
+def anim_win(screen: pygame.Surface, game_engine: GameStruct):
+	rocks_winner = get_winner_rocks(game_engine)
 
 
 def get_winner_rocks(game_engine: GameStruct) -> list[tuple[int, int]] | None:
@@ -85,11 +85,16 @@ def check_diag1(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 	size = game_engine.grid.size
 	rock, x, y = game_engine.grid.get_last_move(player)
 
+	print("START", x, y)
 	index = min(x, y)
 	x -= index
 	y += index
+	print("MIN", x, y)
 
-	while x < size - 1 and y >= 0:
+	if x < 0 or x > size - 1 or y < 0 or y > size:
+		return None
+	while x < size and 0 <= y:
+		print("1X", x, y, size - 1, y >= 0)
 		if game_engine.grid.line_grid[x + y * size] == rock:
 			count += 1
 			rocks.append((x, y))
@@ -97,6 +102,7 @@ def check_diag1(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 			count = 0
 			rocks = []
 		if count == 5:
+			print("!!!!!!!LOOOOSER", rocks)
 			return rocks
 		x += 1
 		y -= 1
@@ -118,7 +124,10 @@ def check_diag2(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 	x -= index
 	y -= index
 
-	while x < size - 1 and y >= 0:
+	if x < 0 or x > size - 1 or y < 0 or y > size:
+		return None
+	while 0 <= x < size and 0 <= y < size:
+		print("X2", x, y, size - 1, y >= 0)
 		if game_engine.grid.line_grid[x + y * size] == rock:
 			count += 1
 			rocks.append((x, y))
@@ -126,6 +135,7 @@ def check_diag2(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 			count = 0
 			rocks = []
 		if count == 5:
+			print("!!!!!!!WINNER", rocks)
 			return rocks
 		x += 1
 		y += 1

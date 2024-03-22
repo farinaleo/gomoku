@@ -26,6 +26,9 @@ class GameStruct:
 		# (total_time, last_time, start_time)
 		self.total_time_player_1 = (0, 0, 0.0)
 		self.total_time_player_2 = (0, 0, 0.0)
+		self.list_time_player_1 = []
+		self.list_time_player_2 = []
+		self.winner = None
 
 		print("Player turn", self.player_turn)
 
@@ -43,6 +46,12 @@ class GameStruct:
 			return self.rock_black_last_img if last else self.rock_black_img
 		else:
 			return self.rock_help_img
+
+	def set_winner(self, winner_player: str, rocks_winner: list[tuple[int, int]], win_type: str):
+		self.winner = (winner_player, rocks_winner, win_type)
+
+	def get_winner(self):
+		return self.winner
 
 	def get_last_move(self):
 		return self.last_move
@@ -77,8 +86,10 @@ class GameStruct:
 		elapsed_time = time.time() - self.total_time_player_1[2] if player == '1' else time.time() - self.total_time_player_2[2]
 		if player == '1':
 			self.total_time_player_1 = (self.total_time_player_1[0] + elapsed_time, elapsed_time, 0.0)
+			self.list_time_player_1.append(elapsed_time)
 		else:
 			self.total_time_player_2 = (self.total_time_player_2[0] + elapsed_time, elapsed_time, 0.0)
+			self.list_time_player_2.append(elapsed_time)
 
 	def get_player_turn(self):
 		return self.player_turn

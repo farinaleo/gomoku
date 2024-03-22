@@ -9,7 +9,7 @@ from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.engine.image_control import get_image
 from ft_gomoku.game.screen.animations.win import get_winner_rocks
-from ft_gomoku.game.screen.animations import anim_place_rock
+from ft_gomoku.game.screen.animations import anim_place_rock, anim_win
 
 
 def draw_board(engine: Engine, game_engine: GameStruct) -> dict:
@@ -95,17 +95,20 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 		if result is RuleStatus.NO:
 			play_sound('wrong.mp3')
 			pygame.time.wait(500)
-			return
+			return 'play'
 		game_engine.end_player_timer(player_turn[1])
 		anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 		if result is RuleStatus.WIN:
-
-			exit(0)
+			winner_rocks = get_winner_rocks(game_engine)
+			print('WIN', winner_rocks)
+			game_engine.set_winner(player_turn[1], winner_rocks, '5')
+			return 'win'
 		game_engine.update_player_turn()
 	else:
 		game_engine.grid.force_rock(coords[0][0], coords[0][1], player_turn[1])
 	game_engine.start_player_timer(game_engine.get_player_turn()[1])
 	pygame.display.update()
+	return 'play'
 
 
 def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: int, last: bool = False):
