@@ -44,6 +44,9 @@ class Grid:
     def __lt__(self, other):
         return self.heuristic < other.heuristic
 
+    def __eq__(self, other):
+        return self.line_grid == other.line_grid
+
     def __str__(self):
         """Return a string representation of the grid
 		:return: A string representation of the grid
