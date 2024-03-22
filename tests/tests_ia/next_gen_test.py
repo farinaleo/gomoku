@@ -12,7 +12,7 @@ import ft_gomoku as gmk
 
 def test_1():
 	grid = gmk.Grid(5, '1', '2')
-	res = gmk.next_generation(grid, [], True)
+	res = gmk.next_generation(grid, [], '1')
 	result = ['0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
 	          '0', '0', '1', '0', '0',
@@ -23,7 +23,7 @@ def test_1():
 
 def test_2():
 	grid = gmk.Grid(5, '1', '2')
-	res = gmk.next_generation(grid, [], False)
+	res = gmk.next_generation(grid, [], '2')
 	result = ['0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
 	          '0', '0', '2', '0', '0',
@@ -34,7 +34,7 @@ def test_2():
 
 def test_3():
 	grid = gmk.Grid(5, '1', '2')
-	res = gmk.next_generation(grid, [], True)
+	res = gmk.next_generation(grid, [], '1')
 	result = ['0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
 	          '0', '0', '1', '0', '0',
@@ -46,10 +46,10 @@ def test_3():
 def test_4():
 	grid = gmk.Grid(5, '1', '2')
 	grid.add_rock(0, 0, '1', [])
-	res = gmk.next_generation(grid, [], False)
-	result = ['1', '0', '0', '0', '0',
+	res = gmk.next_generation(grid, [], '2')
+	result = ['1', '2', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
-	          '0', '0', '2', '0', '0',
+	          '0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0',
 	          '0', '0', '0', '0', '0']
 	assert res[0].line_grid == result
