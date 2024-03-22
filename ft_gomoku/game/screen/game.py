@@ -127,7 +127,7 @@ def game_screen(engine: Engine, ai: bool = False):
 			if not ai or (ai and player_turn[1] == '2') or (ai and debug_mode):
 				if help_mode and not (debug_mode or info_mode):
 					if ai_rocks is None:
-						rocks_ai = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win], player_turn, game_engine.get_opponent_turn())
+						rocks_ai = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win], player_turn[1], game_engine.get_opponent_turn(), 1)
 						ai_rocks = rocks_ai
 					if ai_rocks is not None:
 						coords_to_place = rocks_coord[ai_rocks]

@@ -8,6 +8,7 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid, RuleStatus
+from ft_gomoku.AI import heuristic
 
 
 # class Point(ctypes.Structure):
@@ -36,7 +37,11 @@ def next_generation(grid: Grid, rules, ai_value):
                 and 0 <= cell[1] < size):
             _next = grid.__copy__()
             if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
+                _next.heuristic = heuristic(_next, player)
                 new_gen.append(_next)
+
+    new_gen.sort(key=None, reverse=True)
+    new_gen = new_gen[:min(len(new_gen), 3)]
     return new_gen
 
 
@@ -78,17 +83,17 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     end = max(last_p1, last_p2)
     end = min(end, line_size)
 
-    expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 9)
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 8)
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 7)
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 6)
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 5)
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
+    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 9)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 8)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 7)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 6)
+    # if len(cluster) == 0:
+    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 5)
+    # if len(cluster) == 0:
+    expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
     if len(cluster) == 0:
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
     if len(cluster) == 0:
@@ -98,7 +103,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     if len(cluster) == 0:
         mid = size // 2
         cluster.append((mid, mid))
-    # print(f'child {len(cluster)}')
     # size_max_cluster = min(3, len(cluster))
     # cluster = cluster[:size_max_cluster]
     return cluster
