@@ -85,16 +85,14 @@ def check_diag1(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 	size = game_engine.grid.size
 	rock, x, y = game_engine.grid.get_last_move(player)
 
-	print("START", x, y)
-	index = min(x, y)
+	index = min(x, size - 1 - y)
 	x -= index
 	y += index
-	print("MIN", x, y)
-
 	if x < 0 or x > size - 1 or y < 0 or y > size:
+		print("diag2 rwt", x, y)
 		return None
 	while x < size and 0 <= y:
-		print("1X", x, y, size - 1, y >= 0)
+		print("diag1", x, y)
 		if game_engine.grid.line_grid[x + y * size] == rock:
 			count += 1
 			rocks.append((x, y))
@@ -102,7 +100,6 @@ def check_diag1(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 			count = 0
 			rocks = []
 		if count == 5:
-			print("!!!!!!!LOOOOSER", rocks)
 			return rocks
 		x += 1
 		y -= 1
@@ -127,7 +124,7 @@ def check_diag2(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 	if x < 0 or x > size - 1 or y < 0 or y > size:
 		return None
 	while 0 <= x < size and 0 <= y < size:
-		print("X2", x, y, size - 1, y >= 0)
+		print("diag2", x, y)
 		if game_engine.grid.line_grid[x + y * size] == rock:
 			count += 1
 			rocks.append((x, y))
@@ -135,7 +132,7 @@ def check_diag2(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 			count = 0
 			rocks = []
 		if count == 5:
-			print("!!!!!!!WINNER", rocks)
+			print("diag2 rocks", rocks)
 			return rocks
 		x += 1
 		y += 1
