@@ -6,6 +6,7 @@
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
+import time
 
 from ft_gomoku import RuleStatus, rule
 
@@ -22,6 +23,7 @@ def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 	goal = f'{player}{player}{player}{player}{player}'
 	grid_tab = grid.line_grid
 	size = grid.size
+
 	if __check_row(row, col, goal, grid_tab, size) == RuleStatus.WIN:
 		return RuleStatus.WIN
 	elif __check_column(row, col, goal, grid_tab, size) == RuleStatus.WIN:
@@ -30,7 +32,6 @@ def five_to_win(row: int, col: int, player, grid) -> RuleStatus:
 		return RuleStatus.WIN
 	elif __check_diagonal2(row, col, goal, grid_tab, size) == RuleStatus.WIN:
 		return RuleStatus.WIN
-
 	return RuleStatus.OK
 
 
