@@ -39,8 +39,7 @@ def handle_events(engine, events_list, rocks_coord, game_engine: GameStruct, deb
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
-				place_rocks(engine.screen, game_engine, result, debug, 35)
-				return 'play'
+				return place_rocks(engine.screen, game_engine, result, debug, 35)
 		if debug:
 			handle_events_debug(engine, game_engine, event)
 	return True
@@ -69,6 +68,8 @@ def show_timer(engine: Engine, game_engine: GameStruct):
 	elapsed_time = int(time.time() - game_engine.get_time())
 	player_1_time = round(game_engine.total_time_player_1[1], 2)
 	player_2_time = round(game_engine.total_time_player_2[1], 2)
+	player_1_avg = round(sum(game_engine.list_time_player_1) / len(game_engine.list_time_player_1), 2) if len(game_engine.list_time_player_1) > 0 else 0
+	player_2_avg = round(sum(game_engine.list_time_player_2) / len(game_engine.list_time_player_2), 2) if len(game_engine.list_time_player_2) > 0 else 0
 
 	# Create the text
 	font = pygame.font.Font(None, 36)
@@ -81,14 +82,24 @@ def show_timer(engine: Engine, game_engine: GameStruct):
 	text_p2_timer = font.render(f"Player 2 reflection time : {player_2_time} seconds", True, (255, 255, 255))
 	text_p2_rect = text_p2_timer.get_rect(topleft=(10, 70))
 
+	text_p1_avg = font.render(f"Player 1 average reflection time : {player_1_avg} seconds", True, (255, 255, 255))
+	text_p1_avg_rect = text_p1_avg.get_rect(topleft=(10, 100))
+
+	text_p2_avg = font.render(f"Player 2 average reflection time : {player_2_avg} seconds", True, (255, 255, 255))
+	text_p2_avg_rect = text_p2_avg.get_rect(topleft=(10, 130))
+
 	# Fill a rectangle with the background color to clean screen
 	pygame.draw.rect(engine.screen, (8, 26, 43), text_rect)
 	pygame.draw.rect(engine.screen, (8, 26, 43), text_p1_rect)
 	pygame.draw.rect(engine.screen, (8, 26, 43), text_p2_rect)
+	pygame.draw.rect(engine.screen, (8, 26, 43), text_p1_avg_rect)
+	pygame.draw.rect(engine.screen, (8, 26, 43), text_p2_avg_rect)
 
 	engine.screen.blit(text_timer, (10, 10))
 	engine.screen.blit(text_p1_timer, (10, 40))
 	engine.screen.blit(text_p2_timer, (10, 70))
+	engine.screen.blit(text_p1_avg, (10, 100))
+	engine.screen.blit(text_p2_avg, (10, 130))
 
 
 def game_screen(engine: Engine, ai: bool = False):
@@ -113,7 +124,6 @@ def game_screen(engine: Engine, ai: bool = False):
 	ai_rocks = None
 	debug = DebuggerStruct(engine, game_engine)
 	# Main loop
-	game_engine.update_player_turn()
 	while True:
 		events_list = []
 		engine.screen.fill((8, 26, 43))
@@ -135,6 +145,9 @@ def game_screen(engine: Engine, ai: bool = False):
 				result = handle_events(engine, events_list, rocks_coord, game_engine, debug_mode)
 				if result == 'play':
 					ai_rocks = None
+				if result == 'win':
+					win_screen(engine, game_engine, rocks_coord)
+					return
 				if result == 'quit':
 					return
 				if result == 'debug':
@@ -149,12 +162,13 @@ def game_screen(engine: Engine, ai: bool = False):
 						debug.update_cpu_info()
 				if result == 'help':
 					help_mode = not help_mode
-
 			else:
 				if not debug_mode:
 					rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 					coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
-					place_rocks(engine.screen, game_engine, coords_to_place, False, 35)
+					if place_rocks(engine.screen, game_engine, coords_to_place, False, 35) == 'win':
+						win_screen(engine, game_engine, rocks_coord)
+						return
 					pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
 				game_engine.set_last_move(game_engine.grid.get_last_move())
@@ -165,3 +179,28 @@ def game_screen(engine: Engine, ai: bool = False):
 				redraw_board(engine, game_engine, rocks_coord)
 				debug_screen(engine, game_engine, debug)
 			pygame.display.update()
+
+
+def win_screen(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
+	print('winner', game_engine.winner)
+	for x in range(30):
+		darken_screen(engine)
+		for i in range(5):
+			draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0])
+			pygame.display.update()
+	play_sound('winning_sound.mp3')
+	for i in range(5):
+		draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0], True)
+		pygame.display.update()
+		pygame.time.wait(100)
+	pygame.time.wait(1000)
+	engine.change_screen('main_menu')
+	return
+
+
+def darken_screen(engine: Engine):
+	overlay = pygame.Surface((engine.screen.get_width(), engine.screen.get_height()))  # Create a new surface with screen dimensions
+	overlay.set_alpha(15)
+	overlay.fill((0, 0, 0))
+	engine.screen.blit(overlay, (0, 0))
+	pygame.display.flip()
