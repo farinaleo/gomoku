@@ -12,7 +12,7 @@ from ft_gomoku import Grid
 from ft_gomoku.AI import launch_alpha_beta, launch_alpha_beta_hard, launch_pvs, launch_alpha_beta_thread
 
 
-def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2', depth=10) -> tuple | None:
+def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2', depth=11) -> tuple | None:
 	"""
 	Main function for the IA.
 	It runs the proper algorithm according to the situation.
