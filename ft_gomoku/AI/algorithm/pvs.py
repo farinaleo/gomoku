@@ -26,9 +26,8 @@ def pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_m
     :return: The node evaluation or None in case of error.
     """
     if depth <= 0 or grid.winning:
-        # return heuristic(grid, grid.player1 if is_max else grid.player2) + depth
         return grid.heuristic * (depth + 1)
-    next_gen = next_generation(grid, rules, ai_value)
+    next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2)
 
     for node in next_gen:
         if node == next_gen[0]:
@@ -57,7 +56,7 @@ def launch_pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
     """
     if depth <= 0:
         return None
-    next_gen = next_generation(grid, rules, ai_value)
+    next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2, first_call=True)
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
     for node in next_gen:
