@@ -25,7 +25,7 @@ g_func_opponent = [(factorised_heuristics, -1),
                    (potential_capture, -1.2),
                    (freedom_rate, -1)]
 
-opponent_weight = 1.03
+opponent_weight = 0.5
 
 
 def heuristic(node: Grid, player) -> float:
@@ -52,6 +52,6 @@ def heuristic(node: Grid, player) -> float:
             elif move[0] == opponent:
                 for func in func_opponent:
                     h_total = h_total + func[0](node_line, node, move[1], move[2], opponent, player, node_size,
-                                                node_line_size) * func[1]
+                                                node_line_size) * func[1] + opponent_weight
 
     return h_total
