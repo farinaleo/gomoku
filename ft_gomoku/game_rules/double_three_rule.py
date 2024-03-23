@@ -27,10 +27,10 @@ def double_three_forbidden(row: int, col: int, player, grid) -> RuleStatus:
     size = grid.size
     opponent = grid.player2 if player == grid.player1 else grid.player1
     free_three = []
-    if player == '1':
-        free_three.extend(free1_3)
-    else:
-        free_three.extend(free2_3)
+    # if player == '1':
+    free_three.extend(free1_3)
+    # else:
+    free_three.extend(free2_3)
 
     cnt = __check_column(row, col, player, opponent, line, size, free_three)
     cnt = cnt + __check_row(row, col, player, opponent, line, size, free_three)
@@ -57,8 +57,8 @@ def __check_column(row: int, col: int, player, opponent, line, size, cases) -> f
     :return: possibilities sum.
     """
     col_g = ''.join([str(line[col + i * size]) for i in range(size)])
-    start = max(0, row - 5)
-    end = min(size, row + 6)
+    start = max(0, col - 5)
+    end = min(size, col + 6)
     col_g = col_g[start:end]
 
     return freedom_rate(col_g, player, opponent, cases)
@@ -76,8 +76,8 @@ def __check_row(row: int, col: int, player, opponent, line, size, cases) -> floa
     :return: possibilities sum.
     """
     row_g = ''.join([str(line[i + (row * size)]) for i in range(size)])
-    start = max(0, col - 5)
-    end = min(size, col + 6)
+    start = max(0, row - 5)
+    end = min(size, row + 6)
     row_g = row_g[start:end]
 
     return freedom_rate(row_g, player, opponent, cases)
@@ -99,11 +99,10 @@ def __check_diagonal1(row: int, col: int, player, opponent, line, size, cases) -
         col = col - 1
     row = row + 1
     col = col + 1
-    diag1_g = ''.join([str(line[(row + i) * size + col + i]) for i in range(min(size - row, size - col))])
+    diag1_g = ''.join([str(line[(col + i) + (row + i) * size]) for i in range(min(size - row, size - col))])
     start = max(0, min(col, row) - 5)
-    end = min(len(diag1_g), min(col, row) + 6)
+    end = min(len(diag1_g), min(col, row) - 6)
     diag1_g = diag1_g[start:end]
-
     return freedom_rate(diag1_g, player, opponent, cases)
 
 
@@ -124,12 +123,11 @@ def __check_diagonal2(row: int, col: int, player, opponent, line, size, cases) -
     row = row - 1
     col = col + 1
 
-    diag2_g = ''.join([str(line[(row - i) * size + col + i]) for i in range(min(row + 1, size - col))])
+    diag2_g = ''.join([str(line[(col + i) + (row - i) * size]) for i in range(min(row + 1, size - col))])
     len_diag2_g = len(diag2_g)
     start = max(0, min(col, len_diag2_g - row) - 5)
     end = min(len_diag2_g, min(len_diag2_g - col, row) + 6)
     diag2_g = diag2_g[start:end]
-
     return freedom_rate(diag2_g, player, opponent, cases)
 
 
