@@ -58,19 +58,19 @@ def matching_cases(lines: [], x, y, size, player) -> float:
     cnt = 0
     cases = []
     if player == '1':
-        cases.append(goal1_2)
-        cases.append(goal1_3)
-        cases.append(goal1_4)
-        cases.append(block2_2)
-        cases.append(block2_3)
-        cases.append(block2_4)
+        cases.extend(goal1_2)
+        cases.extend(goal1_3)
+        cases.extend(goal1_4)
+        cases.extend(block2_2)
+        cases.extend(block2_3)
+        cases.extend(block2_4)
     else:
-        cases.append(goal2_2)
-        cases.append(goal2_3)
-        cases.append(goal2_4)
-        cases.append(block1_2)
-        cases.append(block1_3)
-        cases.append(block1_4)
+        cases.extend(goal2_2)
+        cases.extend(goal2_3)
+        cases.extend(goal2_4)
+        cases.extend(block1_2)
+        cases.extend(block1_3)
+        cases.extend(block1_4)
 
     for line in lines:
         start, end = get_start_end(line[0], line[1], x, y, size, 5)

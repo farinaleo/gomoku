@@ -45,7 +45,7 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False):
                 mem_grid[str(_next)] = _next
 
     new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
-    new_gen = new_gen[:min(len(new_gen), 2)]
+    new_gen = new_gen[:min(len(new_gen), 3)]
     return new_gen
 
 

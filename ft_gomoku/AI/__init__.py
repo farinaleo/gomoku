@@ -15,6 +15,7 @@ from ft_gomoku.AI.heurisitic.near_to_border import near_to_border
 from ft_gomoku.AI.heurisitic.expend_to_victory import expend_to_victory
 from ft_gomoku.AI.heurisitic.potential_capture import potential_capture
 from ft_gomoku.AI.heurisitic.freedom_alignment import freedom_alignment_rate
+from ft_gomoku.AI.heurisitic.factorise_cases.factorised_heuristics import factorised_heuristics
 from ft_gomoku.AI.heurisitic.evaluate_node import heuristic
 from ft_gomoku.AI.next_generation import next_generation
 from ft_gomoku.AI.algorithm.alphabetaprunning import launch_alpha_beta

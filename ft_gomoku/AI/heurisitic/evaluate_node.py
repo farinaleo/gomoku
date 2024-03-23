@@ -10,24 +10,20 @@
 from ft_gomoku import Grid
 from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
     winning, potential_capture, freedom_rate, expend_to_victory, \
-    freedom_alignment_rate
+    freedom_alignment_rate, factorised_heuristics
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
-g_func_player = [(matching_cases, 1),
+g_func_player = [(factorised_heuristics, 1),
                  (capture_stones, 1),
                  (winning, 3),
                  (potential_capture, 0.8),
-                 (freedom_rate, 1),
-                 (expend_to_victory, 1),
-                 (freedom_alignment_rate, 1)]
-g_func_opponent = [(matching_cases, -1),
+                 (freedom_rate, 1)]
+g_func_opponent = [(factorised_heuristics, -1),
                    (capture_stones, -1),
                    (winning, -1),
                    (potential_capture, -1),
-                   (freedom_rate, -1),
-                   (expend_to_victory, -1),
-                   (freedom_alignment_rate, -1)]
+                   (freedom_rate, -1)]
 
 opponent_weight = 2.03
 

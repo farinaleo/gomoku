@@ -31,5 +31,7 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2', depth=10) -> tup
 		return launch_alpha_beta_hard(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	elif algo == 'ALPHA_THREAD':
 		return launch_alpha_beta_thread(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
-	else:
+	elif algo == 'ALPHA':
 		return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
+	else:
+		return launch_pvs(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
