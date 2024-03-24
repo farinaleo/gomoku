@@ -13,7 +13,7 @@ class GameStruct:
 		self.player_2 = (player2, '2')#Black rocks
 		self.grid_size = size
 		self.game_mode = None#delete
-		self.player_turn = self.player_2
+		self.player_turn = self.player_1
 		self.time = 0
 		self.board = []
 		self.last_move = [None, None, None]
@@ -40,9 +40,9 @@ class GameStruct:
 		self.rock_help_img = get_image('rocks_help.png', radius, radius)
 
 	def get_rocks_img(self, player: int, last: bool):
-		if player == '1':
+		if player == '2':
 			return self.rock_white_last_img if last else self.rock_white_img
-		elif player == '2':
+		elif player == '1':
 			return self.rock_black_last_img if last else self.rock_black_img
 		else:
 			return self.rock_help_img
