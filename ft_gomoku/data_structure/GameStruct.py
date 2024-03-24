@@ -30,8 +30,6 @@ class GameStruct:
 		self.list_time_player_2 = []
 		self.winner = None
 
-		print("Player turn", self.player_turn)
-
 	def init_img(self, radius: int):
 		self.rock_white_img = get_image('rocks_white.png', radius, radius)
 		self.rock_black_img = get_image('rocks_black.png', radius, radius)

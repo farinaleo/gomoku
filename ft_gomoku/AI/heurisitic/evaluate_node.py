@@ -14,18 +14,33 @@ from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
-g_func_player = [(factorised_heuristics, 2),
-                 (capture_stones, 1),
-                 (winning, 3),
-                 (potential_capture, 0.8),
-                 (freedom_rate, 1)]
-g_func_opponent = [(factorised_heuristics, -1),
-                   (capture_stones, -1),
-                   (winning, -1),
-                   (potential_capture, -1.2),
-                   (freedom_rate, -1)]
 
-opponent_weight = 0.5
+g_func_player = [(factorised_heuristics, 0),
+                 (capture_stones, 0),
+                 (winning, 0),
+                 (potential_capture, 0),
+                 (freedom_rate, 0)]
+g_func_opponent = [(factorised_heuristics, 0),
+                   (capture_stones, 0),
+                   (winning, 0),
+                   (potential_capture, 0),
+                   (freedom_rate, 0)]
+opponent_weight = 0
+
+
+def set_g_func_player(value):
+    global g_func_player
+    g_func_player = value
+
+
+def set_g_func_opponent(value):
+    global g_func_opponent
+    g_func_opponent = value
+
+
+def set_opponent_weight(value):
+    global opponent_weight
+    opponent_weight = value
 
 
 def heuristic(node: Grid, player) -> float:
@@ -41,7 +56,6 @@ def heuristic(node: Grid, player) -> float:
     node_line_size = node_size * node_size  # the grid is a square
     func_player = g_func_player
     func_opponent = g_func_opponent
-
     history = node.history[max(4, len(node.history) // 2):]
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
