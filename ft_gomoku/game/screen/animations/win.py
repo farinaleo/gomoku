@@ -2,13 +2,47 @@ from random import randint
 from typing import List, Tuple
 
 import pygame
+from ft_gomoku.engine.engine import Engine
+from ft_gomoku.engine.sound_control import play_sound
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 
 #TODO: change player value type
 
-def anim_win(screen: pygame.Surface, game_engine: GameStruct):
-	rocks_winner = get_winner_rocks(game_engine)
+def anim_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
+	if game_engine.winner[2] == '5':
+		five_win(engine, game_engine, rocks_coord)
+	else:
+		capture_win(engine, game_engine, rocks_coord)
+
+
+def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
+	from ft_gomoku import draw_rocks
+	for x in range(30):
+		darken_screen(engine)
+		for i in range(5):
+			draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0])
+			pygame.display.update()
+	play_sound('winning_sound.mp3')
+	for i in range(5):
+		draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0], True)
+		pygame.display.update()
+		pygame.time.wait(100)
+	pygame.time.wait(1000)
+	engine.change_screen('main_menu')
+
+
+def capture_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
+	for x in range(30):
+		darken_screen(engine)
+
+
+def darken_screen(engine: Engine):
+	overlay = pygame.Surface((engine.screen.get_width(), engine.screen.get_height()))  # Create a new surface with screen dimensions
+	overlay.set_alpha(15)
+	overlay.fill((0, 0, 0))
+	engine.screen.blit(overlay, (0, 0))
+	pygame.display.flip()
 
 
 def get_winner_rocks(game_engine: GameStruct) -> list[tuple[int, int]] | None:
