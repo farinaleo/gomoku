@@ -43,6 +43,22 @@ def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, end_tim
 	end_screen(engine, game_engine, end_time)
 
 def capture_win(engine: Engine, game_engine: GameStruct, end_time: float, loose: bool):
+	dx = 0
+	dy = 0
+	rock_img = game_engine.rock_black_img if game_engine.winner[0] == '2' else game_engine.rock_white_img
+	for x in range(30):
+		darken_screen(engine)
+	for i in range(10):
+		engine.screen.blit(rock_img, (engine.window_size[0] // 2 + dx * 40 - (40*2.5), engine.window_size[1] // 2 + dy * 40))
+		dx += 1
+		if dx == 5:
+			dx = 0
+			dy += 1
+		play_sound('pop.mp3')
+		pygame.display.flip()
+		engine.clock.tick(engine.settings.get_fps())
+		pygame.time.wait(140)
+	pygame.time.wait(1000)
 	play_sound('failure.mp3' if loose else 'tada.mp3')
 	end_screen(engine, game_engine, end_time)
 
@@ -97,7 +113,7 @@ def show_party_information(engine: Engine, game_engine: GameStruct, end_time: fl
 
 
 def darken_screen(engine: Engine):
-	overlay = pygame.Surface((engine.screen.get_width(), engine.screen.get_height()))  # Create a new surface with screen dimensions
+	overlay = pygame.Surface((engine.screen.get_width(), engine.screen.get_height()))
 	overlay.set_alpha(15)
 	overlay.fill((0, 0, 0))
 	engine.screen.blit(overlay, (0, 0))
