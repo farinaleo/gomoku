@@ -45,7 +45,7 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False):
                 mem_grid[str(_next)] = _next
 
     new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
-    new_gen = new_gen[:min(len(new_gen), 3)]
+    new_gen = new_gen[:min(len(new_gen), 4)]
     return new_gen
 
 
@@ -96,7 +96,8 @@ def __cluster(line, size, line_size, p1, p2, bypass):
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 1)
     if len(cluster) == 0:
         mid = size // 2
-        cluster.append((mid, mid))
+        if line[mid + mid * size] == '0':
+            cluster.append((mid, mid))
     return cluster
 
 
@@ -178,12 +179,16 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
             else:
                 if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent, nb_friends):
                     return True
+                if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
+                    return True
                 return False
     elif line[i] == opponent:
         if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
             if bypass == 'middle' and x == size // 2 and y == size // 2:
                 return True
             if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player, nb_friends):
+                return True
+            if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
                 return True
     return False
 
@@ -253,3 +258,27 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
     if tmp_i + i <= 5:
         return False
     return cnt_friends >= nb_friends
+
+
+def dir_capture(line, x, y, x_dir, y_dir, size, player, opponent):
+    """
+    Check if the player is able to capture the opponent.
+    :param line:
+    :param x:
+    :param y:
+    :param x_dir:
+    :param y_dir:
+    :param size:
+    :param player:
+    :param opponent:
+    :return:
+    """
+    if 0 <= x < size and 0 <= y < size:
+        if 0 <= x + x_dir < size and 0 <= y + y_dir < size \
+                and line[(x + x_dir) + (y + y_dir) * size] == opponent:
+            if 0 <= x + x_dir * 2 < size and 0 <= y + y_dir * 2 < size \
+                    and line[(x + x_dir * 2) + (y + y_dir * 2) * size] == opponent:
+                if 0 <= x + x_dir * 3 < size and 0 <= y + y_dir * 3 < size \
+                        and line[(x + x_dir * 3) + (y + y_dir * 3) * size] == player:
+                    return True
+    return False
