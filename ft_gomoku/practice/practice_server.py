@@ -13,6 +13,7 @@ def practice_server(value_weight, value_func_player, value_func_opponent):
 	ai_1_warning = 0
 	ai_2_warning = 0
 	start_time = time.time()
+	winner = None
 	running = True
 	while running:
 		ai_1_start_time = time.time()
@@ -22,6 +23,7 @@ def practice_server(value_weight, value_func_player, value_func_opponent):
 				ai_1_warning += 1
 			ai_1_reflection += result_time
 		else:
+			winner = '1'
 			running = False
 			continue
 		ai_2_start_time = time.time()
@@ -32,8 +34,9 @@ def practice_server(value_weight, value_func_player, value_func_opponent):
 			ai_2_reflection += result_time
 		else:
 			running = False
+			winner = '2'
 			continue
-	print_informations(game_grid, ai_1_reflection, ai_2_reflection, ai_1_warning, ai_2_warning, value_weight, value_func_player, value_func_opponent)
+	print_informations(game_grid, ai_1_reflection, ai_2_reflection, ai_1_warning, ai_2_warning, value_weight, value_func_player, value_func_opponent, winner)
 	exit(0)
 
 
@@ -74,8 +77,8 @@ def ai_2_turn(game_grid: Grid, start_time: float):
 
 
 from datetime import datetime
-# f.write('total_rocks,total_turn,ai_1_reflection,ai_2_reflection,ai_1_warning,ai_2_warning,player_1_capture,player_2_capture\n')
-def print_informations(game_grid: Grid, ai_1_reflection: int, ai_2_reflection: int, ai_1_warning: int, ai_2_warning: int, value_weight, value_func_player, value_func_opponent):
+#total_rocks,total_turn,ai_1_reflection,ai_2_reflection,ai_1_warning,ai_2_warning,player_1_capture,player_2_capture,value_weight,value_func_player,value_func_opponent
+def print_informations(game_grid: Grid, ai_1_reflection: int, ai_2_reflection: int, ai_1_warning: int, ai_2_warning: int, value_weight, value_func_player, value_func_opponent, winner):
 	total_rocks = 0
 	for i in range(19 * 19):
 		if game_grid.line_grid[i] != '0':
@@ -89,4 +92,4 @@ def print_informations(game_grid: Grid, ai_1_reflection: int, ai_2_reflection: i
 	filename = "evaluate_node" + '.csv'
 
 	with open(filename, 'a') as f:
-		f.write(f'{total_rocks},{total_turn},{ai_1_reflection},{ai_2_reflection},{ai_1_warning},{ai_2_warning},{player_1_capture},{player_2_capture},{value_weight},{value_func_player},{value_func_opponent}\n')
+		f.write(f'{winner},{total_rocks},{total_turn},{ai_1_reflection},{ai_2_reflection},{ai_1_warning},{ai_2_warning},{player_1_capture},{player_2_capture},{value_weight},{value_func_player},{value_func_opponent}\n')
