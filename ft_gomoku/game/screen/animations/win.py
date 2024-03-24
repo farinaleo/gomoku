@@ -40,14 +40,14 @@ def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, end_tim
 		pygame.time.wait(100)
 	pygame.time.wait(1000)
 	play_sound('failure.mp3' if loose else 'tada.mp3')
-	end_screen(engine, game_engine, end_time, False)
+	end_screen(engine, game_engine, end_time)
 
 def capture_win(engine: Engine, game_engine: GameStruct, end_time: float, loose: bool):
 	play_sound('failure.mp3' if loose else 'tada.mp3')
-	end_screen(engine, game_engine, end_time, True)
+	end_screen(engine, game_engine, end_time)
 
 
-def end_screen(engine: Engine, game_engine: GameStruct, end_time: float, capture: bool):
+def end_screen(engine: Engine, game_engine: GameStruct, end_time: float):
 	"""Show the end screen
 	:param engine: the game engine
 	:param game_engine: the game engine
@@ -55,10 +55,7 @@ def end_screen(engine: Engine, game_engine: GameStruct, end_time: float, capture
 	:param loose: if the player loose
 	"""
 	winner = game_engine.winner[0]
-	if capture:
-		win_img = get_image('p1_captures_win.png' if winner == '1' else 'p2_captures_win.png', 1280 // 2, 720 // 2)
-	else:
-		win_img = get_image('p1_win.png' if winner == '1' else 'p2_win.png', 1280 // 2, 720 // 2)
+	win_img = get_image('p1_wins.png' if winner == '1' else 'p2_wins.png', 1280 // 2, 720 // 2)
 	groups_particles = pygame.sprite.Group()
 	while True:
 		engine.screen.fill((8, 26, 43))
