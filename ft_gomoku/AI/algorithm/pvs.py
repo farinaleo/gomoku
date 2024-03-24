@@ -57,6 +57,8 @@ def launch_pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
     if depth <= 0:
         return None
     next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2, first_call=True)
+    if next_gen is None or len(next_gen) == 0:
+        return None
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
     for node in next_gen:

@@ -66,6 +66,8 @@ def launch_alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, 
     next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2, True)
     print(f'next_gen: {len(next_gen)}')
     max_val = float('-inf')
+    if next_gen is None:
+        return None
     move_selected = next_gen[0].get_last_move()[-2:]
     for node in next_gen:
         _val = alpha_beta(node, depth - 1, alpha, beta, rules, ai_value, is_max)
