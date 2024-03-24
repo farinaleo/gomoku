@@ -1,8 +1,11 @@
+import time
 from random import randint
 from typing import List, Tuple
 
 import pygame
 from ft_gomoku.engine.engine import Engine
+from ft_gomoku.game.screen.particle import Particle, stars_effect
+from ft_gomoku.engine.image_control import get_image
 from ft_gomoku.engine.sound_control import play_sound
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
@@ -13,10 +16,13 @@ def anim_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
 	if game_engine.winner[2] == '5':
 		five_win(engine, game_engine, rocks_coord)
 	else:
-		capture_win(engine, game_engine, rocks_coord)
+		capture_win(engine, game_engine)
 
 
 def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
+	winner = game_engine.winner[0]
+	win_img = get_image('p1_win.png' if winner == '1' else 'p2_win.png', 1280 // 2, 720 // 2)
+	groups_particles = pygame.sprite.Group()
 	from ft_gomoku import draw_rocks
 	for x in range(30):
 		darken_screen(engine)
@@ -29,12 +35,37 @@ def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
 		pygame.display.update()
 		pygame.time.wait(100)
 	pygame.time.wait(1000)
-	engine.change_screen('main_menu')
+	play_sound('tada.mp3')
+	while True:
+		engine.screen.fill((8, 26, 43))
+		stars_effect(20, engine.get_window_size()[0], engine.get_window_size()[1], groups_particles)
+		groups_particles.update()
+		groups_particles.draw(engine.screen)
+		engine.screen.blit(win_img, (engine.get_window_size()[0] // 2 - win_img.get_width() // 2, engine.get_window_size()[1] // 2 - win_img.get_height() // 2))
+		pygame.display.flip()
+		engine.clock.tick(engine.settings.get_fps())
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
+				engine.change_screen('main_menu')
+				return
 
-
-def capture_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict):
-	for x in range(30):
-		darken_screen(engine)
+def capture_win(engine: Engine, game_engine: GameStruct):
+	winner = game_engine.winner[0]
+	win_img = get_image('p1_captures_win.png' if winner == '1' else 'p2_captures_win.png', 1280 // 2, 720 // 2)
+	groups_particles = pygame.sprite.Group()
+	play_sound('tada.mp3')
+	while True:
+		engine.screen.fill((8, 26, 43))
+		stars_effect(20, engine.get_window_size()[0], engine.get_window_size()[1], groups_particles)
+		groups_particles.update()
+		groups_particles.draw(engine.screen)
+		engine.screen.blit(win_img, (engine.get_window_size()[0] // 2 - win_img.get_width() // 2, engine.get_window_size()[1] // 2 - win_img.get_height() // 2))
+		pygame.display.flip()
+		engine.clock.tick(engine.settings.get_fps())
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.QUIT:
+				engine.change_screen('main_menu')
+				return
 
 
 def darken_screen(engine: Engine):
