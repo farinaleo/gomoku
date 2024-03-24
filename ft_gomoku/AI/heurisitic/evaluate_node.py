@@ -15,12 +15,12 @@ from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
 g_func_player = [(factorised_heuristics, 2),
-                 (capture_stones, 1),
-                 (winning, 3),
+                 (capture_stones, 5),
+                 (winning, 100000),
                  (potential_capture, 0.8),
                  (freedom_rate, 1)]
 g_func_opponent = [(factorised_heuristics, -1),
-                   (capture_stones, -1),
+                   (capture_stones, -5),
                    (winning, -1),
                    (potential_capture, -1.2),
                    (freedom_rate, -1)]
