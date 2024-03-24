@@ -190,7 +190,7 @@ def game_screen(engine: Engine, ai: bool = False):
 					rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 					coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 					if place_rocks(engine.screen, game_engine, coords_to_place, False, 35) == 'win':
-						anim_win(engine, game_engine, rocks_coord)
+						anim_win(engine, game_engine, rocks_coord, True)
 						return
 					pass
 			if game_engine.grid.get_last_move() != game_engine.get_last_move(): # A CHANGER
