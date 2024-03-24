@@ -182,10 +182,8 @@ def check_diag1(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 	x -= index
 	y += index
 	if x < 0 or x > size - 1 or y < 0 or y > size:
-		print("diag2 rwt", x, y)
 		return None
 	while x < size and 0 <= y:
-		print("diag1", x, y)
 		if game_engine.grid.line_grid[x + y * size] == rock:
 			count += 1
 			rocks.append((x, y))
@@ -225,7 +223,6 @@ def check_diag2(game_engine: GameStruct, player: str) -> list[tuple[int, int]] |
 			count = 0
 			rocks = []
 		if count == 5:
-			print("diag2 rocks", rocks)
 			return rocks
 		x += 1
 		y += 1
