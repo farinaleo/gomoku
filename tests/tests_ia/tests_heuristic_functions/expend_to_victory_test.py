@@ -26,7 +26,7 @@ def test_1():
     grid.add_rock(3, 6, '1', [])
 
     grid.add_rock(0, 3, '1', [])
-    assert ai.expend_to_victory(grid.line_grid, grid, 3, 0, '1', '2', 19, len(grid.line_grid)) == 3.5 / 4
+    assert ai.expend_to_victory(grid.line_grid, grid, 3, 0, '1', '2', 19, len(grid.line_grid)) == 0.375
 
 
 def test_2():

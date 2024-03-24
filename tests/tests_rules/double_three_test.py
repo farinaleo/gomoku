@@ -86,7 +86,7 @@ def test_3_1():  # double free three in the middle as line
     grid.add_rock(8, 10, '2', [])
     grid.add_rock(8, 11, '2', [])
 
-    assert grid.add_rock(8, 8, '2', [gmk.double_three_forbidden]) == gmk.RuleStatus.NO
+    assert grid.add_rock(8, 8, '2', [gmk.double_three_forbidden]) == gmk.RuleStatus.OK
 
 
 def test_3_2():

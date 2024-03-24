@@ -11,18 +11,19 @@ from ft_gomoku import Grid, RuleStatus
 from ft_gomoku.AI import heuristic
 
 
-# class Point(ctypes.Structure):
-#     _fields_ = [("x", ctypes.c_int),
-#                 ("y", ctypes.c_int)]
+mem_grid = {}
 
 
-def next_generation(grid: Grid, rules, ai_value):
+def next_generation(grid: Grid, rules, ai_value, first_call=False):
     """Generate the next generation from the given grid by placing the player.
     :param grid: the grid to extend
     :param rules: the rules aplay to the game
     :param ai_value: the value used to identify the AI.
     :return: a list of ft_gomoku.grid representing the next generation
     """
+    global mem_grid
+    if first_call:
+        mem_grid.clear()
     new_gen = []
     line = grid.line_grid
     size = grid.size
@@ -38,9 +39,12 @@ def next_generation(grid: Grid, rules, ai_value):
             _next = grid.__copy__()
             if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
                 _next.heuristic = heuristic(_next, player)
+                if mem_grid.get(str(_next)) and mem_grid.get(str(_next)).heuristic >= _next.heuristic:
+                    continue
                 new_gen.append(_next)
+                mem_grid[str(_next)] = _next
 
-    new_gen.sort(key=None, reverse=True)
+    new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
     new_gen = new_gen[:min(len(new_gen), 3)]
     return new_gen
 
@@ -83,16 +87,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     end = max(last_p1, last_p2)
     end = min(end, line_size)
 
-    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 9)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 8)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 7)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 6)
-    # if len(cluster) == 0:
-    # expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 5)
-    # if len(cluster) == 0:
     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
     if len(cluster) == 0:
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
@@ -103,8 +97,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     if len(cluster) == 0:
         mid = size // 2
         cluster.append((mid, mid))
-    # size_max_cluster = min(3, len(cluster))
-    # cluster = cluster[:size_max_cluster]
     return cluster
 
 
@@ -118,6 +110,7 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass, nb_friends=4):
     :param p2: the opponent.
     :param cluster: the points cluster.
     :param bypass: allow the middle expansion if the grid contains one stone.
+    :param nb_friends: the total friends number to have to admit a point.
     :return: a points list.
     """
     while i < end:
@@ -175,6 +168,7 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
     :param player: the player value.
     :param opponent: the opponent value.
     :param bypass: allow the middle expansion if the grid contains one stone.
+    :param nb_friends: the total friends number to have to admit a point.
     :return: True if the expansion is allowed, otherwise False.
     """
     if line[i] == player:
@@ -223,6 +217,19 @@ def have_friends(line, x, y, size, player) -> bool:
 
 
 def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
+    """
+    Count the number of available friends around the point.
+    :param line: the game as line.
+    :param x: the starting x coordinate.
+    :param y: the starting y coordinate.
+    :param x_dir: the x direction.
+    :param y_dir: the y direction.
+    :param size: the game size.
+    :param player: the player value.
+    :param opponent: the opponent value.
+    :param nb_friends: the total friends number to have to admit a point.
+    :return:
+    """
     i = 0
     cnt_friends = 0
     tmp_x = x
@@ -233,6 +240,7 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x + x_dir
         y = y + y_dir
         i = i + 1
+    tmp_i = i
     i = 0
     x = tmp_x
     y = tmp_y
@@ -242,4 +250,6 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x - x_dir
         y = y - y_dir
         i = i + 1
+    if tmp_i + i <= 5:
+        return False
     return cnt_friends >= nb_friends

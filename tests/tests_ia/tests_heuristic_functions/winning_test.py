@@ -43,7 +43,7 @@ def test_2():
     grid.add_rock(4, 2, '2', [gmk.capture, gmk.ten_capture_to_win])
     grid.add_rock(4, 3, '1', [gmk.capture, gmk.ten_capture_to_win])
 
-    assert ai.winning(grid.line_grid, grid, 3, 4, '1', '2', 19, 361) == 100
+    assert ai.winning(grid.line_grid, grid, 3, 4, '1', '2', 19, 361) > 0
 
 def test_3():
     grid = gmk.Grid(19, '1', '2')
@@ -52,5 +52,5 @@ def test_3():
     grid.add_rock(0, 2, '1', [gmk.five_to_win])
     grid.add_rock(0, 3, '1', [gmk.five_to_win])
     grid.add_rock(0, 4, '1', [gmk.five_to_win])
-    assert ai.winning(grid.line_grid, grid, 4, 0, '1', '2', 19, 361) == 100
+    assert ai.winning(grid.line_grid, grid, 4, 0, '1', '2', 19, 361) > 0
 

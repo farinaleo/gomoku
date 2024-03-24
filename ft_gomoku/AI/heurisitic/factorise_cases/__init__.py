@@ -1,26 +1,14 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #   contact : leo.farina.fr@gmail.com                                                                 ░▄▄▄▄░           |
 #   github : https://github.com/farinaleo                                                             ▀▀▄██►           |
-#   date : 3/12/24, 8:21 AM                                                                           ▀▀███►           |
+#   date : 3/23/24, 12:59 PM                                                                           ▀▀███►           |
 #                                                                                                     ░▀███►░█►        |
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid
-
-def winning(line, grid, x, y, player, opponent, size, line_size) -> float:
-	"""Evaluate if the move is winning.
-	:param line: the game as list.
-	:param grid: the node.
-	:param x: last move played.
-	:param y: last move played.
-	:param player: player who played the move to evaluate.
-	:param opponent: the opponent.
-	:param size: the grid size.
-	:param line_size: the total lien size.
-	:return: return 10 if the move is winning otherwise 0.
-	"""
-	if grid.winning:
-		return 10000
-	return 0
+from .extract_lines import extract_row, extract_column, extract_diagonal1, extract_diagonal2
+from .get_start_end import get_start_end
+from .expend_to_victory import expend_to_victory
+from .freedom_alignment import freedom_alignment_rate
+from .matching_cases import matching_cases

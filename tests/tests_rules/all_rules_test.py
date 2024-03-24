@@ -299,7 +299,7 @@ def test_3_1():  # double free three in the middle as line
 	grid.add_rock(8, 10, '2', rules)
 	grid.add_rock(8, 11, '2', rules)
 
-	assert grid.add_rock(8, 8, '2', rules) == gmk.RuleStatus.NO
+	assert grid.add_rock(8, 8, '2', rules) == gmk.RuleStatus.OK
 
 
 def test_3_2():

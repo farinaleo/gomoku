@@ -101,11 +101,11 @@ def matching_cases(line, grid, x, y, player, opponent, size, line_size, lens=Non
 
 
 def __check_column(row: int, col: int, goals, grid, size) -> int:
-    """Check if the next move is winning by aligning five stones or more in column.
+    """Extract the column from the game bord to analyse it.
     :param col: column to analyse
     :param goals: goal line
     :param grid: grid to analyse
-    :return: Rule status (WIN | NO)
+    :return: the sum of cases weight found.
     """
     cnt = 0
     col_g = ''.join([str(grid[col + i * size]) for i in range(size)])
@@ -118,11 +118,11 @@ def __check_column(row: int, col: int, goals, grid, size) -> int:
 
 
 def __check_row(row: int, col: int, goals, grid, size) -> int:
-    """Check if the next move is winning by aligning five stones or more in row.
-    :param row:  row to analyse
+    """Extract the row from the game bord to analyse it.
+    :param col: column to analyse
     :param goals: goal line
     :param grid: grid to analyse
-    :return: Rule status (WIN | NO)
+    :return: the sum of cases weight found.
     """
     cnt = 0
     row_g = ''.join([str(grid[i + (row * size)]) for i in range(size)])
@@ -135,12 +135,11 @@ def __check_row(row: int, col: int, goals, grid, size) -> int:
 
 
 def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
-    """Check if the next move is winning by aligning five stones or more in a diagonal.
-    :param row:  y pos
-    :param col:  x pos
+    """Extract the first diagonal from the game bord to analyse it.
+    :param col: column to analyse
     :param goals: goal line
     :param grid: grid to analyse
-    :return: Rule status (WIN | NO)
+    :return: the sum of cases weight found.
     """
     cnt = 0
     while 0 <= row < size and 0 <= col < size:
@@ -158,12 +157,11 @@ def __check_diagonal1(row: int, col: int, goals, grid, size) -> int:
 
 
 def __check_diagonal2(row: int, col: int, goals, grid, size) -> int:
-    """Check if the next move is winning by aligning five stones or more in a diagonal.
-    :param row:  y pos
-    :param col:  x pos
+    """Extract the second diagonal from the game bord to analyse it.
+    :param col: column to analyse
     :param goals: goal line
     :param grid: grid to analyse
-    :return: Rule status (WIN | NO)
+    :return: the sum of cases weight found.
     """
     cnt = 0
     while 0 <= row < size and 0 <= col < size:

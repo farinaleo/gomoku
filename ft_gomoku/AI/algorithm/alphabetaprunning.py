@@ -7,8 +7,8 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-from ft_gomoku import Grid,log
-from ft_gomoku.AI import heuristic, next_generation
+from ft_gomoku import Grid, log
+from ft_gomoku.AI import next_generation
 
 
 @log()
@@ -26,9 +26,8 @@ def alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
     :return: The node evaluation or None in case of error.
     """
     if depth <= 0 or grid.winning:
-        # return heuristic(grid, ai_value if is_max else grid.player2 if ai_value != grid.player2 else grid.player1) + depth
         return grid.heuristic * (depth + 1)
-    next_gen = next_generation(grid, rules, ai_value)
+    next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2)
     if not next_generation:
         return None
     if is_max:
@@ -64,7 +63,7 @@ def launch_alpha_beta(grid: Grid, depth: int, alpha: float, beta: float, rules, 
     """
     if depth <= 0:
         return None
-    next_gen = next_generation(grid, rules, ai_value)
+    next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2, True)
     print(f'next_gen: {len(next_gen)}')
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
