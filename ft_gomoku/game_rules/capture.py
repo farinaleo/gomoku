@@ -36,7 +36,7 @@ def capture(row: int, col: int, player, grid):
 
     if up == CAPTURE.CAPTURE or down == CAPTURE.CAPTURE or left == CAPTURE.CAPTURE or right == CAPTURE.CAPTURE:
         status = RuleStatus.CAPTURE
-    elif up != CAPTURE.NO_UP:
+    if up != CAPTURE.NO_UP:
         if left != CAPTURE.NO_LEFT:
             if __check_up_left(row, col, goal, grid_line, size) == CAPTURE.CAPTURE:
                 status = RuleStatus.CAPTURE
@@ -108,7 +108,7 @@ def __check_down(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col, row + 2))
         return CAPTURE.CAPTURE
     elif inc != 4:
-        return CAPTURE.NO_UP
+        return CAPTURE.NO_DOWN
     return CAPTURE.NO
 
 
@@ -136,7 +136,7 @@ def __check_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col - 2, row))
         return CAPTURE.CAPTURE
     elif inc != 4:
-        return CAPTURE.NO_UP
+        return CAPTURE.NO_LEFT
     return CAPTURE.NO
 
 
@@ -164,7 +164,7 @@ def __check_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col + 2, row))
         return CAPTURE.CAPTURE
     elif inc != 4:
-        return CAPTURE.NO_UP
+        return CAPTURE.NO_RIGHT
     return CAPTURE.NO
 
 
@@ -192,8 +192,6 @@ def __check_up_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col - 1, row - 1))
         point.append((col - 2, row - 2))
         return CAPTURE.CAPTURE
-    elif inc != 4:
-        return CAPTURE.NO_UP
     return CAPTURE.NO
 
 
@@ -221,8 +219,6 @@ def __check_up_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col + 1, row - 1))
         point.append((col + 2, row - 2))
         return CAPTURE.CAPTURE
-    elif inc != 4:
-        return CAPTURE.NO_UP
     return CAPTURE.NO
 
 
@@ -250,8 +246,6 @@ def __check_down_left(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col - 1, row + 1))
         point.append((col - 2, row + 2))
         return CAPTURE.CAPTURE
-    elif inc != 4:
-        return CAPTURE.NO_UP
     return CAPTURE.NO
 
 
@@ -278,6 +272,4 @@ def __check_down_right(row: int, col: int, goal, grid, size) -> CAPTURE:
         point.append((col + 1, row + 1))
         point.append((col + 2, row + 2))
         return CAPTURE.CAPTURE
-    elif inc != 4:
-        return CAPTURE.NO_UP
     return CAPTURE.NO
