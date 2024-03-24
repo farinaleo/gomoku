@@ -45,7 +45,7 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False):
                 mem_grid[str(_next)] = _next
 
     new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
-    new_gen = new_gen[:min(len(new_gen), 3)]
+    new_gen = new_gen[:min(len(new_gen), 4)]
     return new_gen
 
 
@@ -96,7 +96,8 @@ def __cluster(line, size, line_size, p1, p2, bypass):
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 1)
     if len(cluster) == 0:
         mid = size // 2
-        cluster.append((mid, mid))
+        if line[mid + mid * size] == '0':
+            cluster.append((mid, mid))
     return cluster
 
 
