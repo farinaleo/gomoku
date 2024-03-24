@@ -45,6 +45,9 @@ block1_2 = [('11002', 0.4), ('10102', 0.4), ('10012', 0.4), ('10021', 0.4), ('01
             ('11200', 0.4), ('12100', 0.4), ('12010', 0.4), ('12001', 0.4), ('21100', 0.4),
             ('21010', 0.4), ('21001', 0.4), ('20110', 0.4), ('20101', 0.4), ('20011', 0.4)]
 
+defend_1 = [('1112', 10.4), ('2111', 10.4)]
+defend_2 = [('1222', 10.4), ('2221', 10.4)]
+
 
 def matching_cases(lines: [], x, y, size, player) -> float:
     """find the number of matching cases that can be done with the movement.
@@ -64,6 +67,7 @@ def matching_cases(lines: [], x, y, size, player) -> float:
         cases.extend(block2_2)
         cases.extend(block2_3)
         cases.extend(block2_4)
+        cases.extend(defend_1)
     else:
         cases.extend(goal2_2)
         cases.extend(goal2_3)
@@ -71,6 +75,7 @@ def matching_cases(lines: [], x, y, size, player) -> float:
         cases.extend(block1_2)
         cases.extend(block1_3)
         cases.extend(block1_4)
+        cases.extend(defend_2)
 
     for line in lines:
         start, end = get_start_end(line[0], line[1], x, y, size, 5)
