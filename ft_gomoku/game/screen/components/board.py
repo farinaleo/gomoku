@@ -4,10 +4,9 @@ from time import sleep
 from numpy import sqrt
 
 from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
-from ft_gomoku.engine import Engine, play_sound
+from ft_gomoku import Engine, play_sound
 from ft_gomoku.game.screen.square import Square
 from ft_gomoku.data_structure import GameStruct
-from ft_gomoku.engine.image_control import get_image
 from ft_gomoku.game.screen.animations.win import get_winner_rocks
 from ft_gomoku.game.screen.animations import anim_place_rock, anim_win
 
@@ -99,8 +98,10 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 		game_engine.end_player_timer(player_turn[1])
 		anim_place_rock(screen, game_engine, coords[1], radius, player_turn[1])
 		if result is RuleStatus.WIN:
+			if game_engine.grid.captured_stones[player_turn[1]] >= 10:
+				game_engine.set_winner(player_turn[1], [], '10')
+				return 'win'
 			winner_rocks = get_winner_rocks(game_engine)
-			print('WIN', winner_rocks)
 			game_engine.set_winner(player_turn[1], winner_rocks, '5')
 			return 'win'
 		game_engine.update_player_turn()
