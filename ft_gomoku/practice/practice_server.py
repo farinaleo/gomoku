@@ -37,7 +37,6 @@ def practice_server(value_weight, value_func_player, value_func_opponent):
 			winner = '2'
 			continue
 	print_informations(game_grid, ai_1_reflection, ai_2_reflection, ai_1_warning, ai_2_warning, value_weight, value_func_player, value_func_opponent, winner)
-	exit(0)
 
 
 def ai_1_turn(game_grid: Grid, start_time: float):
