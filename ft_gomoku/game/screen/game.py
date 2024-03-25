@@ -142,6 +142,7 @@ def game_screen(engine: Engine, ai: bool = False):
 			if not engine.debug_mode:
 				rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 				if rocks_ia is None:
+					engine.change_screen("main_menu")
 					return
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
 				if place_rocks(engine.screen, game_engine, coords_to_place, False, engine.rocks_size) == 'win':

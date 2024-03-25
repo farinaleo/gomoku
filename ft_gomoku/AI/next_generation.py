@@ -8,7 +8,7 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid, RuleStatus
-from ft_gomoku.AI import heuristic
+from ft_gomoku.AI import heuristic as heuristic_f
 
 
 mem_grid = {}
@@ -38,13 +38,13 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False):
                 and 0 <= cell[1] < size):
             _next = grid.__copy__()
             if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
-                _next.heuristic = heuristic(_next, player)
+                _next.heuristic = heuristic_f(_next, player)
                 if mem_grid.get(str(_next)) and mem_grid.get(str(_next)).heuristic >= _next.heuristic:
                     continue
                 new_gen.append(_next)
                 mem_grid[str(_next)] = _next
 
-    new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
+    new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else True)
     new_gen = new_gen[:min(len(new_gen), 3)]
     return new_gen
 
@@ -98,6 +98,8 @@ def __cluster(line, size, line_size, p1, p2, bypass):
         mid = size // 2
         if line[mid + mid * size] == '0':
             cluster.append((mid, mid))
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 0)
     return cluster
 
 
