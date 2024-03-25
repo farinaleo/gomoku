@@ -1,5 +1,5 @@
-import pygame
 import os
+import pygame
 
 
 def get_image(image_file: str, width: int, height: int) -> pygame.Surface:
@@ -15,3 +15,7 @@ def get_image(image_file: str, width: int, height: int) -> pygame.Surface:
 		print(f'load image error: {e}')
 		return pygame.Surface((width, height))
 	return pygame.transform.scale(image, (width, height))
+
+
+def set_titlescreen(title):
+	pygame.display.set_caption(title)

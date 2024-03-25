@@ -12,14 +12,8 @@ class SettingsStruct:
     def __init__(self):
         self.__fps = None
         self.__music = None
-        self.__sound = None#delete
         self.__fullscreen = None
         self.__window_size = None
-
-    def print(self):
-        """print representation of the SettingsStruct. Debug only"""
-        print('SettingsStruct contain :')
-        print(f'fps: {self.__fps}, music: {self.__music}, fullscreen: {self.__fullscreen}, size: {self.__window_size}')
 
     def get_fps(self) -> int:
         return self.__fps
@@ -81,7 +75,7 @@ class SettingsStruct:
         """load default settings."""
         self.set_fps(60)
         self.set_music(True)
-        self.set_fullscreen(False)
+        self.set_fullscreen(True)
         self.set_window_size(1920, 1080)
         print('default settings loaded')
 

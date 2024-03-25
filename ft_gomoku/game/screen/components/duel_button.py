@@ -3,7 +3,9 @@ from ft_gomoku.engine import Engine
 
 
 def get_1vs1_button(engine: Engine):
-	"""Return 1vs1 button"""
+	"""Return 1vs1 button
+	:param engine: Engine
+	"""
 	image = pygame.image.load('ft_gomoku/assets/img/button_1vs1.png')
 	image_width = 530
 	image_height = 130
@@ -15,7 +17,9 @@ def get_1vs1_button(engine: Engine):
 
 
 def get_ai_button(engine: Engine):
-	"""Return AI button"""
+	"""Return AI button
+	:param engine: Engine
+	"""
 	image = pygame.image.load('ft_gomoku/assets/img/button_ai.png')
 	image_width = 530
 	image_height = 130

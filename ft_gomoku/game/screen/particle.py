@@ -1,5 +1,5 @@
-from random import randint, choice, uniform
 import pygame
+from random import randint, choice, uniform
 
 
 class Particle(pygame.sprite.Sprite):

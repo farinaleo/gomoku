@@ -7,8 +7,6 @@
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
 
-import copy
-import numpy as np
 from dataclasses import dataclass
 from ft_gomoku import RuleStatus
 

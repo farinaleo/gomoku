@@ -1,22 +1,18 @@
 import time
-from random import randint
-from typing import List, Tuple
-
 import pygame
 from ft_gomoku.engine.engine import Engine
-from ft_gomoku.game.screen.particle import Particle, stars_effect
 from ft_gomoku.engine.image_control import get_image
 from ft_gomoku.engine.sound_control import play_sound
+from ft_gomoku.game.screen.particle import stars_effect
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
-
-#TODO: change player value type
 
 def anim_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, loose: bool = False):
 	"""Animate the win
 	:param engine: the game engine
 	:param game_engine: the game engine
 	:param rocks_coord: the rocks coordinates
+	:param loose: if the player loose
 	"""
 	end_time = time.time()
 	if game_engine.winner[2] == '5':
@@ -26,8 +22,15 @@ def anim_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, loose: 
 
 
 def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, end_time: float, loose: bool):
-
+	"""Animate the win with five rocks
+	:param engine: the game engine
+	:param game_engine: the game engine
+	:param rocks_coord: the rocks coordinates
+	:param end_time: the end time
+	:param loose: if the player loose
+	"""
 	from ft_gomoku import draw_rocks
+
 	for x in range(30):
 		darken_screen(engine)
 		for i in range(5):
@@ -42,7 +45,14 @@ def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, end_tim
 	play_sound('failure.mp3' if loose else 'tada.mp3')
 	end_screen(engine, game_engine, end_time)
 
+
 def capture_win(engine: Engine, game_engine: GameStruct, end_time: float, loose: bool):
+	"""Animate the win with the capture
+	:param engine: the game engine
+	:param game_engine: the game engine
+	:param end_time: the end time
+	:param loose: if the player loose
+	"""
 	dx = 0
 	dy = 0
 	rock_img = game_engine.rock_black_img if game_engine.winner[0] == '2' else game_engine.rock_white_img
@@ -67,8 +77,7 @@ def end_screen(engine: Engine, game_engine: GameStruct, end_time: float):
 	"""Show the end screen
 	:param engine: the game engine
 	:param game_engine: the game engine
-	:param rocks_coord: the rocks coordinates
-	:param loose: if the player loose
+	:param end_time: the end time
 	"""
 	winner = game_engine.winner[0]
 	win_img = get_image('p1_wins.png' if winner == '1' else 'p2_wins.png', 1280 // 2, 720 // 2)
@@ -93,6 +102,7 @@ def show_party_information(engine: Engine, game_engine: GameStruct, end_time: fl
 	"""Show the party information
 	:param engine: the game engine
 	:param game_engine: the game engine
+	:param end_time: the end time
 	"""
 	font = engine.font
 	p1_total_rocks = game_engine.grid.get_captured_stones(game_engine.player_2[1])
@@ -113,6 +123,9 @@ def show_party_information(engine: Engine, game_engine: GameStruct, end_time: fl
 
 
 def darken_screen(engine: Engine):
+	"""Darken the screen
+	:param engine: the game engine
+	"""
 	overlay = pygame.Surface((engine.screen.get_width(), engine.screen.get_height()))
 	overlay.set_alpha(15)
 	overlay.fill((0, 0, 0))
