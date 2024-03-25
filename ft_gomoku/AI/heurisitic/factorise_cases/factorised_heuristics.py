@@ -34,5 +34,6 @@ def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size) -
     cnt = cnt + matching_cases(lines, x, y, size, player) * 4
     cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
     cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1.5
+    cnt = cnt + potential_capture(lines, x, y, player, size)
 
     return cnt

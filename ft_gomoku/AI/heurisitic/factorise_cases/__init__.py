@@ -12,3 +12,4 @@ from .get_start_end import get_start_end
 from .expend_to_victory import expend_to_victory
 from .freedom_alignment import freedom_alignment_rate
 from .matching_cases import matching_cases
+from .potential_capture import potential_capture
