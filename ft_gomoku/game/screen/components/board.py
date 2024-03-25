@@ -43,7 +43,6 @@ def get_size_square(window_size: tuple, size: int) -> int:
 	"""
 	ratio_square = window_size[1] / 1080
 	ratio_nbr = 19 / size
-	print(int(40 * ratio_square * ratio_nbr))
 	return int(40 * ratio_square * ratio_nbr)
 
 
