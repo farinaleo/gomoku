@@ -16,7 +16,7 @@ def debug_screen(engine: Engine, game_engine: GameStruct, debug_struct: Debugger
     image_map.fill((0, 0, 0, 0))
     for i, (key, value) in enumerate(dict_debug.items()):
         if key != 'board_grid':
-            font = pygame.font.Font(None, 24)
+            font = pygame.font.Font(None, engine.text_size)
             text = font.render(f"{key} : {value}", True, (255, 255, 255))
             text_rect = text.get_rect(topleft=(10, 10 + i * 30))
             image_text.blit(text, text_rect)

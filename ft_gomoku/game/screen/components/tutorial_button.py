@@ -3,7 +3,9 @@ from ft_gomoku.engine import Engine
 
 
 def get_tutorial_button(engine: Engine):
-	"""Return tutorial button"""
+	"""Return tutorial button
+	:param engine: Engine
+	"""
 	image = pygame.image.load('ft_gomoku/assets/img/button_tutorial.png')
 	image_width = 530
 	image_height = 130

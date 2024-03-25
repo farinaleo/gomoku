@@ -1,8 +1,7 @@
 import time
+import psutil
+import cpuinfo
 from dataclasses import dataclass
-
-import cpuinfo#TODO: add cpuinfo to requirements.txt
-import psutil#TODO: add psutil to requirements.txt
 from ft_gomoku.engine import Engine
 from ft_gomoku.data_structure import GameStruct
 
@@ -43,8 +42,6 @@ class DebuggerStruct:
 		self.cpu_freq = ""
 		self.ram_total = 0
 		self.ram_used = 0
-		# self.update_cpu_info()
-		# self.update_ram_info()
 
 	def update_settings(self, engine: Engine, game_engine: GameStruct):
 		"""Update the settings in the debugger struct

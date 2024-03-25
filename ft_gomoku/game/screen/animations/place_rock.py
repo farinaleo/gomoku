@@ -1,12 +1,18 @@
 from random import randint
 
 import pygame
-from ft_gomoku.engine import get_image, play_sound
+from ft_gomoku.engine import play_sound
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 
-def anim_place_rock(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: int, sound: bool = True):
+def anim_place_rock(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: str, sound: bool = True):
 	"""Animate the rock placement
+	:param screen: the screen Surface
+	:param game_engine: the GameStruct
+	:param coords: coordinates of the rock
+	:param radius: the rocks radius
+	:param player: the player
+	:param sound: if sound is enabled
 	"""
 	rock_img = game_engine.get_rocks_img(player, True)
 	rock_img.convert_alpha()

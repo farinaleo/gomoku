@@ -1,8 +1,9 @@
 import pygame
-from ft_gomoku.game.screen.particle import stars_effect
-from ft_gomoku.engine import Engine, load_music, set_titlescreen
+from ft_gomoku import set_titlescreen
+from ft_gomoku.game.screen.components.particle import stars_effect
+from ft_gomoku.engine import Engine, load_music
 from ft_gomoku.game.screen.components import get_tutorial_button
-from ft_gomoku.game.screen.components import mute_button, mute_action, maximize_button, maximize_action, get_gomoku_logo, get_1vs1_button, get_ai_button
+from ft_gomoku.game.screen.components import mute_button, maximize_button, get_gomoku_logo, get_1vs1_button, get_ai_button
 
 
 def handle_events(engine, events_list) -> str | bool:
@@ -13,9 +14,9 @@ def handle_events(engine, events_list) -> str | bool:
                 return 'quit'
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if events_list[0][1].collidepoint(event.pos):
-                mute_action(engine)
+                engine.mute()
             elif events_list[1][1].collidepoint(event.pos):
-                maximize_action(engine)
+                engine.maximize()
                 return 'restart'
             elif events_list[2][1].collidepoint(event.pos) or events_list[3][1].collidepoint(event.pos):
                 if events_list[2][1].collidepoint(event.pos):
