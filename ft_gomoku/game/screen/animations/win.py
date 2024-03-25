@@ -3,7 +3,7 @@ import pygame
 from ft_gomoku.engine.engine import Engine
 from ft_gomoku.engine.image_control import get_image
 from ft_gomoku.engine.sound_control import play_sound
-from ft_gomoku.game.screen.particle import stars_effect
+from ft_gomoku.game.screen.components.particle import stars_effect
 from ft_gomoku.data_structure.GameStruct import GameStruct
 
 

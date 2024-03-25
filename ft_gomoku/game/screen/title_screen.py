@@ -1,6 +1,6 @@
 import pygame
 from ft_gomoku import set_titlescreen
-from ft_gomoku.game.screen.particle import stars_effect
+from ft_gomoku.game.screen.components.particle import stars_effect
 from ft_gomoku.engine import Engine, load_music
 from ft_gomoku.game.screen.components import get_tutorial_button
 from ft_gomoku.game.screen.components import mute_button, maximize_button, get_gomoku_logo, get_1vs1_button, get_ai_button

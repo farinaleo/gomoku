@@ -1,6 +1,6 @@
 import pygame
 from ft_gomoku import Engine, play_sound
-from ft_gomoku.game.screen.square import Square
+from ft_gomoku.game.screen.components.square import Square
 from ft_gomoku.data_structure import GameStruct
 from ft_gomoku.game.screen.animations import anim_place_rock
 from ft_gomoku.game.screen.animations.win import get_winner_rocks
