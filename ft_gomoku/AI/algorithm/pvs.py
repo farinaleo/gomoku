@@ -28,7 +28,8 @@ def pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_m
     if depth <= 0 or grid.winning:
         return grid.heuristic * (depth + 1)
     next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2)
-
+    if next_gen is None or len(next_gen) == 0:
+        return float('-inf') if is_max else float('inf')
     for node in next_gen:
         if node == next_gen[0]:
             _val = -pvs(node, depth - 1, - beta, - alpha, rules, ai_value, False if is_max else True)

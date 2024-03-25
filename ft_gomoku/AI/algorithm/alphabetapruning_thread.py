@@ -48,8 +48,8 @@ def alpha_beta_t(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_va
     elif depth == 1:
         return alpha_beta_thread(grid, depth, alpha, beta, rules, ai_value, is_max)
     next_gen = next_generation(grid, rules, ai_value)
-    if not next_generation:
-        return None
+    if not next_gen or len(next_gen) == 0:
+        return float('-inf') if is_max else float('inf')
     if is_max:
         max_val = float('-inf')
         for node in next_gen:
@@ -69,7 +69,8 @@ def alpha_beta_t(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_va
     return max_val
 
 
-def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> tuple | None:
+def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value,
+                             is_max=True) -> tuple | None:
     """
     Launch the alpha beta pruning thread (fail-soft) to find the best move to play.
     :param grid: the game board.
@@ -84,6 +85,8 @@ def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, 
     if depth <= 0:
         return None
     next_gen = next_generation(grid, rules, ai_value)
+    if next_gen is None or len(next_gen) == 0:
+        return None
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
     for node in next_gen:
@@ -94,7 +97,7 @@ def launch_alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, 
     return move_selected
 
 
-def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> tuple | None:
+def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> float | None:
     """
     Launch the alpha beta pruning thread (fail-soft) with multi threading to find the best move to play.
     :param grid: the game board.
@@ -115,6 +118,9 @@ def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, 
         thread_nb = 1
 
     next_gen = next_generation(grid, rules, ai_value)
+    if next_gen is None or len(next_gen) == 0:
+        return float('-inf') if is_max else float('inf')
+
     gen_by_thread = math.ceil(len(next_gen) // thread_nb)
 
     tmp = []
@@ -122,7 +128,8 @@ def alpha_beta_thread(grid: Grid, depth: int, alpha: float, beta: float, rules, 
     for node in next_gen:
         tmp.append(node)
         if len(tmp) >= gen_by_thread:
-            _thread = AlphaBetaThread(target=launch_thread,args=(copy.deepcopy(tmp), depth, alpha, beta, rules, ai_value, is_max))
+            _thread = AlphaBetaThread(target=launch_thread,
+                                      args=(copy.deepcopy(tmp), depth, alpha, beta, rules, ai_value, is_max))
             threads.append(_thread)
             tmp.clear()
     if len(tmp) > 0:

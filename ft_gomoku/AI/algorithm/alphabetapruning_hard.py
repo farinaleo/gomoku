@@ -26,11 +26,10 @@ def alpha_beta_hard(grid: Grid, depth: int, alpha: float, beta: float, rules, ai
     :return: The node evaluation or None in case of error.
     """
     if depth <= 0 or grid.winning:
-        # return heuristic(grid, grid.player1 if is_max else grid.player2) + depth
         return grid.heuristic * (depth + 1)
     next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2)
-    if not next_generation:
-        return None
+    if not next_gen or len(next_gen) == 0:
+        return float('-inf') if is_max else float('inf')
     if is_max:
         max_val = float('-inf')
         for node in next_gen:
@@ -65,7 +64,7 @@ def launch_alpha_beta_hard(grid: Grid, depth: int, alpha: float, beta: float, ru
     if depth <= 0:
         return None
     next_gen = next_generation(grid, rules, ai_value if is_max else grid.player2, first_call=True)
-    if next_gen is None:
+    if next_gen is None or len(next_gen) == 0:
         return None
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
