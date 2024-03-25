@@ -14,14 +14,14 @@ from ft_gomoku.AI import capture_stones, winning, freedom_rate, factorised_heuri
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
 g_func_player = [(factorised_heuristics, 2),
                  (capture_stones, 100),
-                 (winning, 1000000000000000),
+                 (winning, 10),
                  (freedom_rate, 1)]
-g_func_opponent = [(factorised_heuristics, -1),
+g_func_opponent = [(factorised_heuristics, -2),
                    (capture_stones, -100),
-                   (winning, -1),
+                   (winning, -10),
                    (freedom_rate, -1)]
 
-opponent_weight = 0.5
+opponent_weight = 1
 
 
 def heuristic(node: Grid, player) -> float:
