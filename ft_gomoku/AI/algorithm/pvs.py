@@ -11,7 +11,7 @@ from ft_gomoku import Grid, log
 from ft_gomoku.AI import next_generation
 
 
-@log()
+# @log()
 def pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_value, is_max=True) -> float | None:
     """
     Principal Variation Search. Uses it to find the best move to play
@@ -62,9 +62,10 @@ def launch_pvs(grid: Grid, depth: int, alpha: float, beta: float, rules, ai_valu
         return None
     max_val = float('-inf')
     move_selected = next_gen[0].get_last_move()[-2:]
-    for node in next_gen:
-        _val = pvs(node, depth - 1, alpha, beta, rules, ai_value, is_max)
-        if _val > max_val:
-            max_val = _val
-            move_selected = node.get_last_move()[-2:]
+    if len(next_gen) > 1:
+        for node in next_gen:
+            _val = pvs(node, depth - 1, alpha, beta, rules, ai_value, is_max)
+            if _val > max_val:
+                max_val = _val
+                move_selected = node.get_last_move()[-2:]
     return move_selected

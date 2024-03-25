@@ -33,6 +33,6 @@ def get_start_end(line: str, line_type: str, x, y, size: int, dist: int = 0) -> 
         start = max(0, min(x, y) - dist - 1 if dist != 0 else 0)
         end = min(len(line), min(x, y) - dist)
     elif line_type == 'diag2':
-        start = max(0, min(x, len(line) - y) - dist - 1 if dist != 0 else 0)
-        end = min(len(line), min(len(line) - x, y) + dist)
+        start = max(0, min(x, size - y) - dist - 1 if dist != 0 else 0)
+        end = min(len(line), min(x, size - y) + dist)
     return start, end

@@ -13,15 +13,15 @@ from ft_gomoku.AI import capture_stones, winning, freedom_rate, factorised_heuri
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
 g_func_player = [(factorised_heuristics, 2),
-                 (capture_stones, 100),
-                 (winning, 10),
+                 (capture_stones, 10),
+                 (winning, 100),
                  (freedom_rate, 1)]
 g_func_opponent = [(factorised_heuristics, -2),
-                   (capture_stones, -100),
-                   (winning, -10),
+                   (capture_stones, -10),
+                   (winning, -1000000),
                    (freedom_rate, -1)]
 
-opponent_weight = 1
+opponent_weight = 0.01
 
 
 def heuristic(node: Grid, player) -> float:
@@ -38,7 +38,7 @@ def heuristic(node: Grid, player) -> float:
     func_player = g_func_player
     func_opponent = g_func_opponent
 
-    history = node.history[min(0, len(node.history) // 2):]
+    history = node.history[max(0, len(node.history) // 2):]
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
             if move[0] == player:
@@ -49,5 +49,4 @@ def heuristic(node: Grid, player) -> float:
                 for func in func_opponent:
                     h_total = h_total + func[0](node_line, node, move[1], move[2], opponent, player, node_size,
                                                 node_line_size) * func[1] + opponent_weight
-
     return h_total

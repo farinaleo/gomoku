@@ -6,9 +6,11 @@
 #                                                                                                     ▒▄████▀▀         |
 #   ------------------------------------------------------------------------------------------------------------------ #
 #  Copyright (c) 2024.
-
+import random
 
 from ft_gomoku.AI.heurisitic.factorise_cases import *
+
+difficulty = 1
 
 
 def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size) -> float:
@@ -31,9 +33,9 @@ def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size) -
     lines.append((extract_diagonal1(y, x, line, size), 'diag1'))
     lines.append((extract_diagonal2(y, x, line, size), 'diag2'))
 
-    cnt = cnt + matching_cases(lines, x, y, size, player) * 4
-    cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
-    cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1.5
-    cnt = cnt + potential_capture(lines, x, y, player, size)
+    cnt = cnt + matching_cases(lines, x, y, size, player) * 1
+    cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 1
+    cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1
+    cnt = cnt + potential_capture(lines, x, y, player, size) * 1
 
     return cnt

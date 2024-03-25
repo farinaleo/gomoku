@@ -9,7 +9,7 @@ from ft_gomoku.data_structure.GameStruct import GameStruct
 from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 from ft_gomoku import five_to_win, double_three_forbidden, capture, ten_capture_to_win
 from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board, show_capture, show_timer
-
+from ft_gomoku.AI.next_generation import __cluster
 
 def handle_events_debug(game_engine: GameStruct, event):
 	"""Handle the debug events
@@ -139,6 +139,14 @@ def game_screen(engine: Engine, ai: bool = False):
 				engine.help_mode = not engine.help_mode
 		else:
 			# AI turn
+			# _cluster = __cluster(game_engine.grid.line_grid, game_engine.grid.size, 19 * 19, '1', '2', None)
+			# for point in _cluster:
+			# 	coords_to_place = rocks_coord[point]
+			# 	draw_rocks(engine.screen, game_engine, coords_to_place, engine.rocks_size, '0')
+			# 	pygame.display.flip()
+			# 	pygame.time.wait(100)
+			# pygame.time.wait(300)
+
 			if not engine.debug_mode:
 				rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
 				if rocks_ia is None:

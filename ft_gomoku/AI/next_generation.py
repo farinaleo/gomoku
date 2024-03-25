@@ -98,8 +98,8 @@ def __cluster(line, size, line_size, p1, p2, bypass):
         mid = size // 2
         if line[mid + mid * size] == '0':
             cluster.append((mid, mid))
-    if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 0)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 0)
     return cluster
 
 
@@ -120,40 +120,42 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass, nb_friends=4):
         x = i % size
         y = i // size
         if line[i] != '0':
+            _player = line[i]
+            _nb_friends = nb_friends if _player != p2 and p1 == '1' else nb_friends - 1
             _up = y - 1
             _down = y + 1
             _left = x - 1
             _right = x + 1
             # up left
-            if can_expend(line, i, x, y, _left, _up, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _left, _up, size, p1, p2, bypass, _nb_friends):
                 if (_left, _up) not in cluster:
                     cluster.append((_left, _up))
             # up mid
-            if can_expend(line, i, x, y, x, _up, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, x, _up, size, p1, p2, bypass, _nb_friends):
                 if (x, _up) not in cluster:
                     cluster.append((x, _up))
             # up right
-            if can_expend(line, i, x, y, _right, _up, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _right, _up, size, p1, p2, bypass, _nb_friends):
                 if (_right, _up) not in cluster:
                     cluster.append((_right, _up))
             # mid left
-            if can_expend(line, i, x, y, _left, y, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _left, y, size, p1, p2, bypass, _nb_friends):
                 if (_left, y) not in cluster:
                     cluster.append((_left, y))
             # mid right
-            if can_expend(line, i, x, y, _right, y, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _right, y, size, p1, p2, bypass, _nb_friends):
                 if (_right, y) not in cluster:
                     cluster.append((_right, y))
             # down left
-            if can_expend(line, i, x, y, _left, _down, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _left, _down, size, p1, p2, bypass, _nb_friends):
                 if (_left, _down) not in cluster:
                     cluster.append((_left, _down))
             # down mid
-            if can_expend(line, i, x, y, x, _down, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, x, _down, size, p1, p2, bypass, _nb_friends):
                 if (x, _down) not in cluster:
                     cluster.append((x, _down))
             # down right
-            if can_expend(line, i, x, y, _right, _down, size, p1, p2, bypass, nb_friends):
+            if can_expend(line, i, x, y, _right, _down, size, p1, p2, bypass, _nb_friends):
                 if (_right, _down) not in cluster:
                     cluster.append((_right, _down))
         i = i + 1
@@ -186,16 +188,16 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
                 if dir_protect(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
                     return True
                 return False
-    elif line[i] == opponent:
+    elif line[i] == opponent and opponent == '2':
         if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
             if bypass == 'middle' and x == size // 2 and y == size // 2:
                 return True
-            if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player, nb_friends):
+            if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player, 3):
                 return True
-            if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
-                return True
-            if dir_protect(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
-                return True
+            # if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
+            #     return True
+            # if dir_protect(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
+            #     return True
     return False
 
 
