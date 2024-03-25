@@ -8,9 +8,7 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
-from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
-    winning, potential_capture, freedom_rate, expend_to_victory, \
-    freedom_alignment_rate, factorised_heuristics
+from ft_gomoku.AI import capture_stones, winning, potential_capture, freedom_rate, factorised_heuristics
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
@@ -38,12 +36,11 @@ def heuristic(node: Grid, player) -> float:
     node_line = node.line_grid
     node_size = node.size
     opponent = node.player1 if player == node.player2 else node.player2
-    node_line_size = node_size * node_size  # the grid is a square
+    node_line_size = node_size * node_size
     func_player = g_func_player
     func_opponent = g_func_opponent
 
     history = node.history[min(0, len(node.history) // 2):]
-    # history = node.history
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
             if move[0] == player:
