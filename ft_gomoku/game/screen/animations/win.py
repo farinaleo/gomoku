@@ -34,11 +34,11 @@ def five_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, end_tim
 	for x in range(30):
 		darken_screen(engine)
 		for i in range(5):
-			draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0])
+			draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], engine.rocks_size, game_engine.winner[0])
 			pygame.display.update()
 	play_sound('winning_sound.mp3')
 	for i in range(5):
-		draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], 35, game_engine.winner[0], True)
+		draw_rocks(engine.screen, game_engine, rocks_coord[game_engine.winner[1][i]], engine.rocks_size, game_engine.winner[0], True)
 		pygame.display.update()
 		pygame.time.wait(100)
 	pygame.time.wait(1000)

@@ -14,7 +14,7 @@ def tutorial_screen(engine: Engine):
 	game_engine = GameStruct(10, "Nolan", "Leo")
 	game_engine.init_img(50)
 
-	font = pygame.freetype.SysFont('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 24)
+	font = pygame.freetype.SysFont('ft_gomoku/assets/fonts/Roboto-Bold.ttf', engine.text_size)
 
 	# Start the tutorial
 	load_music('tutorial_gomoku.mp3', 0)

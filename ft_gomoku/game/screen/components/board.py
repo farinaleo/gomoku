@@ -138,6 +138,6 @@ def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
 		if grid[i] != '0':
 			coords = coords_dict[(x, y)]
 			if last_move is not None and last_move[1] == x and last_move[2] == y:
-				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], True)
+				draw_rocks(engine.screen, game_engine, coords, engine.rocks_size, grid[i], True)
 			else:
-				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], False)
+				draw_rocks(engine.screen, game_engine, coords, engine.rocks_size, grid[i], False)

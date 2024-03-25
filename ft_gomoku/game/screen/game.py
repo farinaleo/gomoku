@@ -56,7 +56,7 @@ def handle_events(engine: Engine, events_list, rocks_coord, game_engine: GameStr
 		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 			result = check_rocks_pos(rocks_coord, event.pos, radius)
 			if result is not None:
-				return place_rocks(engine.screen, game_engine, result, engine.debug_mode, 35)
+				return place_rocks(engine.screen, game_engine, result, engine.debug_mode, engine.rocks_size)
 		if engine.debug_mode:
 			handle_events_debug(game_engine, event)
 	return None
@@ -87,7 +87,7 @@ def game_screen(engine: Engine, ai: bool = False):
 
 	# Set the game engine
 	game_engine = GameStruct(18, '1', '2')
-	game_engine.init_img(35)
+	game_engine.init_img(engine.rocks_size)
 
 	# Set timer
 	game_engine.set_time(time.time())
@@ -114,7 +114,7 @@ def game_screen(engine: Engine, ai: bool = False):
 					ai_rocks = rocks_ai
 				if ai_rocks is not None:
 					coords_to_place = rocks_coord[ai_rocks]
-					draw_rocks(engine.screen, game_engine, coords_to_place, 35, 0)
+					draw_rocks(engine.screen, game_engine, coords_to_place, engine.rocks_size, '0')
 
 			result = handle_events(engine, events_list, rocks_coord, game_engine)
 			if result == 'play':
@@ -144,7 +144,7 @@ def game_screen(engine: Engine, ai: bool = False):
 				if rocks_ia is None:
 					return
 				coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
-				if place_rocks(engine.screen, game_engine, coords_to_place, False, 35) == 'win':
+				if place_rocks(engine.screen, game_engine, coords_to_place, False, engine.rocks_size) == 'win':
 					anim_win(engine, game_engine, rocks_coord, True)
 					return
 				pass

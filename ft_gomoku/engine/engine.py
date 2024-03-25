@@ -19,14 +19,18 @@ class Engine:
         self.debug_mode = False
         self.window_size = None
         self.current_screen = None
+        self.rocks_size = 0
+        self.text_size = 0
 
     def init_engine(self):
         pygame.init()
+        self.load_settings()
         self.clock = pygame.time.Clock()
         self.current_screen = 'main_menu'
-        self.init_font()
+        self.rocks_size = 35 * self.window_size[0] // 1920
+        self.text_size = 20 * self.window_size[0] // 1920
         self.init_icon()
-        self.load_settings()
+        self.init_font()
         self.set_running(True)
 
     def load_settings(self):
@@ -59,7 +63,7 @@ class Engine:
     def init_font(self):
         """Initialize the font"""
         pygame.font.init()
-        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 20)
+        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', self.text_size)
 
     def init_icon(self):
         """Initialize the icon of the window"""
