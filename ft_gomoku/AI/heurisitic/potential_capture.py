@@ -8,8 +8,8 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
-capture1 = [('0112', 1), ('2110', 1)]
-capture2 = [('0221', 1), ('1220', 1)]
+capture1 = [('0112', 0.8), ('2110', 0.8)]
+capture2 = [('0221', 0.8), ('1220', 0.8)]
 
 
 def potential_capture(line, grid, x, y, player, opponent, size, line_size) -> float:
