@@ -1,14 +1,10 @@
 import pygame
-from time import sleep
-
-from numpy import sqrt
-
-from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
 from ft_gomoku import Engine, play_sound
-from ft_gomoku.game.screen.square import Square
+from ft_gomoku.game.screen.components.square import Square
 from ft_gomoku.data_structure import GameStruct
+from ft_gomoku.game.screen.animations import anim_place_rock
 from ft_gomoku.game.screen.animations.win import get_winner_rocks
-from ft_gomoku.game.screen.animations import anim_place_rock, anim_win
+from ft_gomoku import RuleStatus, five_to_win, double_three_forbidden, capture, ten_capture_to_win
 
 
 def draw_board(engine: Engine, game_engine: GameStruct) -> dict:
@@ -47,7 +43,6 @@ def get_size_square(window_size: tuple, size: int) -> int:
 	"""
 	ratio_square = window_size[1] / 1080
 	ratio_nbr = 19 / size
-	print(int(40 * ratio_square * ratio_nbr))
 	return int(40 * ratio_square * ratio_nbr)
 
 
@@ -71,7 +66,6 @@ def get_rocks_pos(x: int, y: int, square_size: int, g_x: int, g_y: int) -> dict:
 	:param g_x: the x position of the grid
 	:param g_y: the y position of the grid
 	"""
-	rocks_size = square_size
 	coords_dict = {
 		(g_x, g_y): (x, y),
 		(g_x + 1, g_y): (x + square_size, y),
@@ -86,6 +80,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	:param screen: the pygame screen
 	:param game_engine: the game engine
 	:param coords: the coordinates of the rocks
+	:param debug: if the game is in debug mode
 	:param radius: the radius of the rocks
 	"""
 	player_turn = game_engine.get_player_turn()
@@ -112,7 +107,7 @@ def place_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, 
 	return 'play'
 
 
-def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: int, last: bool = False):
+def draw_rocks(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player: str, last: bool = False):
 	"""Draw the rocks on the screen
 	:param screen: the pygame screen
 	:param game_engine: the game engine
@@ -143,6 +138,6 @@ def redraw_board(engine: Engine, game_engine: GameStruct, coords_dict: dict):
 		if grid[i] != '0':
 			coords = coords_dict[(x, y)]
 			if last_move is not None and last_move[1] == x and last_move[2] == y:
-				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], True)
+				draw_rocks(engine.screen, game_engine, coords, engine.rocks_size, grid[i], True)
 			else:
-				draw_rocks(engine.screen, game_engine, coords, 35, grid[i], False)
+				draw_rocks(engine.screen, game_engine, coords, engine.rocks_size, grid[i], False)

@@ -1,46 +1,48 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from ft_gomoku.data_structure.SettingsStruct import SettingsStruct
 import pygame
 import os
-
-
-def set_titlescreen(title):
-    pygame.display.set_caption(title)
 
 
 @dataclass
 class Engine:
 
     def __init__(self):
-        self.settings = None
-        self.screen = None
-        self.clock = None
-        self.running = False
-        self.current_screen = None
         self.font = None
+        self.clock = None
+        self.screen = None
         self.favicon = None
+        self.running = False
+        self.settings = None
+        self.info_mode = False
+        self.help_mode = False
+        self.debug_mode = False
         self.window_size = None
-        self.player_turn = None#delete
+        self.current_screen = None
+        self.rocks_size = 0
+        self.text_size = 0
 
     def init_engine(self):
         pygame.init()
+        self.load_settings()
         self.clock = pygame.time.Clock()
         self.current_screen = 'main_menu'
-        self.init_font()
+        self.rocks_size = 35 * self.window_size[0] // 1920
+        self.text_size = 20 * self.window_size[0] // 1920
         self.init_icon()
-        self.load_settings()
+        self.init_font()
         self.set_running(True)
 
     def load_settings(self):
+        """Load the settings from the file settings.json"""
         self.settings = SettingsStruct()
         self.settings.load()
         self.window_size = self.settings.get_window_size()
         self.screen = pygame.display.set_mode(self.get_window_size(), pygame.NOFRAME if self.settings.get_fullscreen() else 0)
         if not self.settings.get_music():
             pygame.mixer.music.set_volume(0)
-        self.settings.print() # TODO: remove this line
 
-    def change_screen(self, screen):
+    def change_screen(self, screen: str):
         """Change the current screen to the one passed as argument.
         :param screen: str
         """
@@ -61,29 +63,45 @@ class Engine:
     def init_font(self):
         """Initialize the font"""
         pygame.font.init()
-        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 20) # TODO: dynamic size
+        self.font = pygame.font.Font('ft_gomoku/assets/fonts/Roboto-Bold.ttf', self.text_size)
 
     def init_icon(self):
         """Initialize the icon of the window"""
-        image_path = os.path.join('ft_gomoku', 'assets', 'img', 'logo_favicon.png')
+        image_path = 'ft_gomoku/assets/img/logo_favicon.png'
         self.favicon = pygame.image.load(image_path)
         pygame.display.set_icon(self.favicon)
 
-    def get_music(self):
+    def get_music(self) -> bool:
+        """Return the music status
+        :return: bool
+        """
         return self.settings.get_music()
 
-    def set_running(self, running):
+    def set_running(self, running: bool):
+        """Set the running status
+        :param running: bool
+        """
         self.running = running
 
-    def get_running(self):
+    def get_running(self) -> bool:
+        """Return the running status
+        :return: bool
+        """
         return self.running
 
-    def get_window_size(self):
+    def get_window_size(self) -> tuple:
+        """get the window size
+        :return: tuple (width, height)
+        """
         return self.window_size
 
-    def get_current_screen(self):
+    def get_current_screen(self) -> str:
+        """Return the current screen
+        :return: str
+        """
         return self.current_screen
 
     def save_settings(self):
+        """Save the settings"""
         if self.settings is not None:
             self.settings.save()

@@ -1,4 +1,3 @@
-from ft_gomoku import SettingsStruct
 from ft_gomoku import Engine
 import pygame
 from ft_gomoku import main_menu, game_screen, tutorial_screen

@@ -1,10 +1,10 @@
-import pygame
 import time
-from ft_gomoku.engine import Engine, set_titlescreen, stop_sound, load_music
-from ft_gomoku.game.screen.components import draw_board, redraw_board
-from ft_gomoku.game.screen.animations import anim_place_rock
+import pygame
 import pygame.freetype
 from ft_gomoku.data_structure.GameStruct import GameStruct
+from ft_gomoku.game.screen.animations import anim_place_rock
+from ft_gomoku.game.screen.components import draw_board, redraw_board
+from ft_gomoku.engine import Engine, set_titlescreen, stop_sound, load_music
 
 
 def tutorial_screen(engine: Engine):
@@ -14,7 +14,7 @@ def tutorial_screen(engine: Engine):
 	game_engine = GameStruct(10, "Nolan", "Leo")
 	game_engine.init_img(50)
 
-	font = pygame.freetype.SysFont('ft_gomoku/assets/fonts/Roboto-Bold.ttf', 24)
+	font = pygame.freetype.SysFont('ft_gomoku/assets/fonts/Roboto-Bold.ttf', engine.text_size)
 
 	# Start the tutorial
 	load_music('tutorial_gomoku.mp3', 0)
@@ -51,13 +51,13 @@ def tutorial_screen(engine: Engine):
 		elif 5 <= states < 6 and states_anim[3] is False:
 			redraw_board(engine, game_engine, board)
 			print_subtitle(elapsed_time, engine, font)
-			draw(engine.screen, game_engine, board[(5, 5)], 50, '2')
+			draw(engine.screen, game_engine, board[(5, 5)], 50, '1')
 			states_anim[3] = True
 			continue
 		elif 6 <= states < 7 and states_anim[4] is False:
 			print_subtitle(elapsed_time, engine, font)
 			pygame.time.wait(2000)
-			draw(engine.screen, game_engine, board[(6, 6)], 50, '1')
+			draw(engine.screen, game_engine, board[(6, 6)], 50, '2')
 			continue
 		elif 6 <= states < 7 and states_anim[4] is False:
 			print_subtitle(elapsed_time, engine, font)
@@ -68,7 +68,7 @@ def tutorial_screen(engine: Engine):
 		elif 7 <= states < 8 and states_anim[5] is False:
 			pygame.time.wait(1500)
 			print_subtitle(elapsed_time, engine, font)
-			draw(engine.screen, game_engine, board[(5, 6)], 50, '2')
+			draw(engine.screen, game_engine, board[(5, 6)], 50, '1')
 			states_anim[5] = True
 			continue
 		elif 8 <= states < 9 and states_anim[6] is False:
@@ -88,7 +88,7 @@ def tutorial_screen(engine: Engine):
 		elif 9 <= states < 10 and states_anim[7] is False:
 			pygame.time.wait(1000)
 			print_subtitle(elapsed_time, engine, font)
-			draw(engine.screen, game_engine, board[(8, 8)], 50, '1')
+			draw(engine.screen, game_engine, board[(8, 8)], 50, '2')
 			states_anim[7] = True
 			continue
 		elif 10 <= states < 11 and states_anim[8] is False:
@@ -104,16 +104,16 @@ def print_subtitle(time: int, engine: Engine, font: pygame.freetype.Font):
 	"""Print the subtitle at the given time"""
 	states = 0
 	subtitles = {
-		(0, 2): "Gomoku is a tradional japanese board game",#1
-		(3, 7): "where two players try to be the first one to get five pieces in a row on the board",#2
-		(8, 13): "One player uses all of the black pieces, and the other player uses all of the white pieces",#3
-		(14, 16): "The player with the black pieces goes first",#4
-		(17, 21): "They place a black piece on one of the intersections made by the squares on the board",#5
-		(22, 25): "Then the player with the white pieces takes a turn",#6
-		(26, 30): "Players continue taking turns and placing pieces on the board",#7
-		(31, 37): "The goal of the game is to get five pieces in a row horizontally, vertically, or diagonally",#8
-		(38, 41): "While blocking the other player getting five in a row first",#9
-		(42, 46): "The first player to get five in a row wins the game"#10
+		(0, 2): "Gomoku is a traditional japanese board game",
+		(3, 7): "where two players try to be the first one to get five pieces in a row on the board",
+		(8, 13): "One player uses all of the black pieces, and the other player uses all of the white pieces",
+		(14, 16): "The player with the black pieces goes first",
+		(17, 21): "They place a black piece on one of the intersections made by the squares on the board",
+		(22, 25): "Then the player with the white pieces takes a turn",
+		(26, 30): "Players continue taking turns and placing pieces on the board",
+		(31, 37): "The goal of the game is to get five pieces in a row horizontally, vertically, or diagonally",
+		(38, 41): "While blocking the other player getting five in a row first",
+		(42, 46): "The first player to get five in a row wins the game"
 	}
 
 	for timecode, subtitle in subtitles.items():
@@ -134,7 +134,7 @@ def print_subtitle(time: int, engine: Engine, font: pygame.freetype.Font):
 	return 0
 
 
-def draw(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player, last: bool = False): # TODO: change player: int to player: str
+def draw(screen: pygame.Surface, game_engine: GameStruct, coords: tuple, radius: int, player, last: bool = False):
 	"""Draw the rocks on the screen
 	:param screen: the pygame screen
 	:param game_engine: the game engine
@@ -156,11 +156,11 @@ def anim_random_rock(engine: Engine, game_engine: GameStruct, board: dict) -> bo
 	pygame.display.update()
 	while x < 6:
 		x += 1
-		draw(engine.screen, game_engine, board[(x, y)], 50, '1' if x % 2 else '2')
+		draw(engine.screen, game_engine, board[(x, y)], 50, '2' if x % 2 else '1')
 	while y < 7:
 		y += 1
 		x -= 1
-		draw(engine.screen, game_engine, board[(x, y)], 50, '1' if x % 2 else '2')
+		draw(engine.screen, game_engine, board[(x, y)], 50, '2' if x % 2 else '1')
 	return True
 
 
@@ -171,12 +171,12 @@ def anim_black_and_white_rock(engine: Engine, game_engine: GameStruct, board: di
 	pygame.display.update()
 	while y < 6:
 		y += 1
-		draw(engine.screen, game_engine, board[(4, y)], 50, '2')
+		draw(engine.screen, game_engine, board[(4, y)], 50, '1')
 	y = 2
 	pygame.time.wait(2000)
 	while y < 6:
 		y += 1
-		draw(engine.screen, game_engine, board[(6, y)], 50, '1')
+		draw(engine.screen, game_engine, board[(6, y)], 50, '2')
 	return True
 
 
@@ -187,7 +187,7 @@ def anim_black_rock(engine: Engine, game_engine: GameStruct, board: dict) -> boo
 	pygame.display.update()
 	while y < 6:
 		y += 1
-		draw(engine.screen, game_engine, board[(5, y)], 50, '2')
+		draw(engine.screen, game_engine, board[(5, y)], 50, '1')
 	return True
 
 
@@ -197,7 +197,7 @@ def anim_horizontally(engine: Engine, game_engine: GameStruct, board: dict) -> b
 	pygame.display.update()
 	while x < 8:
 		x += 1
-		draw(engine.screen, game_engine, board[(x, 5)], 50, '2')
+		draw(engine.screen, game_engine, board[(x, 5)], 50, '1')
 	return True
 
 
@@ -207,7 +207,7 @@ def anim_vertically(engine: Engine, game_engine: GameStruct, board: dict) -> boo
 	pygame.display.update()
 	while y < 8:
 		y += 1
-		draw(engine.screen, game_engine, board[(5, y)], 50, '2')
+		draw(engine.screen, game_engine, board[(5, y)], 50, '1')
 	return True
 
 
@@ -219,7 +219,7 @@ def anim_diagonally(engine: Engine, game_engine: GameStruct, board: dict) -> boo
 	while x < 7:
 		y += 1
 		x += 1
-		draw(engine.screen, game_engine, board[(x, y)], 50, '2')
+		draw(engine.screen, game_engine, board[(x, y)], 50, '1')
 	return True
 
 
