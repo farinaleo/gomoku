@@ -20,6 +20,7 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False, debug=False):
     :param ai_value: the value used to identify the AI.
     :return: a list of ft_gomoku.grid representing the next generation
     """
+    i = 0
     global mem_grid
     if first_call:
         mem_grid.clear()
@@ -42,6 +43,24 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False, debug=False):
                     continue
                 new_gen.append(_next)
                 mem_grid[str(_next)] = _next
+    if len(new_gen) == 0:
+        cluster.clear()
+        while len(new_gen) == 0 and i < line_size:
+            for cell in cluster:
+                if (line[cell[0] + cell[1] * size] == '0'
+                        and 0 <= cell[0] < size
+                        and 0 <= cell[1] < size):
+                    _next = grid.__copy__()
+                    if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
+                        _next.heuristic = heuristic_f(_next, player)
+                        if mem_grid.get(str(_next)) and mem_grid.get(str(_next)).heuristic >= _next.heuristic:
+                            continue
+                        new_gen.append(_next)
+                        mem_grid[str(_next)] = _next
+            if len(new_gen) == 0:
+                cluster.clear()
+                cluster.append((i % size, i // size))
+                i = i + 1
 
     new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else True)
     if first_call:
