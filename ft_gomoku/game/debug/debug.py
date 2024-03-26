@@ -8,6 +8,7 @@ from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 def debug_screen(engine: Engine, game_engine: GameStruct, debug_struct: DebuggerStruct):
     debug_struct.update_settings(engine, game_engine)
     debug_struct.update_ram_info()
+    debug_struct.update_cpu_info()
     dict_debug = debug_struct.get_all_game_info()
     window_size = engine.get_window_size()
     image_text = pygame.Surface((window_size[0], window_size[1])).convert_alpha()
