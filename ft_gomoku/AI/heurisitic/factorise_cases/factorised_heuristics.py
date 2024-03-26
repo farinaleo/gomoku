@@ -32,8 +32,8 @@ def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size) -
     lines.append((extract_diagonal2(y, x, line, size), 'diag2'))
 
     cnt = cnt + matching_cases(lines, x, y, size, player) * 4
-    if player == '2':
-        cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
-        cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1
+    cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
+    cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1
+    cnt = cnt + potential_captures(lines, x, y, size, player) * 10
 
     return cnt

@@ -14,6 +14,13 @@ def anim_win(engine: Engine, game_engine: GameStruct, rocks_coord: dict, loose: 
 	:param rocks_coord: the rocks coordinates
 	:param loose: if the player loose
 	"""
+	# player_1_time = round(game_engine.total_time_player_1[1], 2)
+	# player_2_time = round(game_engine.total_time_player_2[1], 2)
+	# player_1_avg = round(sum(game_engine.list_time_player_1) / len(game_engine.list_time_player_1), 2) if len(
+	# 	game_engine.list_time_player_1) > 0 else 0
+	# player_2_avg = round(sum(game_engine.list_time_player_2) / len(game_engine.list_time_player_2), 2) if len(
+	# 	game_engine.list_time_player_2) > 0 else 0
+	# print(f' Winner : {game_engine.winner[0]}, average time {player_1_avg} for p1 and {player_2_avg} for p2')
 	end_time = time.time()
 	if game_engine.winner[2] == '5':
 		five_win(engine, game_engine, rocks_coord, end_time, loose)
