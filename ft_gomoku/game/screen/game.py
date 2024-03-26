@@ -9,7 +9,7 @@ from ft_gomoku.data_structure.GameStruct import GameStruct
 from ft_gomoku.data_structure.DebuggerStruct import DebuggerStruct
 from ft_gomoku import five_to_win, double_three_forbidden, capture, ten_capture_to_win
 from ft_gomoku.game.screen.components import draw_board, place_rocks, redraw_board, show_capture, show_timer
-from ft_gomoku.AI.next_generation import next_generation as next_generation_f
+# from ft_gomoku.AI.next_generation import next_generation as next_generation_f
 
 
 def handle_events_debug(game_engine: GameStruct, event):
@@ -122,7 +122,6 @@ def game_screen(engine: Engine, ai: bool = False):
             if result == 'play':
                 ai_rocks = None
             if result == 'win':
-                pygame.time.wait(1000)
                 anim_win(engine, game_engine, rocks_coord)
                 return
             if result == 'quit':
@@ -142,17 +141,18 @@ def game_screen(engine: Engine, ai: bool = False):
                 engine.help_mode = not engine.help_mode
         else:
             # AI turn
-            if engine.info_mode:
-                # cluster
-                cluster = next_generation_f(game_engine.grid,
-                                    [double_three_forbidden, capture, ten_capture_to_win, five_to_win],
-                                    '1',
-                                    True, True)
-                for point in cluster:
-                    coords_to_place = rocks_coord[point]
-                    draw_rocks(engine.screen, game_engine, coords_to_place, engine.rocks_size, '0')
-                    pygame.display.flip()
-                    pygame.time.wait(100)
+            # Add the cluster of possibilities to the info mode
+            # if engine.info_mode:
+            #     # cluster
+            #     cluster = next_generation_f(game_engine.grid,
+            #                         [double_three_forbidden, capture, ten_capture_to_win, five_to_win],
+            #                         '1',
+            #                         True, True)
+            #     for point in cluster:
+            #         coords_to_place = rocks_coord[point]
+            #         draw_rocks(engine.screen, game_engine, coords_to_place, engine.rocks_size, '0')
+            #         pygame.display.flip()
+            #         pygame.time.wait(100)
             if not engine.debug_mode:
                 rocks_ia = run_ai(game_engine.grid, [double_three_forbidden, capture, ten_capture_to_win, five_to_win])
                 if rocks_ia is None:
@@ -160,7 +160,6 @@ def game_screen(engine: Engine, ai: bool = False):
                     return
                 coords_to_place = (rocks_ia, rocks_coord[rocks_ia])
                 if place_rocks(engine.screen, game_engine, coords_to_place, False, engine.rocks_size) == 'win':
-                    pygame.time.wait(1000)
                     anim_win(engine, game_engine, rocks_coord, True)
                     return
                 pass
