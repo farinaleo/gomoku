@@ -25,7 +25,7 @@ def expend_to_victory(lines: [], x: int, y: int, player, opponent, size: int) ->
         start, end = get_start_end(line[0], line[1], y, x, size, 5)
         _line = line[0][start:end]
         cnt = cnt + can_win(line, player, opponent)
-    return cnt / 4
+    return cnt
 
 
 def can_win(line, player, opponent):

@@ -9,7 +9,7 @@
 
 import os
 from ft_gomoku import Grid
-from ft_gomoku.AI import launch_alpha_beta, launch_alpha_beta_hard, launch_pvs, launch_alpha_beta_thread
+from ft_gomoku.AI import launch_alpha_beta, launch_alpha_beta_hard, launch_pvs
 
 
 def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2', depth=11) -> tuple | None:
@@ -29,8 +29,6 @@ def run_ai(grid: Grid, rules, ai_value='1', opponent_value='2', depth=11) -> tup
 		return launch_pvs(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	elif algo == 'ALPHA_HARD':
 		return launch_alpha_beta_hard(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
-	elif algo == 'ALPHA_THREAD':
-		return launch_alpha_beta_thread(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	elif algo == 'ALPHA':
 		return launch_alpha_beta(grid, depth, float('-inf'), float('inf'), rules, ai_value=ai_value)
 	else:

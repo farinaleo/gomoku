@@ -8,13 +8,12 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid, RuleStatus
-from ft_gomoku.AI import heuristic
-
+from ft_gomoku.AI import heuristic as heuristic_f
 
 mem_grid = {}
 
 
-def next_generation(grid: Grid, rules, ai_value, first_call=False):
+def next_generation(grid: Grid, rules, ai_value, first_call=False, debug=False):
     """Generate the next generation from the given grid by placing the player.
     :param grid: the grid to extend
     :param rules: the rules aplay to the game
@@ -38,14 +37,22 @@ def next_generation(grid: Grid, rules, ai_value, first_call=False):
                 and 0 <= cell[1] < size):
             _next = grid.__copy__()
             if _next.add_rock(row=cell[1], col=cell[0], player=player, rules=rules) != RuleStatus.NO:
-                _next.heuristic = heuristic(_next, player)
+                _next.heuristic = heuristic_f(_next, player)
                 if mem_grid.get(str(_next)) and mem_grid.get(str(_next)).heuristic >= _next.heuristic:
                     continue
                 new_gen.append(_next)
                 mem_grid[str(_next)] = _next
 
-    new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else False)
-    new_gen = new_gen[:min(len(new_gen), 4)]
+    new_gen.sort(key=None, reverse=True if ai_value == grid.player1 else True)
+    if first_call:
+        new_gen = new_gen[:min(len(new_gen), 4)]
+    else:
+        new_gen = new_gen[:min(len(new_gen), 3)]
+    if debug:
+        _points = []
+        for cell in new_gen:
+            _points.append(cell.get_last_move()[-2:])
+        return _points
     return new_gen
 
 
@@ -87,13 +94,40 @@ def __cluster(line, size, line_size, p1, p2, bypass):
     end = max(last_p1, last_p2)
     end = min(end, line_size)
 
-    expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 4)
+    expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 4)
     if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'defend', 5)
     if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 2)
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'full_miam', 5)
     if len(cluster) == 0:
-        expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 1)
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'defend', 4)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'all', 3)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 3)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 2)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 1)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'defend', 2)
+    if len(cluster) == 0:
+        expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 0)
+
+    # expend_cluster(line, i, end, size, p1, p2, cluster,
+    #                bypass if bypass is not None else 'player_only', 3)
+    # # if len(cluster) == 0:
+    # expend_cluster(line, i, end, size, p1, p2, cluster,
+    #                bypass if bypass is not None else 'opponent_only', 4)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster,
+    #                     bypass if bypass is not None else 'opponent_only', 3)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 2)
+    # if len(cluster) == 0:
+    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 1)
     if len(cluster) == 0:
         mid = size // 2
         if line[mid + mid * size] == '0':
@@ -118,6 +152,8 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass, nb_friends=4):
         x = i % size
         y = i // size
         if line[i] != '0':
+            # p1 = '1' if line[i] == '1' else '2'
+            # p2 = '1' if line[i] == '2' else '1'
             _up = y - 1
             _down = y + 1
             _left = x - 1
@@ -172,20 +208,25 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
     :param nb_friends: the total friends number to have to admit a point.
     :return: True if the expansion is allowed, otherwise False.
     """
-    if line[i] == player:
+    if line[i] == player and bypass != 'defend':
         if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
-            if bypass == 'player':
-                return True
-            else:
-                if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent, nb_friends):
-                    return True
+            if bypass == 'full_miam':
                 if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
                     return True
-                return False
-    elif line[i] == opponent:
+            if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent, nb_friends):
+                return True
+            if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player):
+                return True
+            if dir_protect(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
+                return True
+            return False
+    elif line[i] == opponent and (opponent == '2' or bypass != 'attack'):
         if 0 <= x_exp < size and 0 <= y_exp < size and line[x_exp + y_exp * size] == '0':
             if bypass == 'middle' and x == size // 2 and y == size // 2:
                 return True
+            if bypass == 'full_miam':
+                if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player):
+                    return True
             if dir_friends(line, x_exp, y_exp, x - x_exp, y - y_exp, size, opponent, player, nb_friends):
                 return True
             if dir_capture(line, x_exp, y_exp, x - x_exp, y - y_exp, size, player, opponent):
@@ -193,31 +234,26 @@ def can_expend(line, i, x, y, x_exp, y_exp, size, player, opponent, bypass, nb_f
     return False
 
 
-def have_friends(line, x, y, size, player) -> bool:
-    """ Check if the player has friends around him.
-    :param line: the game as line.
-    :param x: the starting x coordinate.
-    :param y: the starting y coordinate.
-    :param size: the grid size.
-    :param player: the player value.
-    :return: True if the player has friends, otherwise False.
+def dir_protect(line, x, y, x_dir, y_dir, size, player, opponent):
+    """Check if the player is able to capture the opponent.
+    :param line:
+    :param x:
+    :param y:
+    :param x_dir:
+    :param y_dir:
+    :param size:
+    :param player:
+    :param opponent:
+    :return:
     """
-    if 0 <= x - 1 < size and 0 <= y - 1 < size and line[(x - 1) + (y - 1) * size] == player:
-        return True
-    if 0 <= x < size and 0 <= y - 1 < size and line[x + (y - 1) * size] == player:
-        return True
-    if 0 <= x + 1 < size and 0 <= y - 1 < size and line[(x + 1) + (y - 1) * size] == player:
-        return True
-    if 0 <= x - 1 < size and 0 <= y < size and line[(x - 1) + y * size] == player:
-        return True
-    if 0 <= x + 1 < size and 0 <= y < size and line[(x + 1) + y * size] == player:
-        return True
-    if 0 <= x - 1 < size and 0 <= y + 1 < size and line[(x - 1) + (y + 1) * size] == player:
-        return True
-    if 0 <= x < size and 0 <= y + 1 < size and line[x + (y + 1) * size] == player:
-        return True
-    if 0 <= x + 1 < size and 0 <= y + 1 < size and line[(x + 1) + (y + 1) * size] == player:
-        return True
+    if 0 <= x < size and 0 <= y < size:
+        if 0 <= x + x_dir < size and 0 <= y + y_dir < size \
+                and line[(x + x_dir) + (y + y_dir) * size] == player:
+            if 0 <= x + x_dir * 2 < size and 0 <= y + y_dir * 2 < size \
+                    and line[(x + x_dir * 2) + (y + y_dir * 2) * size] == player:
+                if 0 <= x + x_dir * 3 < size and 0 <= y + y_dir * 3 < size \
+                        and line[(x + x_dir * 3) + (y + y_dir * 3) * size] == opponent:
+                    return True
     return False
 
 
@@ -245,7 +281,7 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x + x_dir
         y = y + y_dir
         i = i + 1
-    tmp_i = i
+    # tmp_i = i
     i = 0
     x = tmp_x
     y = tmp_y
@@ -255,8 +291,8 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x - x_dir
         y = y - y_dir
         i = i + 1
-    if tmp_i + i <= 5:
-        return False
+    # if tmp_i + i <= 5:
+    #     return False
     return cnt_friends >= nb_friends
 
 

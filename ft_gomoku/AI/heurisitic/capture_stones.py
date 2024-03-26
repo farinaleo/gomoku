@@ -23,4 +23,4 @@ def capture_stones(line, grid, x, y, player, opponent, size, line_size) -> float
     :return: the rate of captured.
     """
     captured_stones = grid.get_captured_stones(player)
-    return captured_stones / 10
+    return captured_stones

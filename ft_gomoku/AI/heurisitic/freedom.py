@@ -37,7 +37,7 @@ def freedom_rate(line, grid, x, y, player, opponent, size, line_size) -> float:
 	count = count + freedom_dir(line, x, y, size, opponent, 0, 1)
 	# right down
 	count = count + freedom_dir(line, x, y, size, opponent, 1, 1)
-	return count / 8
+	return count
 
 
 def freedom_dir(line, x, y, size, opponent, dir_x, dir_y) -> float:

@@ -9,41 +9,79 @@
 
 from ft_gomoku.AI.heurisitic.factorise_cases import get_start_end
 
-goal2_4 = [('22220', 1.4), ('22202', 1.4), ('22022', 1.4), ('20222', 1.4), ('02222', 1.4)]
-goal2_3 = [('22200', 1.3), ('22020', 1.3), ('22002', 1.3), ('20220', 1.3), ('20202', 1.3),
-           ('20022', 1.3), ('02220', 1.3), ('02202', 1.3), ('02022', 1.3), ('00222', 1.3)]
-goal2_2 = [('22000', 1.2), ('20200', 1.2), ('20020', 1.2), ('20002', 1.2), ('02200', 1.2),
-           ('02020', 1.2), ('02002', 1.2), ('00220', 1.2), ('00202', 1.2), ('00022', 1.2)]
+bonus_4 = 2
+bonus_3 = 1.6
+bonus_2 = 1.3
 
-goal1_4 = [('11110', 1.4), ('11101', 1.4), ('11011', 1.4), ('10111', 1.4), ('01111', 1.4)]
-goal1_3 = [('11100', 1.3), ('11010', 1.3), ('11001', 1.3), ('10110', 1.3), ('10101', 1.3),
-           ('10011', 1.3), ('01110', 1.3), ('01101', 1.3), ('01011', 1.3), ('00111', 1.3)]
-goal1_2 = [('11000', 1.2), ('10100', 1.2), ('10010', 1.2), ('10001', 1.2), ('01100', 1.2),
-           ('01010', 1.2), ('01001', 1.2), ('00110', 1.2), ('00101', 1.2), ('00011', 1.2)]
+bonus_block = 1.5
 
-block2_4 = [('22221', 0.8), ('22212', 0.8), ('22122', 0.8), ('21222', 0.8), ('12222', 0.8)]
-block2_3 = [('22201', 0.6), ('22021', 0.6), ('22102', 0.6), ('20221', 0.6), ('20212', 0.6),
-            ('21022', 0.6), ('12220', 0.6), ('12202', 0.6), ('12022', 0.6), ('10222', 0.6),
-            ('22210', 0.6), ('22120', 0.6), ('22012', 0.6), ('21220', 0.6), ('21202', 0.6),
-            ('20122', 0.6), ('02221', 0.6), ('02212', 0.6), ('02122', 0.6), ('01222', 0.6)]
-block2_2 = [('22001', 0.4), ('20201', 0.4), ('20021', 0.4), ('20012', 0.4), ('02201', 0.4),
-            ('02021', 0.4), ('02012', 0.4), ('00221', 0.4), ('00212', 0.4), ('00122', 0.4),
-            ('22010', 0.4), ('20210', 0.4), ('20120', 0.4), ('20102', 0.4), ('02210', 0.4),
-            ('02120', 0.4), ('02102', 0.4), ('01220', 0.4), ('01202', 0.4), ('01022', 0.4),
-            ('22100', 0.4), ('21200', 0.4), ('21020', 0.4), ('21002', 0.4), ('12200', 0.4),
-            ('12020', 0.4), ('12002', 0.4), ('10220', 0.4), ('10202', 0.4), ('10022', 0.4)]
+goal2_4 = [('22220', 10 * bonus_4), ('22202', 8 * bonus_4), ('22022', 8 * bonus_4), ('20222', 8 * bonus_4),
+           ('02222', 10 * bonus_4)]
+goal2_3 = [('22200', 7 * bonus_3), ('22020', 7 * bonus_3), ('22002', 5 * bonus_3), ('20220', 7 * bonus_3),
+           ('20202', 5 * bonus_3),
+           ('20022', 5 * bonus_3), ('02220', 7 * bonus_3), ('02202', 5 * bonus_3), ('02022', 5 * bonus_3),
+           ('00222', 7 * bonus_3)]
+goal2_2 = [('22000', 2 * bonus_2), ('20200', 1.5 * bonus_2), ('20020', 1 * bonus_2), ('20002', 1 * bonus_2),
+           ('02200', 2 * bonus_2),
+           ('02020', 1.5 * bonus_2), ('02002', 1 * bonus_2), ('00220', 2 * bonus_2), ('00202', 1.5 * bonus_2),
+           ('00022', 2 * bonus_2)]
 
-block1_4 = [('11112', 0.8), ('11121', 0.8), ('11211', 0.8), ('12111', 0.8), ('21111', 0.8)]
-block1_3 = [('11102', 0.6), ('11012', 0.6), ('11021', 0.6), ('10112', 0.6), ('10121', 0.6),
-            ('10211', 0.6), ('01112', 0.6), ('01121', 0.6), ('01211', 0.6), ('02111', 0.6),
-            ('11120', 0.6), ('11210', 0.6), ('11201', 0.6), ('12110', 0.6), ('12101', 0.6),
-            ('12011', 0.6), ('21110', 0.6), ('21101', 0.6), ('21011', 0.6), ('20111', 0.6)]
-block1_2 = [('11002', 0.4), ('10102', 0.4), ('10012', 0.4), ('10021', 0.4), ('01102', 0.4),
-            ('01012', 0.4), ('01021', 0.4), ('00112', 0.4), ('00121', 0.4), ('00211', 0.4),
-            ('11020', 0.4), ('10120', 0.4), ('10210', 0.4), ('10201', 0.4), ('01120', 0.4),
-            ('01210', 0.4), ('01201', 0.4), ('02110', 0.4), ('02101', 0.4), ('02011', 0.4),
-            ('11200', 0.4), ('12100', 0.4), ('12010', 0.4), ('12001', 0.4), ('21100', 0.4),
-            ('21010', 0.4), ('21001', 0.4), ('20110', 0.4), ('20101', 0.4), ('20011', 0.4)]
+goal1_4 = [('11110', 10 * bonus_4), ('11101', 8 * bonus_4), ('11011', 8 * bonus_4), ('10111', 8 * bonus_4),
+           ('01111', 10 * bonus_4)]
+goal1_3 = [('11100', 8 * bonus_3), ('11010', 8 * bonus_3), ('11001', 8 * bonus_3), ('10110', 8 * bonus_3),
+           ('10101', 8 * bonus_3),
+           ('10011', 8 * bonus_3), ('01110', 8 * bonus_3), ('01101', 8 * bonus_3), ('01011', 8 * bonus_3),
+           ('00111', 8 * bonus_3)]
+goal1_2 = [('11000', 2 * bonus_2), ('10100', 1.5 * bonus_2), ('10010', 1 * bonus_2), ('10001', 1 * bonus_2),
+           ('01100', 2 * bonus_2),
+           ('01010', 1.5 * bonus_2), ('01001', 1 * bonus_2), ('00110', 2 * bonus_2), ('00101', 1.5 * bonus_2),
+           ('00011', 2 * bonus_2)]
+
+block2_4 = [('22221', 8 * bonus_block * bonus_4), ('22212', 10 * bonus_block * bonus_4), ('22122', 10 * bonus_block * bonus_4), ('21222', 10 * bonus_block * bonus_4),
+            ('12222', 8 * bonus_block * bonus_4)]
+block2_3 = [('22201', 5 * bonus_block * bonus_3), ('22021', 5 * bonus_block * bonus_3), ('22102', 7 * bonus_block * bonus_3), ('20221', 5 * bonus_block * bonus_3),
+            ('20212', 7 * bonus_block * bonus_3),
+            ('21022', 5 * bonus_block * bonus_3), ('12220', 5 * bonus_block * bonus_3), ('12202', 5 * bonus_block * bonus_3), ('12022', 5 * bonus_block * bonus_3),
+            ('10222', 5 * bonus_block * bonus_3),
+            ('22210', 5 * bonus_block * bonus_3), ('22120', 7 * bonus_block * bonus_3), ('22012', 7 * bonus_block * bonus_3), ('21220', 7 * bonus_block * bonus_3),
+            ('21202', 7 * bonus_block * bonus_3),
+            ('20122', 7 * bonus_block * bonus_3), ('02221', 5 * bonus_block * bonus_3), ('02212', 7 * bonus_block * bonus_3), ('02122', 7 * bonus_block * bonus_3),
+            ('01222', 5 * bonus_block * bonus_3)]
+block2_2 = [('22001', 1 * bonus_block * bonus_2), ('20201', 1 * bonus_block * bonus_2), ('20021', 1 * bonus_block * bonus_2), ('20012', 2 * bonus_block * bonus_2),
+            ('02201', 1 * bonus_block * bonus_2),
+            ('02021', 1 * bonus_block * bonus_2), ('02012', 2 * bonus_block * bonus_2), ('00221', 1 * bonus_block * bonus_2), ('00212', 2 * bonus_block * bonus_2),
+            ('00122', 1 * bonus_block * bonus_2),
+            ('22010', 1 * bonus_block * bonus_2), ('20210', 1 * bonus_block * bonus_2), ('20120', 2 * bonus_block * bonus_2), ('20102', 2 * bonus_block * bonus_2),
+            ('02210', 1 * bonus_block * bonus_2),
+            ('02120', 2 * bonus_block * bonus_2), ('02102', 2 * bonus_block * bonus_2), ('01220', 1 * bonus_block * bonus_2), ('01202', 1 * bonus_block * bonus_2),
+            ('01022', 1 * bonus_block * bonus_2),
+            ('22100', 1 * bonus_block * bonus_2), ('21200', 2 * bonus_block * bonus_2), ('21020', 2 * bonus_block * bonus_2), ('21002', 2 * bonus_block * bonus_2),
+            ('12200', 1 * bonus_block * bonus_2),
+            ('12020', 1 * bonus_block * bonus_2), ('12002', 1 * bonus_block * bonus_2), ('10220', 1 * bonus_block * bonus_2), ('10202', 1 * bonus_block * bonus_2),
+            ('10022', 1 * bonus_block * bonus_2)]
+
+block1_4 = [('11112', 8 * bonus_block * bonus_4), ('11121', 10 * bonus_block * bonus_4), ('11211', 10 * bonus_block * bonus_4), ('12111', 10 * bonus_block * bonus_4),
+            ('21111', 8 * bonus_block * bonus_4)]
+block1_3 = [('11102', 5 * bonus_block * bonus_3), ('11012', 5 * bonus_block * bonus_3), ('11021', 7 * bonus_block * bonus_3), ('10112', 5 * bonus_block * bonus_3),
+            ('10121', 7 * bonus_block * bonus_3),
+            ('10211', 5 * bonus_block * bonus_3), ('01112', 5 * bonus_block * bonus_3), ('01121', 5 * bonus_block * bonus_3), ('01211', 5 * bonus_block * bonus_3),
+            ('02111', 5 * bonus_block * bonus_3),
+            ('11120', 5 * bonus_block * bonus_3), ('11210', 7 * bonus_block * bonus_3), ('11201', 5 * bonus_block * bonus_3), ('12110', 7 * bonus_block * bonus_3),
+            ('12101', 7 * bonus_block * bonus_3),
+            ('12011', 7 * bonus_block * bonus_3), ('21110', 5 * bonus_block * bonus_3), ('21101', 5 * bonus_block * bonus_3), ('21011', 7 * bonus_block * bonus_3),
+            ('20111', 5 * bonus_block * bonus_3)]
+block1_2 = [('11002', 1 * bonus_block * bonus_2), ('10102', 1 * bonus_block * bonus_2), ('10012', 1 * bonus_block * bonus_2), ('10021', 2 * bonus_block * bonus_2),
+            ('01102', 1 * bonus_block * bonus_2),
+            ('01012', 1 * bonus_block * bonus_2), ('01021', 2 * bonus_block * bonus_2), ('00112', 1 * bonus_block * bonus_2), ('00121', 2 * bonus_block * bonus_2),
+            ('00211', 1 * bonus_block * bonus_2),
+            ('11020', 1 * bonus_block * bonus_2), ('10120', 1 * bonus_block * bonus_2), ('10210', 2 * bonus_block * bonus_2), ('10201', 2 * bonus_block * bonus_2),
+            ('01120', 1 * bonus_block * bonus_2),
+            ('01210', 2 * bonus_block * bonus_2), ('01201', 2 * bonus_block * bonus_2), ('02110', 1 * bonus_block * bonus_2), ('02101', 1 * bonus_block * bonus_2),
+            ('02011', 1 * bonus_block * bonus_2),
+            ('11200', 1 * bonus_block * bonus_2), ('12100', 2 * bonus_block * bonus_2), ('12010', 2 * bonus_block * bonus_2), ('12001', 2 * bonus_block * bonus_2),
+            ('21100', 1 * bonus_block * bonus_2),
+            ('21010', 1 * bonus_block * bonus_2), ('21001', 1 * bonus_block * bonus_2), ('20110', 1 * bonus_block * bonus_2), ('20101', 1 * bonus_block * bonus_2),
+            ('20011', 1 * bonus_block * bonus_2)]
 
 
 def matching_cases(lines: [], x, y, size, player) -> float:
@@ -73,8 +111,10 @@ def matching_cases(lines: [], x, y, size, player) -> float:
         cases.extend(block1_4)
 
     for line in lines:
-        start, end = get_start_end(line[0], line[1], x, y, size, 5)
+        start, end = get_start_end(line[0], line[1], x, y, size, 6)
         _line = line[0][start:end]
         for case in cases:
+            # if case[0] in _line:
+            #     cnt = cnt * case[1]
             cnt = cnt + _line.count(case[0]) * case[1]
     return cnt

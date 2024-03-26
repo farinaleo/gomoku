@@ -36,7 +36,7 @@ def potential_capture(line, grid, x, y, player, opponent, size, line_size) -> fl
     count = count + __check_diagonal1(y, x, captures, line, size)
     count = count + __check_diagonal2(y, x, captures, line, size)
 
-    return count / 8
+    return count
 
 
 def __check_column(row: int, col: int, goals, grid, size) -> int:
