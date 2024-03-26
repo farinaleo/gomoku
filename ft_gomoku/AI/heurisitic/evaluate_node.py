@@ -8,24 +8,21 @@
 #  Copyright (c) 2024.
 
 from ft_gomoku import Grid
-from ft_gomoku.AI import matching_cases, near_to_border, capture_stones, \
-    winning, potential_capture, freedom_rate, expend_to_victory, \
-    freedom_alignment_rate, factorised_heuristics
+from ft_gomoku.AI import capture_stones, winning, potential_capture, freedom_rate, factorised_heuristics
 
 # these global must be built as [(func, rate), ...] to be called correctly.
 # each function must be built as func(line, grid, x, y, player, opponent, size, line_size) -> float.
 g_func_player = [(factorised_heuristics, 2),
-                 (capture_stones, 100),
-                 (winning, 1000000000000000),
-                 (potential_capture, 1000.8),
+                 (capture_stones, 10),
+                 (potential_capture, 10),
+                 (winning, 100000000),
                  (freedom_rate, 1)]
-g_func_opponent = [(factorised_heuristics, -1),
-                   (capture_stones, -100),
-                   (winning, -1),
-                   (potential_capture, -100.2),
+g_func_opponent = [(factorised_heuristics, -2),
+                   (capture_stones, -10),
+                   (winning, -1000000),
                    (freedom_rate, -1)]
 
-opponent_weight = 0.5
+opponent_weight = 0.01
 
 
 def heuristic(node: Grid, player) -> float:
@@ -42,8 +39,7 @@ def heuristic(node: Grid, player) -> float:
     func_player = g_func_player
     func_opponent = g_func_opponent
 
-    history = node.history[min(0, len(node.history) // 2):]
-    # history = node.history
+    history = node.history
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':
             if move[0] == player:

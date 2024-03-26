@@ -11,20 +11,17 @@
 from ft_gomoku.AI.heurisitic.factorise_cases import *
 
 
-def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size, lens=None, block=True) -> float:
-    """
-
-    :param line:
-    :param grid:
-    :param x:
-    :param y:
-    :param player:
-    :param opponent:
-    :param size:
-    :param line_size:
-    :param lens:
-    :param block:
-    :return:
+def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size) -> float:
+    """Evaluate the point rate by combining multiple heuristics functions with the same extract process.
+    :param line: the game board as list.
+    :param grid: the game instance.
+    :param x: the x coordinate of the point.
+    :param y: the y coordinate of the point.
+    :param player: the player to consider.
+    :param opponent: the other player.
+    :param size: the grid size.
+    :param line_size: the total line size (size ** 2).
+    :return: the sum of the heuristics.
     """
     cnt = 0
     lines = []
@@ -35,7 +32,8 @@ def factorised_heuristics(line, grid, x, y, player, opponent, size, line_size, l
     lines.append((extract_diagonal2(y, x, line, size), 'diag2'))
 
     cnt = cnt + matching_cases(lines, x, y, size, player) * 4
-    cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
-    cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1.5
+    if player == '2':
+        cnt = cnt + freedom_alignment_rate(lines, x, y, player, opponent, size) * 2
+        cnt = cnt + expend_to_victory(lines, x, y, player, opponent, size) * 1
 
     return cnt

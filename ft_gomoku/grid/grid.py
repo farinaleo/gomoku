@@ -51,17 +51,6 @@ class Grid:
 		"""
         return str(self.line_grid)
 
-    # def get_size(self):
-    # 	"""Return the size of the grid
-    # 	:return: The size of the grid
-    # 	"""
-    # 	return self.__size
-
-    # def get_line(self):
-    # 	"""Return the line representation of the grid
-    # 	:return: The line representation of the grid
-    # 	"""
-    # 	return self.__line_grid
 
     def get_last_move(self, player=None, i=1):
         """ Return the last move played if the player is not specified,
@@ -91,17 +80,6 @@ class Grid:
 		"""
         self.history.append((player, x, y))
 
-    # def get_player1(self):
-    # 	""" Return the player1
-    # 	:return: The player1
-    # 	"""
-    # 	return self.__player1
-
-    # def get_player2(self):
-    # 	""" Return the player2
-    # 	:return: The player 2
-    # 	"""
-    # 	return self.__player2
 
     def get_captured_stones(self, player):
         """Get the number of captured stones
@@ -113,9 +91,6 @@ class Grid:
         else:
             return None
 
-    # def is_win(self):
-    # 	""" Check if the game is over"""
-    # 	return self.__winning
 
     def add_rock(self, row: int, col: int, player, rules) -> RuleStatus:
         """Add a rock to the grid
@@ -128,7 +103,6 @@ class Grid:
 		"""
         if 0 <= row < self.size and 0 <= col < self.size and self.line_grid[col + row * self.size] == '0':
             grid_cp = self.__copy__()
-            # grid_cp = self
             grid_cp.line_grid[col + row * grid_cp.size] = player
             grid_cp.__add_move(player, col, row)
             if rules is not None:
