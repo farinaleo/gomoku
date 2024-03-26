@@ -39,7 +39,6 @@ def heuristic(node: Grid, player) -> float:
     func_player = g_func_player
     func_opponent = g_func_opponent
 
-    # history = node.history[max(0, len(node.history) // 2):]
     history = node.history
     for move in history:
         if node.line_grid[move[1] + move[2] * node_size] != '0':

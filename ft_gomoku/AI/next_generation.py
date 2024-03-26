@@ -113,21 +113,6 @@ def __cluster(line, size, line_size, p1, p2, bypass):
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'defend', 2)
     if len(cluster) == 0:
         expend_cluster(line, i, end, size, p1, p2, cluster, bypass if bypass is not None else 'attack', 0)
-
-    # expend_cluster(line, i, end, size, p1, p2, cluster,
-    #                bypass if bypass is not None else 'player_only', 3)
-    # # if len(cluster) == 0:
-    # expend_cluster(line, i, end, size, p1, p2, cluster,
-    #                bypass if bypass is not None else 'opponent_only', 4)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster,
-    #                     bypass if bypass is not None else 'opponent_only', 3)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 3)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 2)
-    # if len(cluster) == 0:
-    #     expend_cluster(line, i, end, size, p1, p2, cluster, bypass, 1)
     if len(cluster) == 0:
         mid = size // 2
         if line[mid + mid * size] == '0':
@@ -152,8 +137,6 @@ def expend_cluster(line, i, end, size, p1, p2, cluster, bypass, nb_friends=4):
         x = i % size
         y = i // size
         if line[i] != '0':
-            # p1 = '1' if line[i] == '1' else '2'
-            # p2 = '1' if line[i] == '2' else '1'
             _up = y - 1
             _down = y + 1
             _left = x - 1
@@ -281,7 +264,6 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x + x_dir
         y = y + y_dir
         i = i + 1
-    # tmp_i = i
     i = 0
     x = tmp_x
     y = tmp_y
@@ -291,22 +273,20 @@ def dir_friends(line, x, y, x_dir, y_dir, size, player, opponent, nb_friends):
         x = x - x_dir
         y = y - y_dir
         i = i + 1
-    # if tmp_i + i <= 5:
-    #     return False
     return cnt_friends >= nb_friends
 
 
 def dir_capture(line, x, y, x_dir, y_dir, size, player, opponent):
-    """
-    Check if the player is able to capture the opponent.
-    :param line:
-    :param x:
-    :param y:
-    :param x_dir:
-    :param y_dir:
-    :param size:
-    :param player:
-    :param opponent:
+    """ Check if the player is able to capture the opponent.
+    :param line: the game as line.
+    :param x: the starting x coordinate.
+    :param y: the starting y coordinate.
+    :param x_dir: the x direction.
+    :param y_dir: the y direction.
+    :param size: the game size.
+    :param player: the player value.
+    :param opponent: the opponent value.
+    :param nb_friends: the total friends number to have to admit a point.
     :return:
     """
     if 0 <= x < size and 0 <= y < size:

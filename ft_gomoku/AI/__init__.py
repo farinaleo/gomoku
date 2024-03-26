@@ -10,7 +10,6 @@
 from ft_gomoku.AI.heurisitic.freedom import freedom_rate
 from ft_gomoku.AI.heurisitic.winning_points import winning
 from ft_gomoku.AI.heurisitic.capture_stones import capture_stones
-from ft_gomoku.AI.heurisitic.near_to_border import near_to_border
 from ft_gomoku.AI.heurisitic.potential_capture import potential_capture
 from ft_gomoku.AI.heurisitic.factorise_cases.factorised_heuristics import factorised_heuristics
 from ft_gomoku.AI.heurisitic.evaluate_node import heuristic

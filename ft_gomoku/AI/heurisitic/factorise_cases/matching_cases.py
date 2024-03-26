@@ -10,8 +10,8 @@
 from ft_gomoku.AI.heurisitic.factorise_cases import get_start_end
 
 bonus_4 = 2
-bonus_3 = 1.6
-bonus_2 = 1.3
+bonus_3 = 1.0
+bonus_2 = 1.0
 
 bonus_block = 1.5
 
@@ -114,7 +114,5 @@ def matching_cases(lines: [], x, y, size, player) -> float:
         start, end = get_start_end(line[0], line[1], x, y, size, 6)
         _line = line[0][start:end]
         for case in cases:
-            # if case[0] in _line:
-            #     cnt = cnt * case[1]
             cnt = cnt + _line.count(case[0]) * case[1]
     return cnt
